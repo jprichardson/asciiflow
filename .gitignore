@@ -1,0 +1,8 @@
+.project
+.settings/
+asciigram.rar
+src/META-INF/
+src/log4j.properties
+war/WEB-INF/
+war/asciigram/
+

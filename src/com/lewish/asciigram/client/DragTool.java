@@ -1,0 +1,84 @@
+package com.lewish.asciigram.client;
+
+import javax.inject.Inject;
+
+
+public abstract class DragTool implements Tool {
+
+	public static enum State {
+		Dragging,
+		Nothing;
+	}
+
+	private final Canvas canvas;
+	private State state = State.Nothing;
+	private Drag currentBox;
+
+	@Inject
+	public DragTool(Canvas canvas) {
+		this.canvas = canvas;
+	}
+
+	private void stopDragging(Cell cell) {
+		state = State.Nothing;
+		currentBox.setFinish(cell);
+		currentBox = null;
+		canvas.commitDraw();
+	}
+
+	private void startDragging(Cell cell) {
+		state = State.Dragging;
+		currentBox = new Drag();
+		currentBox.setStart(cell);
+	}
+	
+	@Override
+	public void mouseOver(Cell cell) {
+		if(state == State.Dragging) {
+			currentBox.setFinish(cell);
+			draw(currentBox, canvas);
+		}
+	}
+
+	@Override
+	public void mouseDown(Cell cell) {
+		if(state == State.Nothing) {
+			startDragging(cell);
+		}
+	}
+
+	@Override
+	public void mouseUp(Cell cell) {
+		if(state == State.Dragging) {
+			stopDragging(cell);
+		}
+	}
+
+	@Override
+	public void cleanup() {
+		state = State.Nothing;
+		if(currentBox != null) {
+			canvas.clearDraw();
+			currentBox = null;
+		}
+	}
+
+	@Override
+	public void keyDown(int keyCode) {
+	}
+
+	@Override
+	public void keyPress(char character) {
+	}
+
+	@Override
+	public String getLabel() {
+		return "+box";
+	}
+
+	public void draw() {
+		draw(currentBox, canvas);
+	}
+
+	public abstract void draw(Drag box, Canvas canvas);
+}

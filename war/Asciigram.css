@@ -1,0 +1,87 @@
+body {
+	align: center;
+	text-align: center;
+}
+
+.frame {
+	padding: 0px 10px;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div.header {
+	text-align: left;
+}
+
+.body {
+}
+
+.footer {
+}
+
+.canvas div div {
+	font-family: monospace;
+	display: inline;
+	border: 0px;
+	cursor: pointer;
+
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.selected {
+	border-color: #000000;
+	background-color: highlight;
+}
+
+.drawing {
+	background-color: #33333f;
+}
+
+div.hover {
+	background-color: highlight;
+}
+
+.canvas div {
+	display:block;
+	border-spacing: 0px;
+	margin: -4px 0px;
+}
+
+.canvas {
+	border-color: #000000;
+	border-style: solid;
+	display: inline-block;
+}
+
+.canvas-focus {
+	display: inline-block;
+}
+
+div.tool-panel {
+	text-alight: right;
+}
+
+.tool-button {
+	display:block;
+}
+
+.export-textarea {
+	width:490px;
+	height: 350px;
+	overflow: visible;
+}
+
+.export-close {
+	margin-left: 100%;
+	display: block;
+}
+
+.gwt-Button {
+	display: block;
+	box-sizing: content-box;
+}

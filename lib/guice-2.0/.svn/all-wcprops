@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0
+END
+guice-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-2.0.jar
+END
+guice-spring-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-spring-2.0.jar
+END
+guice-struts2-plugin-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-struts2-plugin-2.0.jar
+END
+aopalliance.jar
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/aopalliance.jar
+END
+guice-jmx-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-jmx-2.0.jar
+END
+guice-servlet-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-servlet-2.0.jar
+END
+guice-throwingproviders-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-throwingproviders-2.0.jar
+END
+guice-multibindings-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-multibindings-2.0.jar
+END
+guice-assistedinject-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-assistedinject-2.0.jar
+END
+guice-jndi-2.0.jar
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/gamefeedr/!svn/ver/2/ipon/lib/guice-2.0/guice-jndi-2.0.jar
+END

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="test-classes" path="test"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/guice-3.0-rc2/aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/guice-3.0-rc2/guice-3.0-rc2.jar"/>
+	<classpathentry kind="lib" path="lib/guice-3.0-rc2/guice-assistedinject-3.0-rc2.jar"/>
+	<classpathentry kind="lib" path="lib/guice-3.0-rc2/javax.inject.jar"/>
+	<classpathentry kind="lib" path="lib/gin-1.0-gwt2.2.jar"/>
+	<classpathentry kind="lib" path="lib/gin-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/guava-r08.jar"/>
+	<classpathentry kind="lib" path="lib/guava-r08-gwt.jar"/>
+	<classpathentry kind="lib" path="lib/jsr305.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

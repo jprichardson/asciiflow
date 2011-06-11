@@ -1,8 +1,10 @@
-package com.lewish.asciigram.client;
+package com.lewish.asciigram.client.tools;
 
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.lewish.asciigram.client.Canvas;
+import com.lewish.asciigram.client.Drag;
 
 public class LineTool extends DragTool implements Tool {
 

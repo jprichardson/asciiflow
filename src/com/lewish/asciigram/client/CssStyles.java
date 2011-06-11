@@ -1,5 +1,6 @@
 package com.lewish.asciigram.client;
 
+
 public interface CssStyles {
 	public static final String Selected = "selected";
 	public static final String Hover = "hover";
@@ -13,5 +14,9 @@ public interface CssStyles {
 	public static final String Body = "body";
 	public static final String Footer = "footer";
 	public static final String ExportTextArea = "export-textarea";
-	public static final String ExportClose = "export-close";
+	public static final String SelectedTool = "selected-tool";
+	public static final String MenuPanel = "menu-panel";
+	public static final String InfoPanel = "info-panel";
+	public static final String ExportRight = "export-right";
+	public static final String ExportPanel = "export-panel";
 }

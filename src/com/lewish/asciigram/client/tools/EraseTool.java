@@ -1,7 +1,12 @@
-package com.lewish.asciigram.client;
+package com.lewish.asciigram.client.tools;
+
+import com.google.inject.Inject;
+import com.lewish.asciigram.client.Canvas;
+import com.lewish.asciigram.client.Drag;
 
 public class EraseTool extends DragTool implements Tool {
 
+	@Inject
 	public EraseTool(Canvas canvas) {
 		super(canvas);
 	}

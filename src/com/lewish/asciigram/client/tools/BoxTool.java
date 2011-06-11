@@ -1,7 +1,12 @@
-package com.lewish.asciigram.client;
+package com.lewish.asciigram.client.tools;
+
+import com.google.inject.Inject;
+import com.lewish.asciigram.client.Canvas;
+import com.lewish.asciigram.client.Drag;
 
 public class BoxTool extends DragTool implements Tool {
 
+	@Inject
 	public BoxTool(Canvas canvas) {
 		super(canvas);
 	}

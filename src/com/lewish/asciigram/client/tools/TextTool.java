@@ -1,12 +1,17 @@
-package com.lewish.asciigram.client;
+package com.lewish.asciigram.client.tools;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.inject.Inject;
+import com.lewish.asciigram.client.Canvas;
+import com.lewish.asciigram.client.Cell;
+import com.lewish.asciigram.client.CssStyles;
 
 public class TextTool implements Tool {
 
 	private final Canvas canvas;
 	private Cell currentCell;
 
+	@Inject
 	public TextTool(Canvas canvas) {
 		this.canvas = canvas;
 	}

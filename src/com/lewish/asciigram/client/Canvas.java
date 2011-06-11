@@ -61,6 +61,7 @@ public class Canvas extends Composite {
 		for (List<Cell> row : rows) {
 			for (Cell cell : row) {
 				cell.setDrawValue(" ");
+				cell.refreshDraw();
 				cell.commitDraw();
 			}
 		}

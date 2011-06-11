@@ -1,4 +1,6 @@
-package com.lewish.asciigram.client;
+package com.lewish.asciigram.client.tools;
+
+import com.lewish.asciigram.client.Cell;
 
 public interface Tool {
 	public String getLabel();

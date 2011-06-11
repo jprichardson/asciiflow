@@ -1,3 +1,7 @@
+div {
+	font-family: sans-serif;
+}
+
 body {
 	align: center;
 	text-align: center;
@@ -18,6 +22,7 @@ div.header {
 }
 
 .footer {
+	text-align: right;
 }
 
 .canvas div div {
@@ -25,6 +30,9 @@ div.header {
 	display: inline;
 	border: 0px;
 	cursor: pointer;
+	position: relative;
+	top: -2px;
+	height: 15px;
 
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -34,12 +42,11 @@ div.header {
 }
 
 .selected {
-	border-color: #000000;
-	background-color: highlight;
+	background-color: highlighttext;
 }
 
 .drawing {
-	background-color: #33333f;
+	background-color: highlight;
 }
 
 div.hover {
@@ -47,13 +54,13 @@ div.hover {
 }
 
 .canvas div {
-	display:block;
+	height: 15px;
+	display: block;
 	border-spacing: 0px;
-	margin: -4px 0px;
 }
 
 .canvas {
-	border-color: #000000;
+	border-color: #eeeeee;
 	border-style: solid;
 	display: inline-block;
 }
@@ -63,25 +70,73 @@ div.hover {
 }
 
 div.tool-panel {
-	text-alight: right;
+	background-color: #eeeeee;
 }
 
 .tool-button {
-	display:block;
+	display: block;
+	padding: 2px;
+	cursor: pointer;
 }
 
 .export-textarea {
-	width:490px;
-	height: 350px;
-	overflow: visible;
+	cols: 1;
+	rows: 1;
+	width:95%;
+	height: 90%;
+	overflow: hidden;
+	resize: none;
+	margin-top: 3px;
 }
 
 .export-close {
-	margin-left: 100%;
-	display: block;
+	display: inline;
 }
 
 .gwt-Button {
 	display: block;
 	box-sizing: content-box;
+}
+.menu-panel {
+	background-color: #777777;
+	display: block;
+	margin-right: 0px;
+}
+
+.menu-panel .gwt-Button {
+	display: inline;
+	padding: 4px;
+}
+
+.menu-panel .gwt-HTML {
+	display: inline;
+}
+
+.selected-tool {
+	background: highlight;
+}
+
+.export-panel {
+	transition: width 1s, height 1s;
+	-moz-transition: width 1s, height 1s;
+	-webkit-transition: width 1s, height 1s;
+	-o-transition: width 1s, height 1s;
+	text-align: center;
+}
+
+.export-right {
+	text-align: right;
+}
+
+.export-right div {
+	display: inline;
+	padding-right: 5px;
+}
+
+.info-panel {
+	color: #aaaaaa;
+}
+
+div.gwt-PopupPanel {
+	border-color: #888888;
 }

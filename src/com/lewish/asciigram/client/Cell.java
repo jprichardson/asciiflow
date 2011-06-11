@@ -26,6 +26,10 @@ public class Cell extends HTML {
 			drawChanged = true;
 			drawValue = null;
 		}
+		if(!drawChanged) {
+			drawSet = false;
+			return;
+		}
 		String val;
 		if (drawValue != null) {
 			val = drawValue;

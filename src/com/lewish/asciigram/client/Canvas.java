@@ -114,11 +114,11 @@ public class Canvas extends Composite {
 		String[][] state = new String[drag.bottomRightY() - drag.topLeftY() + 1][drag
 				.bottomRightX()
 				- drag.topLeftX() + 1];
-		for (int y = drag.topLeftY(); y < state.length
-				&& y <= drag.bottomRightY(); y++) {
-			for (int x = drag.topLeftX(); x < state[y].length
-					&& x <= drag.bottomRightX(); x++) {
-				state[y][x] = getCell(x, y).getValue();
+		for (int y = 0; y < state.length
+				&& y <= drag.bottomRightY()-drag.topLeftY(); y++) {
+			for (int x = 0; x < state[y].length
+					&& x <= drag.bottomRightX() - drag.topLeftX(); x++) {
+				state[y][x] = getCell(drag.topLeftX() + x, drag.topLeftY() + y).getValue();
 			}
 		}
 		return state;
@@ -131,10 +131,9 @@ public class Canvas extends Composite {
 	}
 
 	public void loadState(Drag drag, String[][] state) {
-		for (int y = drag.topLeftY(); y < state.length; y++) {
-			for (int x = drag.topLeftX(); x < state[y].length; x++) {
-				getCell(x, y).setDrawValue(
-						state[y][x] == null ? " " : state[y][x]);
+		for (int y = 0; y < state.length; y++) {
+			for (int x = 0; x < state[y].length; x++) {
+				getCell(drag.topLeftX() + x, drag.topLeftY() + y).setDrawValue(state[y][x]);
 			}
 		}
 		refreshDraw();

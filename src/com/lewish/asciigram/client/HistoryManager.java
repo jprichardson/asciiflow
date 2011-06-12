@@ -41,12 +41,14 @@ public class HistoryManager {
 
 	public void undo() {
 		if(currentState > 0) {
+			canvas.clearCells();
 			canvas.loadState(states.get(--currentState));
 		}
 	}
 
 	public void redo() {
 		if(states.size() > currentState + 1) {
+			canvas.clearCells();
 			canvas.loadState(states.get(++currentState));
 		}
 	}

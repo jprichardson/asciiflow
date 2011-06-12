@@ -49,7 +49,6 @@ public class SelectTool implements Tool {
 		if(state == State.Dragging) {
 			state = State.Selected;
 			currentBox.setFinish(cell);
-			currentBox = null;
 		}
 	}
 
@@ -78,8 +77,9 @@ public class SelectTool implements Tool {
 	}
 
 	private void paste() {
-		if(currentBox != null) {
+		if(currentBox != null && state == State.Selected) {
 			canvas.loadState(currentBox, clipboard);
+			canvas.commitDraw();
 		}
 	}
 

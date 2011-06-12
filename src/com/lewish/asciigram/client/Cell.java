@@ -10,6 +10,7 @@ public class Cell extends HTML {
 	private String drawValue;
 	private boolean drawChanged = false;
 	private boolean drawSet = false;
+	private boolean drawingStyle = false;
 
 	public Cell(int x, int y) {
 		this.x = x;
@@ -30,6 +31,11 @@ public class Cell extends HTML {
 			drawChanged = true;
 			drawValue = null;
 		}
+		if(drawSet) {
+			addDrawingStyle();
+		} else {
+			removeDrawingStyle();
+		}
 		if(!drawChanged) {
 			drawSet = false;
 			return;
@@ -37,10 +43,9 @@ public class Cell extends HTML {
 		String val;
 		if (drawValue != null) {
 			val = drawValue;
-			addStyleName(CssStyles.Drawing);
+			
 		} else {
 			val = value != null ? value : " ";
-			removeStyleName(CssStyles.Drawing);
 		}
 		if (val.equals(" ")) {
 			setHTML("&nbsp;");
@@ -53,13 +58,27 @@ public class Cell extends HTML {
 
 	public void commitDraw() {
 		if (drawValue != null) {
-			value = drawValue;
+			value = drawValue == " " ? null : drawValue;
+			removeDrawingStyle();
+		}
+	}
+
+	public void addDrawingStyle() {
+		if(!drawingStyle) {
+			drawingStyle = true;
+			addStyleName(CssStyles.Drawing);
+		}
+	}
+
+	public void removeDrawingStyle() {
+		if(drawingStyle) {
+			drawingStyle = false;
 			removeStyleName(CssStyles.Drawing);
 		}
 	}
 
 	public void setDrawValue(String character) {
-		if (character == null && drawValue == null) return;
+		//if (character == null && drawValue == null) return;
 		drawSet = true;
 		if (character != null && character.equals(drawValue))return;
 		drawValue = character;

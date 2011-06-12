@@ -50,7 +50,7 @@ div.header {
 }
 
 .canvas div div:hover {
-	background-color: highlight;
+	background-color: #b5d5ff;
 }
 
 .selected {
@@ -58,7 +58,7 @@ div.header {
 }
 
 .drawing {
-	background-color: highlight;
+	background-color: #b5d5ff;
 }
 
 .canvas div {
@@ -101,7 +101,7 @@ div.tool-panel {
 }
 
 .selected-tool {
-	background: highlight;
+	background: #b5d5ff;
 }
 
 .export-panel {

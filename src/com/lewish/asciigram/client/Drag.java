@@ -4,6 +4,8 @@ public class Drag {
 	private Cell start;
 	private Cell finish;
 
+	
+
 	public void setStart(Cell start) {
 		this.start = start;
 	}
@@ -18,5 +20,21 @@ public class Drag {
 
 	public Cell getFinish() {
 		return finish;
+	}
+
+	public int topLeftX() {
+		return Math.min(start.getX(), finish.getX());
+	}
+
+	public int topLeftY() {
+		return Math.min(start.getY(), finish.getY());
+	}
+
+	public int bottomRightX() {
+		return Math.max(start.getX(), finish.getX());
+	}
+
+	public int bottomRightY() {
+		return Math.max(start.getY(), finish.getY());
 	}
 }

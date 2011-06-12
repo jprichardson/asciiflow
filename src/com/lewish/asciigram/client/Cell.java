@@ -11,11 +11,15 @@ public class Cell extends HTML {
 	private boolean drawChanged = false;
 	private boolean drawSet = false;
 
-	public Cell(int x, int y, Controller controller) {
+	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
 		addStyleName("character");
 		setHTML("&nbsp;");
+		
+	}
+
+	public void addListener(Controller controller) {
 		addMouseDownHandler(controller);
 		addMouseOverHandler(controller);
 		addMouseUpHandler(controller);

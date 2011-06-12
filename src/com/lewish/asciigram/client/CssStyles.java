@@ -19,4 +19,5 @@ public interface CssStyles {
 	public static final String InfoPanel = "info-panel";
 	public static final String ExportRight = "export-right";
 	public static final String ExportPanel = "export-panel";
+	public static final String Logo = "logo";
 }

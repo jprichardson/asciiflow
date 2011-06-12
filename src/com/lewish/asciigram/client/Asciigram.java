@@ -2,9 +2,9 @@ package com.lewish.asciigram.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Asciigram implements EntryPoint {
@@ -29,7 +29,7 @@ public class Asciigram implements EntryPoint {
 		footer.setStyleName(CssStyles.Footer);
 
 		frame.add(header);
-			header.add(new Image("images/asciiflow.png"));
+			header.add(new Logo());
 			header.add(menuPanel);
 			header.add(exportPanel);
 		frame.add(body);
@@ -37,6 +37,7 @@ public class Asciigram implements EntryPoint {
 			body.add(canvas);
 		frame.add(footer);
 			footer.add(infoPanel);
+			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
 		RootPanel.get().add(frame);
 	}
 }

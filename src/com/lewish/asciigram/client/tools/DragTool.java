@@ -2,6 +2,7 @@ package com.lewish.asciigram.client.tools;
 
 import javax.inject.Inject;
 
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.Drag;
@@ -34,6 +35,7 @@ public abstract class DragTool implements Tool {
 		state = State.Dragging;
 		currentBox = new Drag();
 		currentBox.setStart(cell);
+		currentBox.setFinish(cell);
 	}
 	
 	@Override
@@ -48,6 +50,7 @@ public abstract class DragTool implements Tool {
 	public void mouseDown(Cell cell) {
 		if(state == State.Nothing) {
 			startDragging(cell);
+			draw(currentBox, canvas);
 		}
 	}
 
@@ -68,7 +71,7 @@ public abstract class DragTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(int keyCode) {
+	public void keyDown(KeyDownEvent event) {
 	}
 
 	@Override

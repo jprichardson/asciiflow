@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciigram.client.tools.Tool;
 
@@ -18,11 +19,21 @@ import com.lewish.asciigram.client.tools.Tool;
 public class Controller implements MouseDownHandler, MouseOverHandler,
 		MouseUpHandler, KeyDownHandler, KeyPressHandler {
 
+	private final HistoryManager historyManager;
+	private final ExportPanel exportPanel;
+
 	private Tool currentTool;
-	private Cell hoverCell;
+
+	@Inject
+	public Controller(Canvas canvas, ExportPanel exportPanel,
+			HistoryManager historyManager) {
+		this.exportPanel = exportPanel;
+		this.historyManager = historyManager;
+		canvas.addListener(this);
+	}
 
 	public void setTool(Tool tool) {
-		if(currentTool != null) {
+		if (currentTool != null) {
 			currentTool.cleanup();
 		}
 		currentTool = tool;
@@ -31,17 +42,13 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
 		if (event.getSource() instanceof Cell) {
-			if (hoverCell != null) {
-				hoverCell.removeStyleName(CssStyles.Hover);
-			}
-			hoverCell = (Cell) event.getSource();
-			hoverCell.addStyleName(CssStyles.Hover);
 			currentTool.mouseOver((Cell) event.getSource());
 		}
 	}
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		exportPanel.hide();
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseDown((Cell) event.getSource());
 		}
@@ -56,7 +63,16 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		currentTool.keyDown(event.getNativeKeyCode());
+		if (event.isControlKeyDown()
+				&& (event.getNativeKeyCode() == 'z' || event.getNativeKeyCode() == 'Z')) {
+			historyManager.undo();
+		} else if (event.isControlKeyDown()
+				&& (event.getNativeKeyCode() == 'y' || event.getNativeKeyCode() == 'Y')) {
+			historyManager.redo();
+		} else {
+			currentTool.keyDown(event);
+		}
+
 		if (event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
 			event.preventDefault();
 			event.stopPropagation();
@@ -66,5 +82,10 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		currentTool.keyPress(event.getCharCode());
+		if (event.getCharCode() == '/') {
+			// Firefox Search
+			event.preventDefault();
+			event.stopPropagation();
+		}
 	}
 }

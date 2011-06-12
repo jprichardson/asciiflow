@@ -1,6 +1,7 @@
 package com.lewish.asciigram.client.tools;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
@@ -38,7 +39,8 @@ public class TextTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(int keyCode) {
+	public void keyDown(KeyDownEvent event) {
+		int keyCode = event.getNativeKeyCode();
 		if (currentCell == null)
 			return;
 		if (keyCode == KeyCodes.KEY_DOWN) {

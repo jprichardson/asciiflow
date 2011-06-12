@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -15,7 +14,6 @@ public class Canvas extends Composite {
 	private static final int DEFAULT_WIDTH = 100;
 	private static final int DEFAULT_HEIGHT = 30;
 
-	private final Controller controller;
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);
 
@@ -23,11 +21,7 @@ public class Canvas extends Composite {
 	private int width = DEFAULT_WIDTH;
 	private int height = DEFAULT_HEIGHT;
 
-	@Inject
-	public Canvas(Controller controller) {
-		this.controller = controller;
-		focusPanel.addKeyDownHandler(controller);
-		focusPanel.addKeyPressHandler(controller);
+	public Canvas() {
 		focusPanel.setStyleName(CssStyles.CanvasFocus);
 		panel.setStyleName(CssStyles.Canvas);
 		initRows();
@@ -35,12 +29,22 @@ public class Canvas extends Composite {
 		initWidget(focusPanel);
 	}
 
+	public void addListener(Controller controller) {
+		focusPanel.addKeyDownHandler(controller);
+		focusPanel.addKeyPressHandler(controller);
+		for (List<Cell> row : rows) {
+			for (Cell cell : row) {
+				cell.addListener(controller);
+			}
+		}
+	}
+
 	private void initRows() {
 		rows = new ArrayList<List<Cell>>();
 		for (int i = 0; i < height; i++) {
 			List<Cell> row = new ArrayList<Cell>();
 			for (int j = 0; j < width; j++) {
-				row.add(new Cell(j, i, controller));
+				row.add(new Cell(j, i));
 			}
 			rows.add(row);
 		}
@@ -84,24 +88,61 @@ public class Canvas extends Composite {
 		}
 	}
 
-	public void commitDraw() {
+	public void commitDraw(boolean save) {
 		for (List<Cell> row : rows) {
 			for (Cell cell : row) {
 				cell.commitDraw();
 			}
 		}
+		if (save) {
+			HistoryManager.get().save();
+		}
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
+	public void commitDraw() {
+		commitDraw(true);
+	}
+
+	public String[][] getState() {
+		Drag drag = new Drag();
+		drag.setStart(getCell(0, 0));
+		drag.setFinish(getCell(width - 1, height - 1));
+		return getState(drag);
+	}
+
+	public String[][] getState(Drag drag) {
+		String[][] state = new String[drag.bottomRightY() - drag.topLeftY() + 1][drag
+				.bottomRightX()
+				- drag.topLeftX() + 1];
+		for (int y = drag.topLeftY(); y < state.length
+				&& y <= drag.bottomRightY(); y++) {
+			for (int x = drag.topLeftX(); x < state[y].length
+					&& x <= drag.bottomRightX(); x++) {
+				state[y][x] = getCell(x, y).getValue();
+			}
+		}
+		return state;
+	}
+
+	public void loadState(String[][] state) {
+		Drag drag = new Drag();
+		drag.setStart(getCell(0, 0));
+		drag.setStart(getCell(width - 1, height - 1));
+	}
+
+	public void loadState(Drag drag, String[][] state) {
+		for (int y = drag.topLeftY(); y < state.length; y++) {
+			for (int x = drag.topLeftX(); x < state[y].length; x++) {
+				getCell(x, y).setDrawValue(
+						state[y][x] == null ? " " : state[y][x]);
+			}
+		}
+		refreshDraw();
+		commitDraw(false);
 	}
 
 	public int getWidth() {
 		return width;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
 	}
 
 	public int getHeight() {
@@ -114,11 +155,12 @@ public class Canvas extends Composite {
 		return rows.get(y).get(x);
 	}
 
-	public void addRow() {
+	public void addRow(Controller controller) {
 		List<Cell> row = new ArrayList<Cell>();
 		FlowPanel rowPanel = new FlowPanel();
 		for (int j = 0; j < width; j++) {
-			Cell cell = new Cell(j, height, controller);
+			Cell cell = new Cell(j, height);
+			cell.addListener(controller);
 			row.add(cell);
 			rowPanel.add(cell);
 		}
@@ -128,22 +170,24 @@ public class Canvas extends Composite {
 
 	}
 
-	public void addColumn() {
+	public void addColumn(Controller controller) {
 		for (int i = 0; i < height; i++) {
-			Cell cell = new Cell(width, i, controller);
+			Cell cell = new Cell(width, i);
+			cell.addListener(controller);
 			rows.get(i).add(cell);
 			((FlowPanel) panel.getWidget(i)).add(cell);
 		}
 		width++;
 	}
 
-	public String getText() {
+	public String getText(boolean html) {
 		String text = "";
 		for (List<Cell> row : rows) {
+			String rowText = "";
 			for (Cell cell : row) {
-				text += cell.getText();
+				rowText += html ? cell.getHTML() : cell.getText();
 			}
-			text += "\n";
+			text += rowText + (html ? "<br>" : "") + "\n";
 		}
 		return text;
 	}

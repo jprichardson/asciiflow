@@ -7,7 +7,6 @@ import com.google.gwt.inject.client.Ginjector;
 @GinModules(AsciigramModule.class)
 public interface AsciigramGinjector extends Ginjector {
 
-	Controller getController();
 	Canvas getCanvas();
 	InfoPanel getInfoPanel();
 	MenuPanel getMenuPanel();

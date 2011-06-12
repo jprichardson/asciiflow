@@ -3,6 +3,7 @@ package com.lewish.asciigram.client.tools;
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Drag;
 
@@ -18,8 +19,8 @@ public class LineTool extends DragTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(int keyCode) {
-		if (keyCode == KeyCodes.KEY_SHIFT) {
+	public void keyDown(KeyDownEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_SHIFT) {
 			isClockwise = !isClockwise;
 			draw();
 		}
@@ -37,12 +38,12 @@ public class LineTool extends DragTool implements Tool {
 		int x2 = box.getFinish().getX();
 		int y2 = box.getFinish().getY();
 
-		int hX1 = x1 < x2 ? x1 : x2;
-		int hX2 = x2 < x1 ? x1 : x2;
+		int hX1 = box.topLeftX();
+		int hX2 = box.bottomRightX();
 		int hY = isClockwise ? y1 : y2;
 
-		int vY1 = y1 < y2 ? y1 : y2;
-		int vY2 = y2 < y1 ? y1 : y2;
+		int vY1 = box.topLeftY();
+		int vY2 = box.bottomRightY();
 		int vX = isClockwise ? x2 : x1;
 
 		while (hX1++ < hX2) {

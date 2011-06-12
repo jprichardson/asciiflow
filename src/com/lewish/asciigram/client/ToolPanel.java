@@ -13,7 +13,9 @@ import com.google.inject.Singleton;
 import com.lewish.asciigram.client.tools.BoxTool;
 import com.lewish.asciigram.client.tools.EraseTool;
 import com.lewish.asciigram.client.tools.LineTool;
+import com.lewish.asciigram.client.tools.SelectTool;
 import com.lewish.asciigram.client.tools.TextTool;
+import com.lewish.asciigram.client.tools.TitledBoxTool;
 import com.lewish.asciigram.client.tools.Tool;
 
 @Singleton
@@ -24,16 +26,19 @@ public class ToolPanel extends Composite {
 
 	private ToolButton currentButton;
 	private Controller controller;
+	private InfoPanel infoPanel;
 
 	@Inject
-	public ToolPanel(final Controller controller, final Canvas canvas) {
+	public ToolPanel(final Controller controller, final Canvas canvas, InfoPanel infoPanel) {
 		this.controller = controller;
-
+		this.infoPanel = infoPanel;
 		tools.add(new BoxTool(canvas));
+		tools.add(new TitledBoxTool(canvas));
 		tools.add(new LineTool(canvas, false));
 		tools.add(new LineTool(canvas, true));
 		tools.add(new TextTool(canvas));
 		tools.add(new EraseTool(canvas));
+		tools.add(new SelectTool(canvas));
 
 		ToolButton first = null;
 		for (final Tool tool : tools) {
@@ -55,7 +60,7 @@ public class ToolPanel extends Composite {
 		currentButton = button;
 		currentButton.addStyleName(CssStyles.SelectedTool);
 		controller.setTool(tool);
-		InfoPanel.setText(tool.getDescription());
+		infoPanel.setText(tool.getDescription());
 	}
 
 	private class ToolButton extends Composite {

@@ -3,7 +3,7 @@ package com.lewish.asciigram.client;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -23,7 +23,7 @@ public class ExportPanel extends Composite {
 		resizePanel.addStyleName(CssStyles.ExportPanel);
 
 		hidePanel.add(textArea);
-		hidePanel.add(new Label("Copy the text above for a text representation of your drawing"));
+		hidePanel.add(new HTML("Copy the text above and use it in a <b>monospace</b> font"));
 		resizePanel.add(hidePanel);
 		initWidget(resizePanel);
 		hide();

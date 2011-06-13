@@ -41,6 +41,7 @@ public class HistoryManager {
 
 	public void undo() {
 		if(currentState > 0) {
+			//TODO: make this more efficient!
 			canvas.clearCells();
 			canvas.loadState(states.get(--currentState));
 		}

@@ -56,14 +56,14 @@ public class TextTool implements Tool {
 			selectCell(canvas.getCell(currentCell.getX() + 1,
 					currentCell.getY()));
 		} else if (keyCode == KeyCodes.KEY_DELETE) {
-			currentCell.setDrawValue(null);
+			currentCell.setDrawValue(null, false);
 			currentCell.refreshDraw();
 			selectCell(canvas.getCell(currentCell.getX() + 1,
 					currentCell.getY()));
 		} else if (keyCode == KeyCodes.KEY_BACKSPACE) {
 			selectCell(canvas.getCell(currentCell.getX() - 1,
 					currentCell.getY()));
-			currentCell.setDrawValue(null);
+			currentCell.setDrawValue(null, false);
 			currentCell.refreshDraw();
 		} else if (keyCode == KeyCodes.KEY_ENTER) {
 			canvas.commitDraw();

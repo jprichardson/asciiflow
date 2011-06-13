@@ -103,7 +103,7 @@ public class SelectTool implements Tool {
 
 	@Override
 	public String getDescription() {
-		return "Select, copy, and paste";
+		return "Select, copy (ctrl+c), and paste (ctrl+v)";
 	}
 
 	@Override

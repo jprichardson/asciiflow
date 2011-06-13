@@ -1,5 +1,6 @@
 package com.lewish.asciigram.client;
 
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -21,14 +22,18 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 
 	private final HistoryManager historyManager;
 	private final ExportPanel exportPanel;
+	private final Canvas canvas;
 
 	private Tool currentTool;
+
+	private Cell hoverCell;
 
 	@Inject
 	public Controller(Canvas canvas, ExportPanel exportPanel,
 			HistoryManager historyManager) {
 		this.exportPanel = exportPanel;
 		this.historyManager = historyManager;
+		this.canvas = canvas;
 		canvas.addListener(this);
 	}
 
@@ -43,6 +48,11 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	public void onMouseOver(MouseOverEvent event) {
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseOver((Cell) event.getSource());
+			if(hoverCell != null) {
+				hoverCell.removeStyleName(CssStyles.Hover);
+			}
+			hoverCell = (Cell) event.getSource();
+			hoverCell.addStyleName(CssStyles.Hover);
 		}
 	}
 
@@ -51,6 +61,9 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 		exportPanel.hide();
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseDown((Cell) event.getSource());
+			canvas.focus();
+			//Focus
+			killEvent(event);
 		}
 	}
 
@@ -74,8 +87,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 		}
 
 		if (event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
-			event.preventDefault();
-			event.stopPropagation();
+			killEvent(event);
 		}
 	}
 
@@ -83,9 +95,13 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	public void onKeyPress(KeyPressEvent event) {
 		currentTool.keyPress(event.getCharCode());
 		if (event.getCharCode() == '/') {
-			// Firefox Search
-			event.preventDefault();
-			event.stopPropagation();
+			//Firefox Search
+			killEvent(event);
 		}
+	}
+
+	private void killEvent(DomEvent<?> event) {
+		event.preventDefault();
+		event.stopPropagation();
 	}
 }

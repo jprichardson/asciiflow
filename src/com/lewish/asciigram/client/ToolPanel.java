@@ -32,23 +32,25 @@ public class ToolPanel extends Composite {
 	public ToolPanel(final Controller controller, final Canvas canvas, InfoPanel infoPanel) {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
+		tools.add(new SelectTool(canvas));
 		tools.add(new BoxTool(canvas));
 		tools.add(new TitledBoxTool(canvas));
 		tools.add(new LineTool(canvas, false));
 		tools.add(new LineTool(canvas, true));
 		tools.add(new TextTool(canvas));
 		tools.add(new EraseTool(canvas));
-		tools.add(new SelectTool(canvas));
+		
 
-		ToolButton first = null;
 		for (final Tool tool : tools) {
 			final ToolButton button = new ToolButton(tool);
 			button.addStyleName(CssStyles.ToolButton);
-			first = first == null ? button : first;
 			panel.add(button);
+			if(tool instanceof BoxTool) {
+				selectButton(button, tool);
+			}
 		}
 
-		selectButton(first, tools.get(0));
+		
 		panel.addStyleName(CssStyles.ToolPanel);
 		initWidget(panel);
 	}

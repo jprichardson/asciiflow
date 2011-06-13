@@ -15,7 +15,7 @@ public class MenuPanel extends Composite {
 
 	@Inject
 	public MenuPanel(final Canvas canvas, final ExportPanel exportPanel,
-			final Controller controller) {
+			final Controller controller, final HistoryManager historyManager) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
 			@Override
@@ -27,6 +27,18 @@ public class MenuPanel extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				canvas.addColumn(controller);
+			}
+		}));
+		panel.add(getButton("Undo", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				historyManager.undo();
+			}
+		}));
+		panel.add(getButton("Redo", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				historyManager.redo();
 			}
 		}));
 		panel.add(getButton("Clear cells", new ClickHandler() {

@@ -49,7 +49,7 @@ div.header {
 	user-select: none;
 }
 
-.canvas div div:hover {
+.hover {
 	background-color: #b5d5ff;
 }
 

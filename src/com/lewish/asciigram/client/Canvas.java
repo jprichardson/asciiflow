@@ -82,8 +82,8 @@ public class Canvas extends Composite {
 	public void clearDraw() {
 		for (List<Cell> row : rows) {
 			for (Cell cell : row) {
-				cell.setDrawValue(null);
-				cell.commitDraw();
+				cell.setDrawValue(null, false);
+				cell.refreshDraw();
 			}
 		}
 	}
@@ -127,13 +127,14 @@ public class Canvas extends Composite {
 	public void loadState(String[][] state) {
 		Drag drag = new Drag();
 		drag.setStart(getCell(0, 0));
-		drag.setStart(getCell(width - 1, height - 1));
+		drag.setFinish(getCell(width - 1, height - 1));
+		loadState(drag, state);
 	}
 
 	public void loadState(Drag drag, String[][] state) {
 		for (int y = 0; y < state.length; y++) {
 			for (int x = 0; x < state[y].length; x++) {
-				getCell(drag.topLeftX() + x, drag.topLeftY() + y).setDrawValue(state[y][x]);
+				getCell(drag.topLeftX() + x, drag.topLeftY() + y).setDrawValue(state[y][x], false);
 			}
 		}
 		refreshDraw();
@@ -189,5 +190,9 @@ public class Canvas extends Composite {
 			text += rowText + (html ? "<br>" : "") + "\n";
 		}
 		return text;
+	}
+
+	public void focus() {
+		focusPanel.setFocus(true);
 	}
 }

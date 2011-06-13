@@ -6,18 +6,18 @@ public class Cell extends HTML {
 
 	private final int x;
 	private final int y;
+
 	private String value;
+	private String commitValue;
 	private String drawValue;
-	private boolean drawChanged = false;
-	private boolean drawSet = false;
-	private boolean drawingStyle = false;
+
+	private boolean highlight;
+	private boolean drawHighlight;
 
 	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
-		addStyleName("character");
 		setHTML("&nbsp;");
-		
 	}
 
 	public void addListener(Controller controller) {
@@ -27,62 +27,56 @@ public class Cell extends HTML {
 	}
 
 	public void refreshDraw() {
-		if (!drawChanged && !drawSet && drawValue != null) {
-			drawChanged = true;
-			drawValue = null;
+		String value = drawValue != null ? drawValue : commitValue;
+		if(this.value != value) {
+			pushValue(value);
 		}
-		if(drawSet) {
-			addDrawingStyle();
-		} else {
-			removeDrawingStyle();
+		if(highlight != drawHighlight) {
+			pushHighlight();
 		}
-		if(!drawChanged) {
-			drawSet = false;
-			return;
-		}
-		String val;
-		if (drawValue != null) {
-			val = drawValue;
-			
-		} else {
-			val = value != null ? value : " ";
-		}
-		if (val.equals(" ")) {
+		drawValue = null;
+		drawHighlight = false;
+	}
+
+	private void pushValue(String value) {
+		this.value = value;
+		if(value == null || value.equals(" ")) {
+			value = null;
 			setHTML("&nbsp;");
 		} else {
-			setText(val);
-		}
-		drawChanged = false;
-		drawSet = false;
-	}
-
-	public void commitDraw() {
-		if (drawValue != null) {
-			value = drawValue == " " ? null : drawValue;
-			removeDrawingStyle();
+			setText(value);
 		}
 	}
-
-	public void addDrawingStyle() {
-		if(!drawingStyle) {
-			drawingStyle = true;
+	
+	private void pushHighlight() {
+		highlight = drawHighlight;
+		if(highlight) {
 			addStyleName(CssStyles.Drawing);
-		}
-	}
-
-	public void removeDrawingStyle() {
-		if(drawingStyle) {
-			drawingStyle = false;
+		} else {
 			removeStyleName(CssStyles.Drawing);
 		}
 	}
 
+	public void commitDraw() {
+		if(value != null) {
+			commitValue = value.equals(" ") ? null : value;
+			if(highlight == true) {
+				pushHighlight();
+			}
+		}
+	}
+
+	public void setDrawHighlight(boolean highlight) {
+		drawHighlight = highlight;
+	}
+
 	public void setDrawValue(String character) {
-		//if (character == null && drawValue == null) return;
-		drawSet = true;
-		if (character != null && character.equals(drawValue))return;
-		drawValue = character;
-		drawChanged = true;
+		setDrawValue(character, true);
+	}
+
+	public void setDrawValue(String value, boolean highlight) {
+		drawValue = value;
+		setDrawHighlight(highlight);
 	}
 
 	public String getValue() {

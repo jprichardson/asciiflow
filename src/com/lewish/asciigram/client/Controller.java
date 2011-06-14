@@ -1,5 +1,5 @@
 package com.lewish.asciigram.client;
-
+//Copyright Lewis Hemens 2011
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;

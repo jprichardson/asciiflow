@@ -1,9 +1,12 @@
+//Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -38,6 +41,12 @@ public class Asciigram implements EntryPoint {
 		frame.add(footer);
 			footer.add(infoPanel);
 			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
+			footer.add(new HTML(" - "));
+			footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
 		RootPanel.get().add(frame);
+
+		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {
+			Window.alert("This site does not support IE. Please use Chrome, Firefox or Safari for the best possible experience.");
+		}
 	}
 }

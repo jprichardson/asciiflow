@@ -1,3 +1,4 @@
+//Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
 import com.google.gwt.inject.client.AbstractGinModule;

@@ -1,3 +1,4 @@
+//Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client.tools;
 
 import com.google.gwt.event.dom.client.KeyDownEvent;

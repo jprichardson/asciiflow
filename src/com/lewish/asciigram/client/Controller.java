@@ -35,6 +35,8 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		this.historyManager = historyManager;
 		this.canvas = canvas;
 		canvas.setListener(this);
+		//TODO ?
+		historyManager.save();
 	}
 
 	public void setTool(Tool tool) {

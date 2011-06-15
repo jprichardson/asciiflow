@@ -32,7 +32,7 @@ public class Drag {
 	}
 
 	public int bottomRightX() {
-		return Math.max(start.y, finish.y);
+		return Math.max(start.x, finish.x);
 	}
 
 	public int bottomRightY() {

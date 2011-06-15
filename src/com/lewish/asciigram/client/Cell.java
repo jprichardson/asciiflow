@@ -1,8 +1,12 @@
 package com.lewish.asciigram.client;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 
 public class Cell extends HTML {
+	public static final int HEIGHT = 14;
+	public static final int WIDTH = 8;
+
 	public final int x;
 	public final int y;
 
@@ -16,6 +20,8 @@ public class Cell extends HTML {
 	Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
+		DOM.setStyleAttribute(getElement(), "top", HEIGHT * y + "px");
+		DOM.setStyleAttribute(getElement(), "left", WIDTH * x + "px");
 		setHTML("&nbsp;");
 	}
 

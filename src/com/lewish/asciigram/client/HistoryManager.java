@@ -24,7 +24,6 @@ public class HistoryManager {
 		if(instance == null) {
 			instance = this;
 		}
-		save();
 	}
 
 	public void save() {

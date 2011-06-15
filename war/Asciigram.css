@@ -39,21 +39,6 @@ div.header {
 	display: inline-block;
 }
 
-.canvas div div {
-	font-family: monospace;
-	display: inline;
-	border: 0px;
-	cursor: pointer;
-	position: relative;
-	top: -2px;
-	height: 15px;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-}
-
 .hover {
 	background-color: #b5d5ff;
 }
@@ -67,12 +52,19 @@ div.header {
 }
 
 .canvas div {
-	height: 15px;
-	display: block;
-	border-spacing: 0px;
+	cursor: pointer;
+	position: absolute;
+	height: 14px;
+	width: 8px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 .canvas {
+	position: relative;
 	border-color: #eeeeee;
 	border-style: solid;
 	display: inline-block;

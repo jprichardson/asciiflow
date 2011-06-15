@@ -17,18 +17,6 @@ public abstract class DragTool extends Tool {
 	public DragTool(Canvas canvas) {
 		this.canvas = canvas;
 	}
-
-	private void stopDragging(Cell cell) {
-		currentBox.setFinish(cell);
-		currentBox = null;
-		canvas.commitDraw();
-	}
-
-	private void startDragging(Cell cell) {
-		currentBox = new Drag();
-		currentBox.setStart(cell);
-		currentBox.setFinish(cell);
-	}
 	
 	@Override
 	public void mouseOver(Cell cell) {
@@ -41,7 +29,9 @@ public abstract class DragTool extends Tool {
 	@Override
 	public void mouseDown(Cell cell) {
 		if(currentBox == null) {
-			startDragging(cell);
+			currentBox = new Drag();
+			currentBox.setStart(cell);
+			currentBox.setFinish(cell);
 			draw(currentBox, canvas);
 		}
 	}
@@ -49,7 +39,9 @@ public abstract class DragTool extends Tool {
 	@Override
 	public void mouseUp(Cell cell) {
 		if(currentBox != null) {
-			stopDragging(cell);
+			currentBox.setFinish(cell);
+			currentBox = null;
+			canvas.commitDraw();
 		}
 	}
 

@@ -51,6 +51,7 @@ public class TextTool extends Tool {
 				canvas.draw(currentCell, String.valueOf(event.getCharCode()));
 				moveSelect(1, 0);
 			}
+			canvas.refreshDraw();
 		}
 	
 	@Override
@@ -84,6 +85,7 @@ public class TextTool extends Tool {
 			canvas.commitDraw();
 			break;
 		}
+		canvas.refreshDraw();
 	}
 
 	@Override

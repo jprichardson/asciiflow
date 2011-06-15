@@ -31,7 +31,6 @@ public class Canvas extends Composite {
 	}
 
 	public void addListener(Controller controller) {
-		focusPanel.addKeyDownHandler(controller);
 		focusPanel.addKeyPressHandler(controller);
 		for (List<Cell> row : rows) {
 			for (Cell cell : row) {
@@ -181,19 +180,26 @@ public class Canvas extends Composite {
 		width++;
 	}
 
-	public String getText(boolean html) {
-		String text = "";
-		for (List<Cell> row : rows) {
-			String rowText = "";
-			for (Cell cell : row) {
-				rowText += html ? cell.getHTML() : cell.getText();
-			}
-			text += rowText + (html ? "<br>" : "") + "\n";
-		}
-		return text;
-	}
-
 	public void focus() {
 		focusPanel.setFocus(true);
 	}
+
+	/*
+	@Override
+	public void onBrowserEvent(Event event) {
+		Element e = DOM.eventGetTarget(event);
+		String[] s = e.getId().split(":");
+		switch ((DOM.eventGetType(event))) {
+		case Event.ONMOUSEDOWN:
+			controller.onMouseDown(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
+			break;
+		case Event.ONMOUSEOVER:
+			controller.onMouseOver(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
+			break;
+		case Event.ONMOUSEUP:
+			controller.onMouseUp(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
+			break;
+		}
+	}
+	*/
 }

@@ -19,6 +19,7 @@ public class Cell extends HTML {
 		this.x = x;
 		this.y = y;
 		setHTML("&nbsp;");
+		//getElement().setId(x + ":" + y);
 	}
 
 	public void addListener(Controller controller) {

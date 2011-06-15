@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Drag;
 
-public class BoxTool extends DragTool implements Tool {
+public class BoxTool extends DragTool {
 
 	@Inject
 	public BoxTool(Canvas canvas) {

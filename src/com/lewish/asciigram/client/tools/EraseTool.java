@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Drag;
 
-public class EraseTool extends DragTool implements Tool {
+public class EraseTool extends DragTool {
 
 	@Inject
 	public EraseTool(Canvas canvas) {

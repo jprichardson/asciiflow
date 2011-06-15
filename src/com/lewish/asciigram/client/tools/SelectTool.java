@@ -3,12 +3,12 @@ package com.lewish.asciigram.client.tools;
 
 import javax.inject.Inject;
 
-import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.Drag;
 
-public class SelectTool implements Tool {
+public class SelectTool extends Tool {
 
 	public static enum State {
 		Dragging,
@@ -63,12 +63,12 @@ public class SelectTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(KeyDownEvent event) {
+	public void keyPress(KeyPressEvent event) {
 		if (event.isControlKeyDown()
-				&& (event.getNativeKeyCode() == 'c' || event.getNativeKeyCode() == 'C')) {
+				&& (event.getCharCode() == 'c' || event.getCharCode() == 'C')) {
 			copy();
 		} else if (event.isControlKeyDown()
-				&& (event.getNativeKeyCode() == 'v' || event.getNativeKeyCode() == 'V')) {
+				&& (event.getCharCode() == 'v' || event.getCharCode() == 'V')) {
 			paste();
 		}
 	}
@@ -82,10 +82,6 @@ public class SelectTool implements Tool {
 			canvas.loadState(currentBox, clipboard);
 			canvas.commitDraw();
 		}
-	}
-
-	@Override
-	public void keyPress(char character) {
 	}
 
 	@Override
@@ -104,7 +100,7 @@ public class SelectTool implements Tool {
 
 	@Override
 	public String getDescription() {
-		return "Select, copy (ctrl+c), and paste (ctrl+v)";
+		return "Select, copy (ctrl+c), and paste (ctrl+v). Note: this is only internal to the app!";
 	}
 
 	@Override

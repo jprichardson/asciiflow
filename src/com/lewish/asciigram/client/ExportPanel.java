@@ -40,7 +40,7 @@ public class ExportPanel extends Composite {
 				textArea.selectAll();
 			}
 		};
-		textArea.setText(canvas.getText(html));
+		textArea.setText(getText(html));
 		timer.schedule(500);
 	}
 
@@ -55,5 +55,20 @@ public class ExportPanel extends Composite {
 		} else {
 			show(html);
 		}
+	}
+	
+	public String getText(boolean html) {
+		String text = html ? "<pre>" : "";
+		for (int y = 0; y < canvas.getHeight(); y++) {
+			String rowText = "";
+			for (int x = canvas.getWidth()-1; x >= 0 ; x--) {
+				Cell cell = canvas.getCell(x, y);
+				if (rowText.equals("") && cell.getValue() == null)
+					continue;
+				rowText = (html ? cell.getHTML() : cell.getText()) + rowText;
+			}
+			text += rowText + (rowText.equals("") ? "" : "\n");
+		}
+		return text + (html ? "</pre>" : "");
 	}
 }

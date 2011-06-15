@@ -4,11 +4,11 @@ package com.lewish.asciigram.client.tools;
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Drag;
 
-public class LineTool extends DragTool implements Tool {
+public class LineTool extends DragTool {
 
 	private boolean isArrowed;
 	private boolean isClockwise;
@@ -20,8 +20,8 @@ public class LineTool extends DragTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(KeyDownEvent event) {
-		if (event.getNativeKeyCode() == KeyCodes.KEY_SHIFT) {
+	public void keyPress(KeyPressEvent event) {
+		if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_SHIFT) {
 			isClockwise = !isClockwise;
 			draw();
 		}

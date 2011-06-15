@@ -31,7 +31,12 @@ div.header {
 }
 
 .footer {
-	text-align: right;
+	text-align: center;
+	margin-top: 15px;
+}
+
+.footer div {
+	display: inline-block;
 }
 
 .canvas div div {
@@ -133,6 +138,6 @@ div.tool-panel {
 }
 
 .info-panel {
-	color: #777;
+	color: #444;
 	padding: 2px;
 }

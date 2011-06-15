@@ -1,9 +1,7 @@
 package com.lewish.asciigram.client;
+
 //Copyright Lewis Hemens 2011
 import com.google.gwt.event.dom.client.DomEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -18,7 +16,7 @@ import com.lewish.asciigram.client.tools.Tool;
 
 @Singleton
 public class Controller implements MouseDownHandler, MouseOverHandler,
-		MouseUpHandler, KeyDownHandler, KeyPressHandler {
+		MouseUpHandler, KeyPressHandler {
 
 	private final HistoryManager historyManager;
 	private final ExportPanel exportPanel;
@@ -48,7 +46,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	public void onMouseOver(MouseOverEvent event) {
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseOver((Cell) event.getSource());
-			if(hoverCell != null) {
+			if (hoverCell != null) {
 				hoverCell.removeStyleName(CssStyles.Hover);
 			}
 			hoverCell = (Cell) event.getSource();
@@ -62,7 +60,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseDown((Cell) event.getSource());
 			canvas.focus();
-			//Focus
+			// Focus
 			killEvent(event);
 		}
 	}
@@ -75,33 +73,47 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	}
 
 	@Override
-	public void onKeyDown(KeyDownEvent event) {
+	public void onKeyPress(KeyPressEvent event) {
 		if (event.isControlKeyDown()
-				&& (event.getNativeKeyCode() == 'z' || event.getNativeKeyCode() == 'Z')) {
+				&& (event.getCharCode() == 'z' || event.getCharCode() == 'Z')) {
 			historyManager.undo();
 		} else if (event.isControlKeyDown()
-				&& (event.getNativeKeyCode() == 'y' || event.getNativeKeyCode() == 'Y')) {
+				&& (event.getCharCode() == 'y' || event.getCharCode() == 'Y')) {
 			historyManager.redo();
 		} else {
-			currentTool.keyDown(event);
+			currentTool.keyPress(event);
 		}
-
-		if (event.getNativeKeyCode() == KeyCodes.KEY_BACKSPACE) {
-			killEvent(event);
-		}
-	}
-
-	@Override
-	public void onKeyPress(KeyPressEvent event) {
-		currentTool.keyPress(event.getCharCode());
-		if (event.getCharCode() == '/') {
-			//Firefox Search
-			killEvent(event);
-		}
+		
+		killEvent(event);
 	}
 
 	private void killEvent(DomEvent<?> event) {
 		event.preventDefault();
 		event.stopPropagation();
 	}
+
+	/*
+	public void onMouseOver(Cell cell) {
+		currentTool.mouseOver(cell);
+		if (hoverCell != null) {
+			hoverCell.removeStyleName(CssStyles.Hover);
+		}
+		hoverCell = cell;
+		hoverCell.addStyleName(CssStyles.Hover);
+	}
+	 */
+	/*
+	public void onMouseDown(Cell event) {
+		exportPanel.hide();
+		currentTool.mouseDown(event);
+		canvas.focus();
+		// Focus
+		// killEvent(event);
+	}
+	*/
+	/*
+	public void onMouseUp(Cell cell) {
+		currentTool.mouseUp(cell);
+	}
+	*/
 }

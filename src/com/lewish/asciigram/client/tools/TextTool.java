@@ -2,13 +2,13 @@
 package com.lewish.asciigram.client.tools;
 
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.CssStyles;
 
-public class TextTool implements Tool {
+public class TextTool extends Tool {
 
 	private final Canvas canvas;
 	private Cell currentCell;
@@ -23,13 +23,19 @@ public class TextTool implements Tool {
 		selectCell(cell);
 	}
 
-	public void selectCell(Cell cell) {
+	private void selectCell(Cell cell) {
 		if (currentCell != null) {
 			currentCell.removeStyleName(CssStyles.Selected);
 		}
 		currentCell = cell;
 		if (currentCell != null) {
 			currentCell.addStyleName(CssStyles.Selected);
+		}
+	}
+
+	private void moveSelect(int dx, int dy) {
+		if(currentCell != null) {
+			selectCell(canvas.getCell(currentCell.getX() + dx, currentCell.getY() + dy));
 		}
 	}
 
@@ -40,53 +46,42 @@ public class TextTool implements Tool {
 	}
 
 	@Override
-	public void keyDown(KeyDownEvent event) {
-		int keyCode = event.getNativeKeyCode();
+	public void keyPress(KeyPressEvent event) {
 		if (currentCell == null)
 			return;
-		if (keyCode == KeyCodes.KEY_DOWN) {
-			selectCell(canvas.getCell(currentCell.getX(),
-					currentCell.getY() + 1));
-		} else if (keyCode == KeyCodes.KEY_UP) {
-			selectCell(canvas.getCell(currentCell.getX(),
-					currentCell.getY() - 1));
-		} else if (keyCode == KeyCodes.KEY_LEFT) {
-			selectCell(canvas.getCell(currentCell.getX() - 1,
-					currentCell.getY()));
-		} else if (keyCode == KeyCodes.KEY_RIGHT) {
-			selectCell(canvas.getCell(currentCell.getX() + 1,
-					currentCell.getY()));
-		} else if (keyCode == KeyCodes.KEY_DELETE) {
+		switch (event.getNativeEvent().getKeyCode()) {
+		case KeyCodes.KEY_DOWN:
+			moveSelect(0, 1);
+			break;
+		case KeyCodes.KEY_UP:
+			moveSelect(0, -1);
+			break;
+		case KeyCodes.KEY_LEFT:
+			moveSelect(-1, 0);
+			break;
+		case KeyCodes.KEY_RIGHT:
+			moveSelect(1, 0);
+			break;
+		case KeyCodes.KEY_DELETE:
 			currentCell.setDrawValue(null, false);
 			currentCell.refreshDraw();
-			selectCell(canvas.getCell(currentCell.getX() + 1,
-					currentCell.getY()));
-		} else if (keyCode == KeyCodes.KEY_BACKSPACE) {
-			selectCell(canvas.getCell(currentCell.getX() - 1,
-					currentCell.getY()));
+			moveSelect(1, 0);
+			break;
+		case KeyCodes.KEY_BACKSPACE:
+			moveSelect(-1, 0);
 			currentCell.setDrawValue(null, false);
 			currentCell.refreshDraw();
-		} else if (keyCode == KeyCodes.KEY_ENTER) {
+			break;
+		case KeyCodes.KEY_ENTER:
 			canvas.commitDraw();
+			break;
+		default:
+			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
+				currentCell.setDrawValue(String.valueOf(event.getCharCode()));
+				currentCell.refreshDraw();
+				moveSelect(1, 0);
+			}
 		}
-	}
-
-	@Override
-	public void keyPress(char character) {
-		if(character > 31 && character < 127) {
-			currentCell.setDrawValue(String.valueOf(character));
-			currentCell.refreshDraw();
-			selectCell(canvas.getCell(currentCell.getX() + 1,
-					currentCell.getY()));
-		}
-	}
-
-	@Override
-	public void mouseUp(Cell cell) {
-	}
-
-	@Override
-	public void mouseOver(Cell cell) {
 	}
 
 	@Override

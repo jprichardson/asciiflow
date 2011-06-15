@@ -1,8 +1,8 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -23,7 +23,10 @@ public class Canvas extends Composite {
 	private int height = DEFAULT_HEIGHT;
 
 	private CellFactory cellFactory;
-	private Cell[][] model = new Cell[width][height];
+	private Cell[][] model = new Cell[width*2][height*2]; //No array resizing please!
+
+	private Set<Cell> currentDraw = new HashSet<Cell>();
+	private Set<Cell> nextDraw = new HashSet<Cell>();
 
 	@Inject
 	public Canvas() {
@@ -62,41 +65,132 @@ public class Canvas extends Composite {
 	}
 
 	public void refreshDraw() {
-		for (List<Cell> row : rows) {
-			for (Cell cell : row) {
-				cell.refreshDraw();
+		Set<Cell> cells = new HashSet<Cell>();
+		cells.addAll(currentDraw);
+		cells.addAll(nextDraw);
+		for (Cell cell : cells) {
+			/*
+			 * CELL LOGIC: REFRESH DRAW
+			 */
+			String value = cell.drawValue != null ? cell.drawValue : cell.commitValue;
+			if(cell.value != value) {
+				cell.pushValue(value);
 			}
+			if(cell.highlight != cell.drawHighlight) {
+				cell.pushHighlight();
+			}
+			cell.drawValue = null;
+			cell.drawHighlight = false;
 		}
+		nextDraw.clear();
 	}
 
 	public void draw(int x, int y, String value) {
-		getCell(x ,y).setDrawValue(value);
+		draw(model[x][y], value);
+	}
+
+	public void draw(Cell cell, String value) {
+		cell.drawValue = value;
+		cell.drawHighlight = true;
+		nextDraw.add(cell);
+	}
+
+	public void highlight(int x, int y, boolean value) {
+		highlight(model[x][y], value);
+	}
+
+	public void highlight(Cell cell, boolean value) {
+		cell.drawHighlight = value;
+		nextDraw.add(cell);
 	}
 
 	public void clearDraw() {
-		for (List<Cell> row : rows) {
-			for (Cell cell : row) {
-				cell.setDrawValue(null, false);
-				cell.refreshDraw();
-			}
+		for(Cell cell : currentDraw) {
+			cell.drawValue = null;
+			cell.drawHighlight = false;
 		}
+		currentDraw.clear();
 	}
 
 	public void commitDraw(boolean save) {
-		for (List<Cell> row : rows) {
-			for (Cell cell : row) {
-				cell.commitDraw();
+		for(Cell cell : currentDraw) {
+			/*
+			 * CELL LOGIC: COMMIT DRAW
+			 */
+			if (cell.value != null) {
+				cell.commitValue = cell.value.equals(" ") ? null : cell.value;
+				if (cell.highlight == true) {
+					cell.pushHighlight();
+				}
 			}
 		}
 		if (save) {
 			HistoryManager.get().save();
 		}
+		currentDraw.clear();
 	}
 
 	public void commitDraw() {
 		commitDraw(true);
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public Cell getCell(int x, int y) {
+		if(x >= width) return null;
+		if(y >= height) return null;
+		return model[x][y];
+	}
+
+	public void addRow(Controller controller) {
+		FlowPanel rowPanel = new FlowPanel();
+		for (int j = 0; j < width; j++) {
+			Cell cell = cellFactory.getCell(j, height);
+			model[j][height] = cell;
+			rowPanel.add(cell);
+		}
+		panel.add(rowPanel);
+		height++;
+	}
+
+	public void addColumn(Controller controller) {
+		for (int i = 0; i < height; i++) {
+			Cell cell = cellFactory.getCell(width, i);
+			model[width][i] = cell;
+			((FlowPanel) panel.getWidget(i)).add(cell);
+		}
+		width++;
+	}
+
+	public void focus() {
+		focusPanel.setFocus(true);
+	}
+
+	private static class CellFactory {
+		private final Controller controller;
+		public CellFactory(Controller controller) {
+			this.controller = controller;
+		}
+		public Cell getCell(int x, int y) {
+			Cell cell =  new Cell(x,y);
+			cell.addMouseDownHandler(controller);
+			cell.addMouseOverHandler(controller);
+			cell.addMouseUpHandler(controller);
+			return cell;
+		}
+	}
+
+	
+	
+	
+	
+	
 	public String[][] getState() {
 		Drag drag = new Drag();
 		drag.setStart(getCell(0, 0));
@@ -133,60 +227,5 @@ public class Canvas extends Composite {
 		}
 		refreshDraw();
 		commitDraw(false);
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public Cell getCell(int x, int y) {
-		x = x < width ? x : width - 1;
-		y = y < height ? y : height - 1;
-		return rows.get(y).get(x);
-	}
-
-	public void addRow(Controller controller) {
-		List<Cell> row = new ArrayList<Cell>();
-		FlowPanel rowPanel = new FlowPanel();
-		for (int j = 0; j < width; j++) {
-			Cell cell = new Cell(j, height);
-			cell.addListener(controller);
-			row.add(cell);
-			rowPanel.add(cell);
-		}
-		rows.add(row);
-		panel.add(rowPanel);
-		height++;
-
-	}
-
-	public void addColumn(Controller controller) {
-		for (int i = 0; i < height; i++) {
-			Cell cell = new Cell(width, i);
-			cell.addListener(controller);
-			rows.get(i).add(cell);
-			((FlowPanel) panel.getWidget(i)).add(cell);
-		}
-		width++;
-	}
-
-	public void focus() {
-		focusPanel.setFocus(true);
-	}
-
-	private static class CellFactory {
-		private final Controller controller;
-		public CellFactory(Controller controller) {
-			this.controller = controller;
-		}
-		public Cell getCell(int x, int y) {
-			Cell cell =  new Cell(x,y);
-			cell.addListener(controller);
-			return cell;
-		}
 	}
 }

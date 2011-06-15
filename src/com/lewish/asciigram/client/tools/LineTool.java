@@ -33,10 +33,10 @@ public class LineTool extends DragTool {
 
 	@Override
 	public void draw(Drag box, Canvas canvas) {
-		int x1 = box.getStart().getX();
-		int y1 = box.getStart().getY();
-		int x2 = box.getFinish().getX();
-		int y2 = box.getFinish().getY();
+		int x1 = box.getStart().x;
+		int y1 = box.getStart().y;
+		int x2 = box.getFinish().x;
+		int y2 = box.getFinish().y;
 
 		int hX1 = box.topLeftX();
 		int hX2 = box.bottomRightX();
@@ -47,20 +47,20 @@ public class LineTool extends DragTool {
 		int vX = isClockwise ? x2 : x1;
 
 		while (hX1++ < hX2) {
-			canvas.getCell(hX1, hY).setDrawValue("-");
+			canvas.draw(hX1, hY,"-");
 		}
 		while (vY1++ < vY2) {
-			canvas.getCell(vX, vY1).setDrawValue("|");
+			canvas.draw(vX, vY1,"|");
 		}
 
-		canvas.getCell(x1, y1).setDrawValue("+");
-		canvas.getCell(vX, hY).setDrawValue("+");
+		canvas.draw(x1, y1, "+");
+		canvas.draw(vX, hY, "+");
 		String endChar = "+";
 		if (isArrowed) {
 			endChar = vX < x2 ? ">" : vX > x2 ? "<" : y1 < y2 ? "v"
 					: y1 > y2 ? "^" : x1 < x2 ? ">" : x1 > x2 ? "<" : "+";
 		}
-		canvas.getCell(x2, y2).setDrawValue(endChar);
+		canvas.draw(x2, y2, endChar);
 		canvas.refreshDraw();
 	}
 

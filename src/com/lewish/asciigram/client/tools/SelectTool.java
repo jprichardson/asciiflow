@@ -98,7 +98,7 @@ public class SelectTool extends Tool {
 	public void draw() {
 		for (int x = currentBox.topLeftX(); x <= currentBox.bottomRightX(); x++) {
 			for (int y = currentBox.topLeftY(); y <= currentBox.bottomRightY(); y++) {
-				canvas.getCell(x, y).setDrawValue(canvas.getCell(x, y).getValue());
+				canvas.highlight(x, y, true);
 			}
 		}
 		canvas.refreshDraw();

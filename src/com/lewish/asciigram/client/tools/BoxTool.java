@@ -24,17 +24,17 @@ public class BoxTool extends DragTool {
 		int x2 = box.bottomRightX();
 		int y2 = box.bottomRightY();
 
-		canvas.getCell(x1, y1).setDrawValue("+");
-		canvas.getCell(x1, y2).setDrawValue("+");
-		canvas.getCell(x2, y1).setDrawValue("+");
-		canvas.getCell(x2, y2).setDrawValue("+");
+		canvas.draw(x1, y1,"+");
+		canvas.draw(x1, y2,"+");
+		canvas.draw(x2, y1,"+");
+		canvas.draw(x2, y2,"+");
 		for (int x = x1 + 1; x < x2; x++) {
-			canvas.getCell(x, y1).setDrawValue("-");
-			canvas.getCell(x, y2).setDrawValue("-");
+			canvas.draw(x, y1,"-");
+			canvas.draw(x, y2,"-");
 		}
 		for (int y = y1 + 1; y < y2; y++) {
-			canvas.getCell(x1, y).setDrawValue("|");
-			canvas.getCell(x2, y).setDrawValue("|");
+			canvas.draw(x1, y,"|");
+			canvas.draw(x2, y,"|");
 		}
 		canvas.refreshDraw();
 	}

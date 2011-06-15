@@ -19,6 +19,8 @@ public class TitledBoxTool extends DragTool {
 
 	@Override
 	public void draw(Drag box, Canvas canvas) {
+		//TODO: Modularize
+		/*
 		int x1 = box.topLeftX();
 		int y1 = box.topLeftY();
 		int x2 = box.bottomRightX();
@@ -45,6 +47,7 @@ public class TitledBoxTool extends DragTool {
 			canvas.getCell(x1, y1+2).setDrawValue("+");
 			canvas.getCell(x2, y1+2).setDrawValue("+");
 		}
+		*/
 		canvas.refreshDraw();
 	}
 

@@ -35,7 +35,7 @@ public class TextTool extends Tool {
 
 	private void moveSelect(int dx, int dy) {
 		if (currentCell != null) {
-			selectCell(canvas.getCell(currentCell.getX() + dx, currentCell.getY() + dy));
+			selectCell(canvas.getCell(currentCell.x + dx, currentCell.y + dy));
 		}
 	}
 
@@ -48,8 +48,7 @@ public class TextTool extends Tool {
 	@Override
 	public void keyPress(KeyPressEvent event) {
 			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
-				currentCell.setDrawValue(String.valueOf(event.getCharCode()));
-				currentCell.refreshDraw();
+				canvas.draw(currentCell, String.valueOf(event.getCharCode()));
 				moveSelect(1, 0);
 			}
 		}
@@ -72,14 +71,14 @@ public class TextTool extends Tool {
 			moveSelect(1, 0);
 			break;
 		case KeyCodes.KEY_DELETE:
-			currentCell.setDrawValue(null, false);
-			currentCell.refreshDraw();
+			canvas.draw(currentCell, null);
+			canvas.highlight(currentCell, false);
 			moveSelect(1, 0);
 			break;
 		case KeyCodes.KEY_BACKSPACE:
 			moveSelect(-1, 0);
-			currentCell.setDrawValue(null, false);
-			currentCell.refreshDraw();
+			canvas.draw(currentCell, null);
+			canvas.highlight(currentCell, false);
 			break;
 		case KeyCodes.KEY_ENTER:
 			canvas.commitDraw();

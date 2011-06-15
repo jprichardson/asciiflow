@@ -24,18 +24,18 @@ public class Drag {
 	}
 
 	public int topLeftX() {
-		return Math.min(start.getX(), finish.getX());
+		return Math.min(start.x, finish.x);
 	}
 
 	public int topLeftY() {
-		return Math.min(start.getY(), finish.getY());
+		return Math.min(start.y, finish.y);
 	}
 
 	public int bottomRightX() {
-		return Math.max(start.getX(), finish.getX());
+		return Math.max(start.y, finish.y);
 	}
 
 	public int bottomRightY() {
-		return Math.max(start.getY(), finish.getY());
+		return Math.max(start.y, finish.y);
 	}
 }

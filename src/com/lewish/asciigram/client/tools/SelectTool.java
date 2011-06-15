@@ -4,6 +4,7 @@ package com.lewish.asciigram.client.tools;
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.lewish.asciigram.client.AsciiKeyCodes;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.Drag;
@@ -64,17 +65,22 @@ public class SelectTool extends Tool {
 
 	@Override
 	public void keyPress(KeyPressEvent event) {
+		/*
 		if (event.isControlKeyDown()
 				&& (event.getCharCode() == 'c' || event.getCharCode() == 'C')) {
 			copy();
+			
 		} else if (event.isControlKeyDown()
 				&& (event.getCharCode() == 'v' || event.getCharCode() == 'V')) {
 			paste();
 		}
+		*/
 	}
 
 	private void copy() {
-		clipboard = canvas.getState(currentBox);
+		if (currentBox != null) {
+			clipboard = canvas.getState(currentBox);
+		}
 	}
 
 	private void paste() {
@@ -108,4 +114,15 @@ public class SelectTool extends Tool {
 		return "images/selecttool.png";
 	}
 
+	@Override
+	public void specialKeyPress(int keyCode) {
+		switch(keyCode) {
+		case AsciiKeyCodes.COPY:
+			copy();
+			break;
+		case AsciiKeyCodes.PASTE:
+			paste();
+			break;
+		}
+	}
 }

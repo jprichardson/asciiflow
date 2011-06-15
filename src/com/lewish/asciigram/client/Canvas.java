@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -18,43 +19,32 @@ public class Canvas extends Composite {
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);
 
-	private List<List<Cell>> rows;
 	private int width = DEFAULT_WIDTH;
 	private int height = DEFAULT_HEIGHT;
 
+	private CellFactory cellFactory;
+	private Cell[][] model = new Cell[width][height];
+
+	@Inject
 	public Canvas() {
 		focusPanel.setStyleName(CssStyles.CanvasFocus);
 		panel.setStyleName(CssStyles.Canvas);
-		initRows();
-		initPanel();
 		initWidget(focusPanel);
 	}
 
-	public void addListener(Controller controller) {
+	public void setListener(Controller controller) {
 		focusPanel.addKeyPressHandler(controller);
-		for (List<Cell> row : rows) {
-			for (Cell cell : row) {
-				cell.addListener(controller);
-			}
-		}
+		focusPanel.addKeyDownHandler(controller);
+		cellFactory = new CellFactory(controller);
+		initRows();
 	}
 
 	private void initRows() {
-		rows = new ArrayList<List<Cell>>();
 		for (int i = 0; i < height; i++) {
-			List<Cell> row = new ArrayList<Cell>();
-			for (int j = 0; j < width; j++) {
-				row.add(new Cell(j, i));
-			}
-			rows.add(row);
-		}
-	}
-
-	private void initPanel() {
-		panel.clear();
-		for (List<Cell> row : rows) {
 			FlowPanel rowPanel = new FlowPanel();
-			for (Cell cell : row) {
+			for (int j = 0; j < width; j++) {
+				Cell cell = cellFactory.getCell(j, i);
+				model[j][i]  = cell;
 				rowPanel.add(cell);
 			}
 			panel.add(rowPanel);
@@ -62,13 +52,13 @@ public class Canvas extends Composite {
 	}
 
 	public void clearCells() {
-		for (List<Cell> row : rows) {
-			for (Cell cell : row) {
-				cell.setDrawValue(" ");
-				cell.refreshDraw();
-				cell.commitDraw();
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				draw(x, y, " ");
 			}
 		}
+		refreshDraw();
+		commitDraw();
 	}
 
 	public void refreshDraw() {
@@ -77,6 +67,10 @@ public class Canvas extends Composite {
 				cell.refreshDraw();
 			}
 		}
+	}
+
+	public void draw(int x, int y, String value) {
+		getCell(x ,y).setDrawValue(value);
 	}
 
 	public void clearDraw() {
@@ -184,22 +178,15 @@ public class Canvas extends Composite {
 		focusPanel.setFocus(true);
 	}
 
-	/*
-	@Override
-	public void onBrowserEvent(Event event) {
-		Element e = DOM.eventGetTarget(event);
-		String[] s = e.getId().split(":");
-		switch ((DOM.eventGetType(event))) {
-		case Event.ONMOUSEDOWN:
-			controller.onMouseDown(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
-			break;
-		case Event.ONMOUSEOVER:
-			controller.onMouseOver(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
-			break;
-		case Event.ONMOUSEUP:
-			controller.onMouseUp(getCell(Integer.valueOf(s[0]), Integer.valueOf(s[1])));
-			break;
+	private static class CellFactory {
+		private final Controller controller;
+		public CellFactory(Controller controller) {
+			this.controller = controller;
+		}
+		public Cell getCell(int x, int y) {
+			Cell cell =  new Cell(x,y);
+			cell.addListener(controller);
+			return cell;
 		}
 	}
-	*/
 }

@@ -34,22 +34,31 @@ public class TextTool extends Tool {
 	}
 
 	private void moveSelect(int dx, int dy) {
-		if(currentCell != null) {
+		if (currentCell != null) {
 			selectCell(canvas.getCell(currentCell.getX() + dx, currentCell.getY() + dy));
 		}
 	}
 
 	@Override
 	public void cleanup() {
-		canvas.clearDraw();
+		canvas.commitDraw();
 		selectCell(null);
 	}
 
 	@Override
 	public void keyPress(KeyPressEvent event) {
+			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
+				currentCell.setDrawValue(String.valueOf(event.getCharCode()));
+				currentCell.refreshDraw();
+				moveSelect(1, 0);
+			}
+		}
+	
+	@Override
+	public void specialKeyPress(int keyCode) {
 		if (currentCell == null)
 			return;
-		switch (event.getNativeEvent().getKeyCode()) {
+		switch (keyCode) {
 		case KeyCodes.KEY_DOWN:
 			moveSelect(0, 1);
 			break;
@@ -75,12 +84,6 @@ public class TextTool extends Tool {
 		case KeyCodes.KEY_ENTER:
 			canvas.commitDraw();
 			break;
-		default:
-			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
-				currentCell.setDrawValue(String.valueOf(event.getCharCode()));
-				currentCell.refreshDraw();
-				moveSelect(1, 0);
-			}
 		}
 	}
 

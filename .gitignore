@@ -3,4 +3,5 @@ src/META-INF/
 src/log4j.properties
 war/WEB-INF/
 war/asciigram/
-
+.gwt/
+asciigram.tar.gz

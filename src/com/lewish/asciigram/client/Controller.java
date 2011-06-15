@@ -1,7 +1,10 @@
+//Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
-//Copyright Lewis Hemens 2011
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -15,8 +18,8 @@ import com.google.inject.Singleton;
 import com.lewish.asciigram.client.tools.Tool;
 
 @Singleton
-public class Controller implements MouseDownHandler, MouseOverHandler,
-		MouseUpHandler, KeyPressHandler {
+public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHandler,
+		KeyPressHandler, KeyDownHandler {
 
 	private final HistoryManager historyManager;
 	private final ExportPanel exportPanel;
@@ -27,12 +30,11 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 	private Cell hoverCell;
 
 	@Inject
-	public Controller(Canvas canvas, ExportPanel exportPanel,
-			HistoryManager historyManager) {
+	public Controller(Canvas canvas, ExportPanel exportPanel, HistoryManager historyManager) {
 		this.exportPanel = exportPanel;
 		this.historyManager = historyManager;
 		this.canvas = canvas;
-		canvas.addListener(this);
+		canvas.setListener(this);
 	}
 
 	public void setTool(Tool tool) {
@@ -51,6 +53,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 			}
 			hoverCell = (Cell) event.getSource();
 			hoverCell.addStyleName(CssStyles.Hover);
+			canvas.focus();
 		}
 	}
 
@@ -60,7 +63,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseDown((Cell) event.getSource());
 			canvas.focus();
-			// Focus
 			killEvent(event);
 		}
 	}
@@ -74,16 +76,9 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
-		if (event.isControlKeyDown()
-				&& (event.getCharCode() == 'z' || event.getCharCode() == 'Z')) {
-			historyManager.undo();
-		} else if (event.isControlKeyDown()
-				&& (event.getCharCode() == 'y' || event.getCharCode() == 'Y')) {
-			historyManager.redo();
-		} else {
+		if (!event.isControlKeyDown()) {
 			currentTool.keyPress(event);
 		}
-		
 		killEvent(event);
 	}
 
@@ -92,28 +87,38 @@ public class Controller implements MouseDownHandler, MouseOverHandler,
 		event.stopPropagation();
 	}
 
-	/*
-	public void onMouseOver(Cell cell) {
-		currentTool.mouseOver(cell);
-		if (hoverCell != null) {
-			hoverCell.removeStyleName(CssStyles.Hover);
+	@Override
+	public void onKeyDown(KeyDownEvent event) {
+		if (currentTool == null)
+			return;
+		int specialKeyCode = event.getNativeKeyCode();
+		if (event.isControlKeyDown()) {
+			if (event.getNativeKeyCode() == 67) {
+				specialKeyCode = AsciiKeyCodes.COPY;
+				killEvent(event);
+			}
+			if (event.getNativeKeyCode() == 86) {
+				specialKeyCode = AsciiKeyCodes.PASTE;
+				killEvent(event);
+			}
+			if (event.getNativeKeyCode() == 90) {
+				historyManager.undo();
+				specialKeyCode = AsciiKeyCodes.UNDO;
+				killEvent(event);
+			}
+			if (event.getNativeKeyCode() == 89) {
+				historyManager.redo();
+				specialKeyCode = AsciiKeyCodes.REDO;
+				killEvent(event);
+			}
+			if (event.getNativeKeyCode() == 88) {
+				specialKeyCode = AsciiKeyCodes.CUT;
+				killEvent(event);
+			}
 		}
-		hoverCell = cell;
-		hoverCell.addStyleName(CssStyles.Hover);
+		currentTool.specialKeyPress(specialKeyCode);
+		if (specialKeyCode == KeyCodes.KEY_BACKSPACE) {
+			killEvent(event);
+		}
 	}
-	 */
-	/*
-	public void onMouseDown(Cell event) {
-		exportPanel.hide();
-		currentTool.mouseDown(event);
-		canvas.focus();
-		// Focus
-		// killEvent(event);
-	}
-	*/
-	/*
-	public void onMouseUp(Cell cell) {
-		currentTool.mouseUp(cell);
-	}
-	*/
 }

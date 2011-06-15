@@ -26,4 +26,7 @@ public abstract class Tool {
 
 	public void keyPress(KeyPressEvent event) {
 	}
+
+	public void specialKeyPress(int keyCode) {
+	}
 }

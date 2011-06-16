@@ -14,7 +14,7 @@ public class HistoryManager {
 
 	private final Canvas canvas;
 
-	private List<State> states = new ArrayList<State>();
+	private List<State> undoStates = new ArrayList<State>();
 	private int maxHistory = 100;
 	private int currentState = -1;
 
@@ -24,32 +24,34 @@ public class HistoryManager {
 		if(instance == null) {
 			instance = this;
 		}
-		save(new State());
 	}
 
 	public void save(State state) {
-		if(currentState + 1 == states.size() && states.size() >= maxHistory) {
-			states.remove(0);
+		if(undoStates.size() >= maxHistory && currentState + 1 == undoStates.size()) {
+			undoStates.remove(0);
 		} else {
 			//Erase old states
-			while(states.size() > currentState + 1) {
-				states.remove(states.size()-1);
+			while(undoStates.size() > currentState + 1) {
+				undoStates.remove(undoStates.size()-1);
 			}
 			currentState++;
 		}
-		states.add(state);
+		undoStates.add(state);
 	}
 
 	public void undo() {
-		if(currentState > 0) {
-			canvas.loadState(states.get(--currentState));
+		if(currentState >= 0) {
+			canvas.drawState(undoStates.get(currentState));
+			canvas.refreshDraw();
+			undoStates.set(currentState--, canvas.commitDraw());
 		}
 	}
 
 	public void redo() {
-		if(states.size() > currentState + 1) {
-			canvas.clearCells();
-			canvas.loadState(states.get(++currentState));
+		if(undoStates.size() > currentState + 1) {
+			canvas.drawState(undoStates.get(++currentState));
+			canvas.refreshDraw();
+			undoStates.set(currentState, canvas.commitDraw());
 		}
 	}
 

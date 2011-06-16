@@ -15,7 +15,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciigram.client.tools.Tool;
 
 @Singleton
 public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHandler,
@@ -82,11 +81,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		killEvent(event);
 	}
 
-	private void killEvent(DomEvent<?> event) {
-		event.preventDefault();
-		event.stopPropagation();
-	}
-
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		if (currentTool == null)
@@ -95,30 +89,31 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		if (event.isControlKeyDown()) {
 			if (event.getNativeKeyCode() == 67) {
 				specialKeyCode = AsciiKeyCodes.COPY;
-				killEvent(event);
 			}
 			if (event.getNativeKeyCode() == 86) {
 				specialKeyCode = AsciiKeyCodes.PASTE;
-				killEvent(event);
 			}
 			if (event.getNativeKeyCode() == 90) {
 				historyManager.undo();
 				specialKeyCode = AsciiKeyCodes.UNDO;
-				killEvent(event);
 			}
 			if (event.getNativeKeyCode() == 89) {
 				historyManager.redo();
 				specialKeyCode = AsciiKeyCodes.REDO;
-				killEvent(event);
 			}
 			if (event.getNativeKeyCode() == 88) {
 				specialKeyCode = AsciiKeyCodes.CUT;
-				killEvent(event);
 			}
+			killEvent(event);
 		}
 		currentTool.specialKeyPress(specialKeyCode);
 		if (specialKeyCode == KeyCodes.KEY_BACKSPACE) {
 			killEvent(event);
 		}
+	}
+
+	private void killEvent(DomEvent<?> event) {
+		event.preventDefault();
+		event.stopPropagation();
 	}
 }

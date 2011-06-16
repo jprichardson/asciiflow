@@ -1,10 +1,25 @@
 //Copyright Lewis Hemens 2011
-package com.lewish.asciigram.client.tools;
+package com.lewish.asciigram.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.lewish.asciigram.client.Cell;
 
 public abstract class Tool {
+
+	protected final Canvas canvas;
+	protected final HistoryManager historyManager;
+
+	public Tool(Canvas canvas, HistoryManager historyManager) {
+		this.canvas = canvas;
+		this.historyManager = historyManager;
+	}
+
+	protected void commitDraw() {
+		historyManager.save(canvas.commitDraw());
+	}
+
+	protected void refreshDraw() {
+		canvas.refreshDraw();
+	}
 
 	public abstract String getLabel();
 

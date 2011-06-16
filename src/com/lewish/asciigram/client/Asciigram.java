@@ -54,9 +54,5 @@ public class Asciigram implements EntryPoint {
 				footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
 			}
 		RootPanel.get().add(frame);
-
-		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {
-			Window.alert("This site has serious performance issues with IE. Please use Chrome, Firefox or Safari for the best possible experience.");
-		}
 	}
 }

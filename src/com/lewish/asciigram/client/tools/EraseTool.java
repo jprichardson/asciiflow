@@ -4,12 +4,13 @@ package com.lewish.asciigram.client.tools;
 import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Drag;
+import com.lewish.asciigram.client.HistoryManager;
 
 public class EraseTool extends DragTool {
 
 	@Inject
-	public EraseTool(Canvas canvas) {
-		super(canvas);
+	public EraseTool(Canvas canvas, HistoryManager historyManager) {
+		super(canvas, historyManager);
 	}
 
 	@Override
@@ -24,7 +25,6 @@ public class EraseTool extends DragTool {
 				canvas.draw(x, y," ");
 			}
 		}
-		canvas.refreshDraw();
 	}
 
 	@Override

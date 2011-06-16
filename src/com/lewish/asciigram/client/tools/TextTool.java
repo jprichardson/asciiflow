@@ -7,16 +7,17 @@ import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.CssStyles;
+import com.lewish.asciigram.client.HistoryManager;
+import com.lewish.asciigram.client.Tool;
 
-//TODO: full of hacks! add refreshDraw(area) method to canvas
+//TODO: full of hacks! change to use State class.
 public class TextTool extends Tool {
 
-	private final Canvas canvas;
 	private Cell currentCell;
 
 	@Inject
-	public TextTool(Canvas canvas) {
-		this.canvas = canvas;
+	public TextTool(Canvas canvas, HistoryManager historyManager) {
+		super(canvas, historyManager);
 	}
 
 	@Override
@@ -90,11 +91,10 @@ public class TextTool extends Tool {
 			currentCell.pushValue(currentCell.commitValue);
 			break;
 		case KeyCodes.KEY_ENTER:
-			canvas.refreshDraw();
-			canvas.commitDraw();
+			refreshDraw();
+			commitDraw();
 			break;
 		}
-		//canvas.refreshDraw();
 	}
 
 	@Override

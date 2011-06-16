@@ -57,18 +57,20 @@ public class ExportPanel extends Composite {
 			show(html);
 		}
 	}
-	
+
 	public String getText(boolean html) {
 		String text = html ? "<pre>" : "";
 		for (int y = 0; y < canvas.getHeight(); y++) {
 			String rowText = "";
-			for (int x = canvas.getWidth()-1; x >= 0 ; x--) {
+			for (int x = canvas.getWidth() - 1; x >= 0; x--) {
 				String value = canvas.getValue(x, y);
 				if (rowText.equals("") && value == null)
 					continue;
-				rowText = (html ? SafeHtmlUtils.htmlEscape(value) : value) + rowText;
+				String out = value == null ? (html ? "&nbsp;" : " ") : (html ? SafeHtmlUtils
+						.htmlEscape(value) : value);
+				rowText = out + rowText;
 			}
-			text += rowText + (rowText.equals("") ? "" : "\n");
+			text += rowText + "\n";
 		}
 		return text + (html ? "</pre>" : "");
 	}

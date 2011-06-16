@@ -1,28 +1,27 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client.tools;
 
-import javax.inject.Inject;
-
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.Drag;
+import com.lewish.asciigram.client.HistoryManager;
+import com.lewish.asciigram.client.Tool;
 
 
 public abstract class DragTool extends Tool {
 
-	private final Canvas canvas;
-	private Drag currentBox;
-
-	@Inject
-	public DragTool(Canvas canvas) {
-		this.canvas = canvas;
+	public DragTool(Canvas canvas, HistoryManager historyManager) {
+		super(canvas, historyManager);
 	}
-	
+
+	protected Drag currentBox;
+
 	@Override
 	public void mouseOver(Cell cell) {
 		if(currentBox != null) {
 			currentBox.setFinish(cell);
 			draw(currentBox, canvas);
+			refreshDraw();
 		}
 	}
 
@@ -33,6 +32,7 @@ public abstract class DragTool extends Tool {
 			currentBox.setStart(cell);
 			currentBox.setFinish(cell);
 			draw(currentBox, canvas);
+			refreshDraw();
 		}
 	}
 
@@ -41,7 +41,7 @@ public abstract class DragTool extends Tool {
 		if(currentBox != null) {
 			currentBox.setFinish(cell);
 			currentBox = null;
-			canvas.commitDraw();
+			commitDraw();
 		}
 	}
 
@@ -51,10 +51,6 @@ public abstract class DragTool extends Tool {
 			canvas.clearDraw();
 			currentBox = null;
 		}
-	}
-
-	public void draw() {
-		draw(currentBox, canvas);
 	}
 
 	public abstract void draw(Drag box, Canvas canvas);

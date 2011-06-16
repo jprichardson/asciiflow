@@ -4,10 +4,10 @@ import com.google.inject.Inject;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.HistoryManager;
 
-public class LineTool extends BaseLineTool {
+public class ArrowTool extends BaseLineTool {
 
 	@Inject
-	public LineTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager, true);
+	public ArrowTool(Canvas canvas, HistoryManager historyManager) {
+		super(canvas, historyManager, false);
 	}
 }

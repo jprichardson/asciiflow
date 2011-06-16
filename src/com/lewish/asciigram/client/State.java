@@ -1,3 +1,4 @@
+//Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
 import java.util.ArrayList;
@@ -14,9 +15,9 @@ public class State {
 		return states;
 	}
 	public static class CellState {
-		public final int x;
-		public final int y;
-		public final String value;
+		public int x;
+		public int y;
+		public String value;
 	
 		public CellState(int x, int y, String value) {
 			this.x = x;

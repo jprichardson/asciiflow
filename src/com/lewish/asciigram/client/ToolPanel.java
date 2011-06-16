@@ -11,13 +11,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciigram.client.tools.ArrowTool;
+import com.lewish.asciigram.client.tools.BaseBoxTool;
 import com.lewish.asciigram.client.tools.BoxTool;
 import com.lewish.asciigram.client.tools.EraseTool;
 import com.lewish.asciigram.client.tools.LineTool;
 import com.lewish.asciigram.client.tools.SelectTool;
 import com.lewish.asciigram.client.tools.TextTool;
 import com.lewish.asciigram.client.tools.TitledBoxTool;
-import com.lewish.asciigram.client.tools.Tool;
 
 @Singleton
 public class ToolPanel extends Composite {
@@ -30,23 +31,24 @@ public class ToolPanel extends Composite {
 	private InfoPanel infoPanel;
 
 	@Inject
-	public ToolPanel(final Controller controller, final Canvas canvas, InfoPanel infoPanel) {
+	public ToolPanel(final Controller controller, final Canvas canvas, InfoPanel infoPanel,
+			SelectTool selectTool, BoxTool boxTool, TitledBoxTool titledBoxTool, LineTool lineTool, ArrowTool arrowTool, TextTool textTool, EraseTool eraseTool) {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
-		tools.add(new SelectTool(canvas));
-		tools.add(new BoxTool(canvas));
-		tools.add(new TitledBoxTool(canvas));
-		tools.add(new LineTool(canvas, false));
-		tools.add(new LineTool(canvas, true));
-		tools.add(new TextTool(canvas));
-		tools.add(new EraseTool(canvas));
+		tools.add(selectTool);
+		tools.add(boxTool);
+		tools.add(titledBoxTool);
+		tools.add(lineTool);
+		tools.add(arrowTool);
+		tools.add(textTool);
+		tools.add(eraseTool);
 		
 
 		for (final Tool tool : tools) {
 			final ToolButton button = new ToolButton(tool);
 			button.addStyleName(CssStyles.ToolButton);
 			panel.add(button);
-			if(tool instanceof BoxTool) {
+			if(tool instanceof BaseBoxTool) {
 				selectButton(button, tool);
 			}
 		}

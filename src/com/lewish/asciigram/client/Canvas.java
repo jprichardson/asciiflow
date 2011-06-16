@@ -108,6 +108,7 @@ public class Canvas extends Composite {
 	}
 
 	public void draw(Cell cell, String value) {
+		if (cell == null) return;
 		cell.drawValue = value;
 		cell.drawHighlight = (value != null);
 		nextDraw.add(cell);
@@ -118,6 +119,7 @@ public class Canvas extends Composite {
 	}
 
 	public void highlight(Cell cell, boolean value) {
+		if (cell == null) return;
 		cell.drawHighlight = value;
 		nextDraw.add(cell);
 	}
@@ -134,7 +136,7 @@ public class Canvas extends Composite {
 		State oldState = new State();
 		for(Cell cell : currentDraw) {
 			if (cell.value != null) {
-				oldState.add(new CellState(cell.x, cell.y, cell.commitValue));
+				oldState.add(new CellState(cell.x, cell.y, cell.commitValue == null ? " " : cell.commitValue));
 				cell.commitValue = cell.value.equals(" ") ? null : cell.value;
 				if (cell.highlight == true) {
 					cell.pushHighlight();
@@ -198,11 +200,9 @@ public class Canvas extends Composite {
 		}
 	}
 
-	public void loadState(State state) {
+	public void drawState(State state) {
 		for(CellState cellState : state.getStates()) {
 				draw(cellState.x, cellState.y, cellState.value);
 		}
-		refreshDraw();
-		commitDraw();
 	}
 }

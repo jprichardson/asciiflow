@@ -1,6 +1,7 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciigram.client;
 
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -62,10 +63,10 @@ public class ExportPanel extends Composite {
 		for (int y = 0; y < canvas.getHeight(); y++) {
 			String rowText = "";
 			for (int x = canvas.getWidth()-1; x >= 0 ; x--) {
-				Cell cell = canvas.getCell(x, y);
-				if (rowText.equals("") && cell.getValue() == null)
+				String value = canvas.getValue(x, y);
+				if (rowText.equals("") && value == null)
 					continue;
-				rowText = (html ? cell.getHTML() : cell.getText()) + rowText;
+				rowText = (html ? SafeHtmlUtils.htmlEscape(value) : value) + rowText;
 			}
 			text += rowText + (rowText.equals("") ? "" : "\n");
 		}

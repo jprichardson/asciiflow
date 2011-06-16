@@ -8,6 +8,7 @@ import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.CssStyles;
 
+//TODO: full of hacks! add refreshDraw(area) method to canvas
 public class TextTool extends Tool {
 
 	private final Canvas canvas;
@@ -41,6 +42,7 @@ public class TextTool extends Tool {
 
 	@Override
 	public void cleanup() {
+		canvas.refreshDraw();
 		canvas.commitDraw();
 		selectCell(null);
 	}
@@ -49,9 +51,11 @@ public class TextTool extends Tool {
 	public void keyPress(KeyPressEvent event) {
 			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
 				canvas.draw(currentCell, String.valueOf(event.getCharCode()));
+				currentCell.pushValue(String.valueOf(event.getCharCode()));
+				currentCell.pushHighlight();
 				moveSelect(1, 0);
 			}
-			canvas.refreshDraw();
+			//canvas.refreshDraw();
 		}
 	
 	@Override
@@ -74,18 +78,23 @@ public class TextTool extends Tool {
 		case KeyCodes.KEY_DELETE:
 			canvas.draw(currentCell, null);
 			canvas.highlight(currentCell, false);
+			currentCell.pushHighlight();
+			currentCell.pushValue(null);
 			moveSelect(1, 0);
 			break;
 		case KeyCodes.KEY_BACKSPACE:
 			moveSelect(-1, 0);
 			canvas.draw(currentCell, null);
 			canvas.highlight(currentCell, false);
+			currentCell.pushHighlight();
+			currentCell.pushValue(currentCell.commitValue);
 			break;
 		case KeyCodes.KEY_ENTER:
+			canvas.refreshDraw();
 			canvas.commitDraw();
 			break;
 		}
-		canvas.refreshDraw();
+		//canvas.refreshDraw();
 	}
 
 	@Override

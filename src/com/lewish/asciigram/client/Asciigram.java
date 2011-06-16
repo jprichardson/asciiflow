@@ -47,6 +47,12 @@ public class Asciigram implements EntryPoint {
 			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
 			footer.add(new HTML("&nbsp;-&nbsp;"));
 			footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
+			footer.add(new HTML("&nbsp;-&nbsp;"));
+			if (!Window.Location.getHostName().contains("nightly")) {
+				footer.add(new Anchor("Nightly build", "http://nightly.ascii-flow.appspot.com"));
+			} else {
+				footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
+			}
 		RootPanel.get().add(frame);
 
 		if (Window.Navigator.getUserAgent().toLowerCase().contains("msie")) {

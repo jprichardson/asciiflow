@@ -3,23 +3,24 @@ package com.lewish.asciigram.client.tools;
 
 import javax.inject.Inject;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.lewish.asciigram.client.AsciiKeyCodes;
 import com.lewish.asciigram.client.Canvas;
 import com.lewish.asciigram.client.Cell;
 import com.lewish.asciigram.client.Drag;
+import com.lewish.asciigram.client.State;
+import com.lewish.asciigram.client.State.CellState;
 
 public class SelectTool extends Tool {
 
-	public static enum State {
+	public static enum SelectState {
 		Dragging,
 		Nothing,
 		Selected;
 	}
 
 	private final Canvas canvas;
-	private State state = State.Nothing;
-	private String[][] clipboard;
+	private SelectState state = SelectState.Nothing;
+	private State clipboard;
 	private Drag currentBox;
 
 	@Inject
@@ -29,7 +30,7 @@ public class SelectTool extends Tool {
 
 	@Override
 	public void mouseOver(Cell cell) {
-		if(state == State.Dragging) {
+		if(state == SelectState.Dragging) {
 			currentBox.setFinish(cell);
 			draw();
 		}
@@ -37,8 +38,8 @@ public class SelectTool extends Tool {
 
 	@Override
 	public void mouseDown(Cell cell) {
-		if(state != State.Dragging) {
-			state = State.Dragging;
+		if(state != SelectState.Dragging) {
+			state = SelectState.Dragging;
 			currentBox = new Drag();
 			currentBox.setStart(cell);
 			currentBox.setFinish(cell);
@@ -48,44 +49,35 @@ public class SelectTool extends Tool {
 
 	@Override
 	public void mouseUp(Cell cell) {
-		if(state == State.Dragging) {
-			state = State.Selected;
+		if(state == SelectState.Dragging) {
+			state = SelectState.Selected;
 			currentBox.setFinish(cell);
 		}
 	}
 
 	@Override
 	public void cleanup() {
-		state = State.Nothing;
+		state = SelectState.Nothing;
 		if(currentBox != null) {
 			canvas.clearDraw();
 			currentBox = null;
 		}
 	}
 
-	@Override
-	public void keyPress(KeyPressEvent event) {
-		/*
-		if (event.isControlKeyDown()
-				&& (event.getCharCode() == 'c' || event.getCharCode() == 'C')) {
-			copy();
-			
-		} else if (event.isControlKeyDown()
-				&& (event.getCharCode() == 'v' || event.getCharCode() == 'V')) {
-			paste();
-		}
-		*/
-	}
-
 	private void copy() {
 		if (currentBox != null) {
-			clipboard = canvas.getState(currentBox);
+			clipboard = new State();
+			for (int x = currentBox.topLeftX(); x <= currentBox.bottomRightX(); x++) {
+				for (int y = currentBox.topLeftY(); y <= currentBox.bottomRightY(); y++) {
+					clipboard.add(new CellState(x, y, canvas.getValue(x, y)));
+				}
+			}
 		}
 	}
 
 	private void paste() {
-		if(currentBox != null && state == State.Selected) {
-			canvas.loadState(currentBox, clipboard);
+		if(currentBox != null && state == SelectState.Selected) {
+			canvas.loadState(clipboard);
 			canvas.commitDraw();
 		}
 	}

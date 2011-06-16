@@ -9,16 +9,20 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciigram.client.State.CellState;
 
 @Singleton
 public class Canvas extends Composite {
+
+	public static final int MAX_WIDTH = 200;
+	public static final int MAX_HEIGHT = 100;
 
 	private static final int DEFAULT_WIDTH = 100;
 	private static final int DEFAULT_HEIGHT = 30;
 
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);
-	private final Cell[][] model;
+	private final Cell[][] model = new Cell[MAX_WIDTH][MAX_HEIGHT];
 
 	private int width;
 	private int height;
@@ -34,7 +38,6 @@ public class Canvas extends Composite {
 		panel.setStyleName(CssStyles.Canvas);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
-		model = new Cell[width*2][height*2]; //No array resizing please!
 		initWidget(focusPanel);
 	}
 
@@ -52,26 +55,26 @@ public class Canvas extends Composite {
 		focusPanel.addKeyPressHandler(controller);
 		focusPanel.addKeyDownHandler(controller);
 		cellFactory = new CellFactory(controller);
+		// TODO: Refactor
 		initRows();
 	}
 
 	private void initRows() {
-		for (int i = 0; i < height; i++) {
-			//FlowPanel rowPanel = new FlowPanel();
-			for (int j = 0; j < width; j++) {
-				Cell cell = cellFactory.getCell(j, i);
-				model[j][i]  = cell;
-				//rowPanel.add(cell);
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				Cell cell = cellFactory.getCell(x, y);
+				model[x][y]  = cell;
 				panel.add(cell);
 			}
-			//panel.add(rowPanel);
 		}
 	}
 
 	public void clearCells() {
-		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				draw(x, y, " ");
+				for (int y = 0; y < height; y++) {
+				if (model[x][y].value != null) {
+					draw(x, y, " ");
+				}
 			}
 		}
 		refreshDraw();
@@ -82,11 +85,8 @@ public class Canvas extends Composite {
 		currentDraw.addAll(nextDraw);
 		nextDraw.clear();
 		for (Cell cell : currentDraw) {
-			/*
-			 * CELL LOGIC: REFRESH DRAW
-			 */
-			if(cell.drawValue == null) {
-				//Using as a temporary store
+			if(cell.drawValue == null && cell.drawHighlight == false) {
+				//Using as a temporary store, for cells to remove from draw.
 				nextDraw.add(cell);
 			}
 			String value = cell.drawValue != null ? cell.drawValue : cell.commitValue;
@@ -109,7 +109,7 @@ public class Canvas extends Composite {
 
 	public void draw(Cell cell, String value) {
 		cell.drawValue = value;
-		cell.drawHighlight = true;
+		cell.drawHighlight = (value != null);
 		nextDraw.add(cell);
 	}
 
@@ -127,29 +127,22 @@ public class Canvas extends Composite {
 			cell.drawValue = null;
 			cell.drawHighlight = false;
 		}
-		currentDraw.clear();
+		refreshDraw();
 	}
 
-	public void commitDraw(boolean save) {
+	public State commitDraw() {
+		State oldState = new State();
 		for(Cell cell : currentDraw) {
-			/*
-			 * CELL LOGIC: COMMIT DRAW
-			 */
 			if (cell.value != null) {
+				oldState.add(new CellState(cell.x, cell.y, cell.commitValue));
 				cell.commitValue = cell.value.equals(" ") ? null : cell.value;
 				if (cell.highlight == true) {
 					cell.pushHighlight();
 				}
 			}
 		}
-		if (save) {
-			HistoryManager.get().save();
-		}
 		currentDraw.clear();
-	}
-
-	public void commitDraw() {
-		commitDraw(true);
+		return oldState;
 	}
 
 	public int getWidth() {
@@ -160,9 +153,12 @@ public class Canvas extends Composite {
 		return height;
 	}
 
+	public String getValue(int x, int y) {
+		return model[x][y].value;
+	}
+
+	@Deprecated
 	public Cell getCell(int x, int y) {
-		if(x >= width) return null;
-		if(y >= height) return null;
 		return model[x][y];
 	}
 
@@ -172,7 +168,7 @@ public class Canvas extends Composite {
 			model[j][height] = cell;
 			panel.add(cell);
 		}
-		height++;
+		setHeight(height + 1);
 	}
 
 	public void addColumn(Controller controller) {
@@ -181,7 +177,7 @@ public class Canvas extends Composite {
 			model[width][i] = cell;
 			panel.add(cell);
 		}
-		width++;
+		setWidth(width + 1);
 	}
 
 	public void focus() {
@@ -202,46 +198,11 @@ public class Canvas extends Composite {
 		}
 	}
 
-	
-	
-	
-	
-	
-	public String[][] getState() {
-		Drag drag = new Drag();
-		drag.setStart(getCell(0, 0));
-		drag.setFinish(getCell(width - 1, height - 1));
-		return getState(drag);
-	}
-
-	public String[][] getState(Drag drag) {
-		String[][] state = new String[drag.bottomRightY() - drag.topLeftY() + 1][drag
-				.bottomRightX()
-				- drag.topLeftX() + 1];
-		for (int y = 0; y < state.length
-				&& y <= drag.bottomRightY()-drag.topLeftY(); y++) {
-			for (int x = 0; x < state[y].length
-					&& x <= drag.bottomRightX() - drag.topLeftX(); x++) {
-				state[y][x] = getCell(drag.topLeftX() + x, drag.topLeftY() + y).getValue();
-			}
-		}
-		return state;
-	}
-
-	public void loadState(String[][] state) {
-		Drag drag = new Drag();
-		drag.setStart(getCell(0, 0));
-		drag.setFinish(getCell(width - 1, height - 1));
-		loadState(drag, state);
-	}
-
-	public void loadState(Drag drag, String[][] state) {
-		for (int y = 0; y < state.length; y++) {
-			for (int x = 0; x < state[y].length; x++) {
-				draw(drag.topLeftX() + x, drag.topLeftY() + y, state[y][x]);
-			}
+	public void loadState(State state) {
+		for(CellState cellState : state.getStates()) {
+				draw(cellState.x, cellState.y, cellState.value);
 		}
 		refreshDraw();
-		commitDraw(false);
+		commitDraw();
 	}
 }

@@ -11,7 +11,7 @@ public class Cell extends HTML {
 	public final int y;
 
 	String value;
-	String commitValue;
+	public String commitValue;
 	String drawValue;
 
 	boolean highlight;
@@ -25,7 +25,7 @@ public class Cell extends HTML {
 		setHTML("&nbsp;");
 	}
 
-	void pushValue(String value) {
+	public void pushValue(String value) {
 		this.value = value;
 		if(value == null || value.equals(" ")) {
 			value = null;
@@ -35,7 +35,7 @@ public class Cell extends HTML {
 		}
 	}
 
-	void pushHighlight() {
+	public void pushHighlight() {
 		highlight = drawHighlight;
 		if(highlight) {
 			addStyleName(CssStyles.Drawing);

@@ -14,7 +14,7 @@ public class HistoryManager {
 
 	private final Canvas canvas;
 
-	private List<String[][]> states = new ArrayList<String[][]>();
+	private List<State> states = new ArrayList<State>();
 	private int maxHistory = 100;
 	private int currentState = -1;
 
@@ -24,9 +24,10 @@ public class HistoryManager {
 		if(instance == null) {
 			instance = this;
 		}
+		save(new State());
 	}
 
-	public void save() {
+	public void save(State state) {
 		if(currentState + 1 == states.size() && states.size() >= maxHistory) {
 			states.remove(0);
 		} else {
@@ -36,13 +37,11 @@ public class HistoryManager {
 			}
 			currentState++;
 		}
-		states.add(canvas.getState());
+		states.add(state);
 	}
 
 	public void undo() {
 		if(currentState > 0) {
-			//TODO: make this more efficient!
-			canvas.clearCells();
 			canvas.loadState(states.get(--currentState));
 		}
 	}

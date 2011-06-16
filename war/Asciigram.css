@@ -133,3 +133,8 @@ div.tool-panel {
 	color: #444;
 	padding: 2px;
 }
+
+a:visited {
+	color: blue;
+	text-decoration: none;
+}

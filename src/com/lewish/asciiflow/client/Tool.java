@@ -2,6 +2,7 @@
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.resources.client.ImageResource;
 
 public abstract class Tool {
 
@@ -25,7 +26,7 @@ public abstract class Tool {
 
 	public abstract String getDescription();
 
-	public abstract String getImageUrl();
+	public abstract ImageResource getImageResource();
 
 	public void mouseOver(Cell cell) {
 	}

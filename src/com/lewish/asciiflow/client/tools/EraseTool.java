@@ -33,7 +33,7 @@ public class EraseTool extends DragTool {
 	}
 
 	@Override
-	public String getImageUrl() {
+	public String getImageResource() {
 		return "images/erasetool.png";
 	}
 }

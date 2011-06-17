@@ -121,7 +121,7 @@ public class SelectTool extends Tool {
 	}
 
 	@Override
-	public String getImageUrl() {
+	public String getImageResource() {
 		return "images/selecttool.png";
 	}
 

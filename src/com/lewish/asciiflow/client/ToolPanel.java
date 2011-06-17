@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 import com.lewish.asciiflow.client.tools.ArrowTool;
 import com.lewish.asciiflow.client.tools.BaseBoxTool;
 import com.lewish.asciiflow.client.tools.BoxTool;
@@ -31,7 +32,7 @@ public class ToolPanel extends Composite {
 	private InfoPanel infoPanel;
 
 	@Inject
-	public ToolPanel(final Controller controller, final Canvas canvas, InfoPanel infoPanel,
+	public ToolPanel(AsciiflowClientBundle imageBundle, final Controller controller, final Canvas canvas, InfoPanel infoPanel,
 			SelectTool selectTool, BoxTool boxTool, TitledBoxTool titledBoxTool, LineTool lineTool, ArrowTool arrowTool, TextTool textTool, EraseTool eraseTool) {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
@@ -71,7 +72,7 @@ public class ToolPanel extends Composite {
 	private class ToolButton extends Composite {
 		public ToolButton(final Tool tool) {
 			final FlowPanel panel = new FlowPanel();
-			Image image = new Image(tool.getImageUrl());
+			Image image = new Image(tool.getImageResource());
 			image.addClickHandler((new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {

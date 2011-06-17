@@ -28,7 +28,7 @@ public class BoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public String getImageUrl() {
+	public String getImageResource() {
 		return "images/boxtool.png";
 	}
 }

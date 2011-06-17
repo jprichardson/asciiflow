@@ -108,7 +108,7 @@ public class TextTool extends Tool {
 	}
 
 	@Override
-	public String getImageUrl() {
+	public String getImageResource() {
 		return "images/texttool.png";
 	}
 }

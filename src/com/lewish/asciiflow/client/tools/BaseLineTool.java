@@ -71,7 +71,7 @@ public class BaseLineTool extends DragTool {
 	}
 
 	@Override
-	public String getImageUrl() {
+	public String getImageResource() {
 		return "images/" + (isArrowed ? "arrow" : "line") + "tool.png";
 	}
 }

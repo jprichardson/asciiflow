@@ -1,0 +1,140 @@
+div {
+	font-family: monospace;
+}
+button {
+	font-family: monospace;
+}
+
+body {
+	align: center;
+	text-align: center;
+}
+
+.frame {
+	padding: 0px 10px;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.logo {
+	padding-bottom: 10px;
+	padding-left: 4px;
+}
+
+div.header {
+	text-align: left;
+}
+
+.body {
+	
+}
+
+.footer {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.footer div {
+	display: inline-block;
+}
+
+.hover {
+	background-color: #b5d5ff;
+}
+
+.selected {
+	background-color: #777 !important;
+}
+
+.drawing {
+	background-color: #b5d5ff;
+}
+
+.canvas div {
+	cursor: pointer;
+	position: absolute;
+	height: 14px;
+	width: 8px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.canvas {
+	position: relative;
+	border-color: #eeeeee;
+	border-style: solid;
+	display: inline-block;
+}
+
+.canvas-focus {
+	display: inline-block;
+}
+
+div.tool-panel {
+	background-color: #eeeeee;
+}
+
+.tool-button {
+	display: block;
+	padding: 2px;
+	cursor: pointer;
+}
+
+.menu-panel {
+	display: block;
+	padding-bottom: 2px;
+}
+
+.menu-panel .gwt-Button {
+	display: inline;
+}
+
+.menu-panel .gwt-HTML {
+	display: inline;
+}
+
+.selected-tool {
+	background: #b5d5ff;
+}
+
+.export-panel {
+	transition: width 1s, height 0.5s;
+	-moz-transition: width 1s, height 0.5s;
+	-webkit-transition: width 1s, height 0.5s;
+	-o-transition: width 1s, height 0.5s;
+	text-align: center;
+}
+
+.export-textarea {
+	cols: 1;
+	rows: 1;
+	width: 95%;
+	height: 70px;
+	overflow: hidden;
+	resize: none;
+	margin-top: 3px;
+	z-index: -100;
+}
+
+.export-right {
+	text-align: right;
+}
+
+.export-right div {
+	display: inline;
+	padding-right: 5px;
+}
+
+.info-panel {
+	color: #444;
+	padding: 2px;
+}
+
+a:visited {
+	color: blue;
+	text-decoration: none;
+}

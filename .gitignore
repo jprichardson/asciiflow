@@ -1,7 +1,5 @@
-asciigram.rar
 src/META-INF/
 src/log4j.properties
 war/WEB-INF/
-war/asciigram/
+war/asciiflow/
 .gwt/
-asciigram.tar.gz

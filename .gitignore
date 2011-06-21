@@ -3,6 +3,7 @@ src/log4j.properties
 war/WEB-INF/deploy
 war/WEB-INF/images
 war/WEB-INF/lib
-war/WEB-INF/classes/
+war/WEB-INF/classes/**
+war/WEB-INF/classes/**/*
 war/asciiflow/
 .gwt/

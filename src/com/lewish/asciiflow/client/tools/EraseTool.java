@@ -1,16 +1,18 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client.tools;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class EraseTool extends DragTool {
 
 	@Inject
-	public EraseTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager);
+	public EraseTool(Canvas canvas, HistoryManager historyManager, AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 	}
 
 	@Override
@@ -33,7 +35,7 @@ public class EraseTool extends DragTool {
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/erasetool.png";
+	public ImageResource getImageResource() {
+		return clientBundle.eraseToolImage();
 	}
 }

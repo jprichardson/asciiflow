@@ -1,16 +1,19 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client.tools;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class TitledBoxTool extends BaseBoxTool {
 
 	@Inject
-	public TitledBoxTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager);
+	public TitledBoxTool(Canvas canvas, HistoryManager historyManager,
+			AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 	}
 
 	@Override
@@ -29,7 +32,7 @@ public class TitledBoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/boxtool2.png";
+	public ImageResource getImageResource() {
+		return clientBundle.titledBoxToolImage();
 	}
 }

@@ -3,15 +3,18 @@ package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public abstract class Tool {
 
 	protected final Canvas canvas;
 	protected final HistoryManager historyManager;
+	protected final AsciiflowClientBundle clientBundle;
 
-	public Tool(Canvas canvas, HistoryManager historyManager) {
+	public Tool(Canvas canvas, HistoryManager historyManager, AsciiflowClientBundle clientBundle) {
 		this.canvas = canvas;
 		this.historyManager = historyManager;
+		this.clientBundle = clientBundle;
 	}
 
 	protected void commitDraw() {

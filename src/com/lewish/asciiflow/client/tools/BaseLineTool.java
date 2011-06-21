@@ -2,17 +2,20 @@
 package com.lewish.asciiflow.client.tools;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.resources.client.ImageResource;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class BaseLineTool extends DragTool {
 
 	private boolean isArrowed;
 	private boolean isClockwise;
 
-	public BaseLineTool(Canvas canvas, HistoryManager historyManager, boolean isArrowed) {
-		super(canvas, historyManager);
+	public BaseLineTool(Canvas canvas, HistoryManager historyManager, boolean isArrowed,
+			AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 		this.isArrowed = isArrowed;
 	}
 
@@ -71,7 +74,7 @@ public class BaseLineTool extends DragTool {
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/" + (isArrowed ? "arrow" : "line") + "tool.png";
+	public ImageResource getImageResource() {
+		return isArrowed ? clientBundle.arrowToolImage() : clientBundle.lineToolImage();
 	}
 }

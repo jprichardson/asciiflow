@@ -26,7 +26,8 @@ public class Asciiflow implements EntryPoint {
 		Canvas canvas = injector.getCanvas();
 		ToolPanel toolPanel = injector.getToolPanel();
 		MenuPanel menuPanel = injector.getMenuPanel();
-		ExportPanel exportPanel = injector.getExportPanel();
+		MenuWidget exportPanel = injector.getExportPanel();
+		MenuWidget importPanel = injector.getImportPanel();
 
 		//TODO: UiBinder main page!
 		frame.setStyleName(CssStyles.Frame);
@@ -38,6 +39,7 @@ public class Asciiflow implements EntryPoint {
 			header.add(new Logo());
 			header.add(menuPanel);
 			header.add(exportPanel);
+			header.add(importPanel);
 		frame.add(body);
 			body.add(toolPanel);
 			body.add(rightBody);
@@ -47,12 +49,17 @@ public class Asciiflow implements EntryPoint {
 			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
 			footer.add(new HTML("&nbsp;-&nbsp;"));
 			footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
-			footer.add(new HTML("&nbsp;-&nbsp;"));
+			
 			if (!Window.Location.getHostName().contains("nightly")) {
 				footer.add(new Anchor("Nightly build", "http://nightly.ascii-flow.appspot.com"));
 			} else {
 				footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
 			}
+			footer.add(new HTML("&nbsp;-&nbsp;"));
+			footer.add(new TwitterWidget());
+			footer.add(new HTML("&nbsp;-&nbsp;"));
+			footer.add(new FacebookWidget());
+			
 		RootPanel.get().add(frame);
 	}
 }

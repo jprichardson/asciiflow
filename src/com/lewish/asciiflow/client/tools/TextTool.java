@@ -3,12 +3,14 @@ package com.lewish.asciiflow.client.tools;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Cell;
 import com.lewish.asciiflow.client.CssStyles;
 import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.Tool;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 //TODO: full of hacks! change to use State class.
 public class TextTool extends Tool {
@@ -16,8 +18,8 @@ public class TextTool extends Tool {
 	private Cell currentCell;
 
 	@Inject
-	public TextTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager);
+	public TextTool(Canvas canvas, HistoryManager historyManager, AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 	}
 
 	@Override
@@ -108,7 +110,7 @@ public class TextTool extends Tool {
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/texttool.png";
+	public ImageResource getImageResource() {
+		return clientBundle.textToolImage();
 	}
 }

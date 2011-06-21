@@ -5,8 +5,6 @@ public class Drag {
 	private Cell start;
 	private Cell finish;
 
-	
-
 	public void setStart(Cell start) {
 		this.start = start;
 	}

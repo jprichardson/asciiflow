@@ -1,15 +1,17 @@
 package com.lewish.asciiflow.client.tools;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class BoxTool extends BaseBoxTool {
 
 	@Inject
-	public BoxTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager);
+	public BoxTool(Canvas canvas, HistoryManager historyManager, AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class BoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/boxtool.png";
+	public ImageResource getImageResource() {
+		return clientBundle.boxToolImage();
 	}
 }

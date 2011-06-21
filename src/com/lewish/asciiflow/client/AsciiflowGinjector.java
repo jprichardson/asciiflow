@@ -11,5 +11,6 @@ public interface AsciiflowGinjector extends Ginjector {
 	InfoPanel getInfoPanel();
 	MenuPanel getMenuPanel();
 	ToolPanel getToolPanel();
-	ExportPanel getExportPanel();
+	ExportWidget getExportPanel();
+	ImportWidget getImportPanel();
 }

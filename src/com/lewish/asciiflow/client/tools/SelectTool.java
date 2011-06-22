@@ -3,6 +3,7 @@ package com.lewish.asciiflow.client.tools;
 
 import javax.inject.Inject;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.lewish.asciiflow.client.AsciiKeyCodes;
 import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Cell;
@@ -11,20 +12,25 @@ import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.State;
 import com.lewish.asciiflow.client.Tool;
 import com.lewish.asciiflow.client.State.CellState;
+import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class SelectTool extends Tool {
 
 	public static enum SelectState {
-		Dragging, Nothing, Selected;
+		Dragging, Nothing, Selected, Moving;
 	}
 
 	private SelectState state = SelectState.Nothing;
 	private State clipboard;
 	private Drag currentBox;
 
+	private int moveX = 0;
+	private int moveY = 0;
+
 	@Inject
-	public SelectTool(Canvas canvas, HistoryManager historyManager) {
-		super(canvas, historyManager);
+	public SelectTool(Canvas canvas, HistoryManager historyManager,
+			AsciiflowClientBundle clientBundle) {
+		super(canvas, historyManager, clientBundle);
 	}
 
 	@Override
@@ -33,16 +39,43 @@ public class SelectTool extends Tool {
 			currentBox.setFinish(cell);
 			draw();
 		}
+		if(state == SelectState.Moving) {
+			currentBox.setStart(cell);
+			currentBox.setFinish(cell);
+			paste(moveX, moveY);
+			refreshDraw();
+		}
 	}
 
 	@Override
 	public void mouseDown(Cell cell) {
-		if (state != SelectState.Dragging) {
+		if (state == SelectState.Nothing) {
 			state = SelectState.Dragging;
 			currentBox = new Drag();
 			currentBox.setStart(cell);
 			currentBox.setFinish(cell);
 			draw();
+		}
+		if (state == SelectState.Selected) {
+			
+			if(isInside(cell)) {
+				state = SelectState.Moving;
+				moveX = cell.x - currentBox.topLeftX();
+				moveY = cell.y - currentBox.topLeftY();
+				copy(true);
+				currentBox.setStart(cell);
+				currentBox.setFinish(cell);
+				refreshDraw();
+				canvas.commitDraw();
+				paste(moveX, moveY);
+				refreshDraw();
+			} else {
+				state = SelectState.Dragging;
+				currentBox = new Drag();
+				currentBox.setStart(cell);
+				currentBox.setFinish(cell);
+				draw();
+			}
 		}
 	}
 
@@ -51,6 +84,10 @@ public class SelectTool extends Tool {
 		if (state == SelectState.Dragging) {
 			state = SelectState.Selected;
 			currentBox.setFinish(cell);
+		}
+		if (state == SelectState.Moving) {
+			state = SelectState.Selected;
+			commitDraw();
 		}
 	}
 
@@ -81,23 +118,17 @@ public class SelectTool extends Tool {
 				}
 			}
 		}
-		if (cut) {
-			refreshDraw();
-			commitDraw();
-		}
 	}
 
-	private void paste() {
+	private void paste(int dx, int dy) {
 		State pasteState = new State();
-		if (currentBox != null && state == SelectState.Selected) {
+		if (currentBox != null && clipboard != null) {
 			for (CellState cs : clipboard.getStates()) {
 				// Move to select position
-				pasteState.add(new CellState(cs.x + currentBox.topLeftX(), cs.y
-						+ currentBox.topLeftY(), cs.value));
+				pasteState.add(new CellState(cs.x + currentBox.topLeftX() - dx, cs.y
+						+ currentBox.topLeftY() - dy, cs.value));
 			}
 			canvas.drawState(pasteState);
-			refreshDraw();
-			commitDraw();
 		}
 	}
 
@@ -117,12 +148,12 @@ public class SelectTool extends Tool {
 
 	@Override
 	public String getDescription() {
-		return "Select, copy (ctrl+c), cut (ctrl+x) and paste (ctrl+v). This is only internal to the app!";
+		return "Select, move, copy (ctrl+c), cut (ctrl+x) and paste (ctrl+v). This is only internal to the app!";
 	}
 
 	@Override
-	public String getImageResource() {
-		return "images/selecttool.png";
+	public ImageResource getImageResource() {
+		return clientBundle.selectToolImage();
 	}
 
 	@Override
@@ -132,11 +163,21 @@ public class SelectTool extends Tool {
 			copy(false);
 			break;
 		case AsciiKeyCodes.PASTE:
-			paste();
+			paste(0,0);
+			refreshDraw();
+			commitDraw();
 			break;
 		case AsciiKeyCodes.CUT:
 			copy(true);
+			refreshDraw();
+			commitDraw();
 			break;
 		}
+	}
+
+	public boolean isInside(Cell cell) {
+		if(currentBox == null) return false;
+		return cell.x <= currentBox.bottomRightX() && cell.x >= currentBox.topLeftX()
+		&& cell.y < currentBox.bottomRightY() && cell.y >= currentBox.topLeftY();
 	}
 }

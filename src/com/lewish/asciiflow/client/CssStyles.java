@@ -19,6 +19,9 @@ public interface CssStyles {
 	public static final String MenuPanel = "menu-panel";
 	public static final String InfoPanel = "info-panel";
 	public static final String ExportRight = "export-right";
-	public static final String ExportPanel = "export-panel";
 	public static final String Logo = "logo";
+	public static final String FacebookWidget = "facebook-widget";
+	public static final String Move = "move";
+	public static final String ImportTextArea = "import-textarea";
+	public static final String MenuWidget = "menu-widget";
 }

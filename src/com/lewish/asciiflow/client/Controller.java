@@ -21,7 +21,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		KeyPressHandler, KeyDownHandler {
 
 	private final HistoryManager historyManager;
-	private final ExportPanel exportPanel;
+	private final ExportWidget exportPanel;
 	private final Canvas canvas;
 
 	private Tool currentTool;
@@ -29,7 +29,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	private Cell hoverCell;
 
 	@Inject
-	public Controller(Canvas canvas, ExportPanel exportPanel, HistoryManager historyManager) {
+	public Controller(Canvas canvas, ExportWidget exportPanel, HistoryManager historyManager) {
 		this.exportPanel = exportPanel;
 		this.historyManager = historyManager;
 		this.canvas = canvas;

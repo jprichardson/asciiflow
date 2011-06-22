@@ -104,6 +104,7 @@ public class Canvas extends Composite {
 	}
 
 	public void draw(int x, int y, String value) {
+		if(x < 0 || y < 0 || x > width || y > height) return;
 		draw(model[x][y], value);
 	}
 
@@ -138,6 +139,7 @@ public class Canvas extends Composite {
 			if (cell.value != null) {
 				oldState.add(new CellState(cell.x, cell.y, cell.commitValue == null ? " " : cell.commitValue));
 				cell.commitValue = cell.value.equals(" ") ? null : cell.value;
+				cell.value = cell.commitValue;
 				if (cell.highlight == true) {
 					cell.pushHighlight();
 				}

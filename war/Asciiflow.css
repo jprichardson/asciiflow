@@ -101,7 +101,7 @@ div.tool-panel {
 	background: #b5d5ff;
 }
 
-.export-panel {
+.menu-widget {
 	transition: width 1s, height 0.5s;
 	-moz-transition: width 1s, height 0.5s;
 	-webkit-transition: width 1s, height 0.5s;
@@ -110,6 +110,17 @@ div.tool-panel {
 }
 
 .export-textarea {
+	cols: 1;
+	rows: 1;
+	width: 95%;
+	height: 70px;
+	overflow: hidden;
+	resize: none;
+	margin-top: 3px;
+	z-index: -100;
+}
+
+.import-textarea {
 	cols: 1;
 	rows: 1;
 	width: 95%;
@@ -137,4 +148,8 @@ div.tool-panel {
 a:visited {
 	color: blue;
 	text-decoration: none;
+}
+
+.facebook-widget {
+	margin: 0px 5px;
 }

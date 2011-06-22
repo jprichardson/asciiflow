@@ -15,7 +15,7 @@ import com.google.inject.Singleton;
 public class MenuPanel extends Composite {
 
 	@Inject
-	public MenuPanel(final Canvas canvas, final ExportPanel exportPanel,
+	public MenuPanel(final Canvas canvas, final ExportWidget exportWidget, final ImportWidget importWidget,
 			final Controller controller, final HistoryManager historyManager) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
@@ -54,13 +54,20 @@ public class MenuPanel extends Composite {
 		panel.add(getButton("Export", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				exportPanel.toggle(false);
+				exportWidget.toggle();
 			}
 		}));
 		panel.add(getButton("Export Html", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				exportPanel.toggle(true);
+				exportWidget.setHtml(true);
+				exportWidget.toggle();
+			}
+		}));
+		panel.add(getButton("Import", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				importWidget.toggle();
 			}
 		}));
 		Button save = (Button) getButton("Save", new ClickHandler() {

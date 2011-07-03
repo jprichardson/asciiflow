@@ -9,21 +9,21 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.State.CellState;
+import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.shared.State;
+import com.lewish.asciiflow.shared.State.CellState;
 
 @Singleton
 public class ImportWidget extends MenuWidget {
 
 	private TextArea textArea;
 	private final Canvas canvas;
-	private final Controller controller;
 	private final HistoryManager historyManager;
 
 	@Inject
-	public ImportWidget(Canvas canvas, Controller controller, HistoryManager historyManager) {
+	public ImportWidget(Canvas canvas, HistoryManager historyManager) {
 		super(120);
 		this.canvas = canvas;
-		this.controller = controller;
 		this.historyManager = historyManager;
 	}
 
@@ -60,6 +60,7 @@ public class ImportWidget extends MenuWidget {
 				maxWidth = line.length();
 			}
 			for(int i = 0; i< line.length(); i++) {
+				//TODO: Unicode
 				String val = String.valueOf(line.charAt(i));
 				if (!val.equals(" ")) {
 					state.add(new CellState(i, height, val));
@@ -69,14 +70,12 @@ public class ImportWidget extends MenuWidget {
 		}
 		//Resize canvas
 		while(canvas.getWidth() < maxWidth) {
-			canvas.addColumn(controller);
+			canvas.addColumn();
 		}
 		while(canvas.getHeight() < height) {
-			canvas.addRow(controller);
+			canvas.addRow();
 		}
-		canvas.clearCells();
-		canvas.refreshDraw();
-		canvas.commitDraw();
+		EraseTool.draw(canvas);
 		canvas.drawState(state);
 		canvas.refreshDraw();
 		historyManager.save(canvas.commitDraw());

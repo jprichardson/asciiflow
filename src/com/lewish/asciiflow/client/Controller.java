@@ -33,7 +33,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		this.exportPanel = exportPanel;
 		this.historyManager = historyManager;
 		this.canvas = canvas;
-		canvas.setListener(this);
+		canvas.init(this);
 	}
 
 	public void setTool(Tool tool) {
@@ -86,7 +86,7 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		if (currentTool == null)
 			return;
 		int specialKeyCode = event.getNativeKeyCode();
-		if (event.isControlKeyDown()) {
+		if (event.isControlKeyDown() || event.isMetaKeyDown()) {
 			if (event.getNativeKeyCode() == 67) {
 				specialKeyCode = AsciiKeyCodes.COPY;
 			}

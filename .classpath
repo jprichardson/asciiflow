@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="lib/guava-r08.jar"/>
 	<classpathentry kind="lib" path="lib/guava-r08-gwt.jar"/>
 	<classpathentry kind="lib" path="lib/jsr305.jar"/>
+	<classpathentry kind="lib" path="lib/gwt-lzma-1.0.zip"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

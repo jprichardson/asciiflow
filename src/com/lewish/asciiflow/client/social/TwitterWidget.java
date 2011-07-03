@@ -1,4 +1,4 @@
-package com.lewish.asciiflow.client;
+package com.lewish.asciiflow.client.social;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;

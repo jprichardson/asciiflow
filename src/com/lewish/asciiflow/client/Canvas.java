@@ -9,7 +9,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.State.CellState;
+import com.lewish.asciiflow.shared.State;
+import com.lewish.asciiflow.shared.State.CellState;
 
 @Singleton
 public class Canvas extends Composite {
@@ -51,15 +52,13 @@ public class Canvas extends Composite {
 		this.width = width;
 	}
 
-	public void setListener(Controller controller) {
+	public void init(Controller controller) {
+		if (cellFactory != null) {
+			throw new IllegalStateException();
+		}
 		focusPanel.addKeyPressHandler(controller);
 		focusPanel.addKeyDownHandler(controller);
 		cellFactory = new CellFactory(controller);
-		// TODO: Refactor
-		initRows();
-	}
-
-	private void initRows() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				Cell cell = cellFactory.getCell(x, y);
@@ -67,18 +66,6 @@ public class Canvas extends Composite {
 				panel.add(cell);
 			}
 		}
-	}
-
-	public void clearCells() {
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-				if (model[x][y].value != null) {
-					draw(x, y, " ");
-				}
-			}
-		}
-		refreshDraw();
-		commitDraw();
 	}
 
 	public void refreshDraw() {
@@ -166,7 +153,7 @@ public class Canvas extends Composite {
 		return model[x][y];
 	}
 
-	public void addRow(Controller controller) {
+	public void addRow() {
 		for (int j = 0; j < width; j++) {
 			Cell cell = cellFactory.getCell(j, height);
 			model[j][height] = cell;
@@ -175,7 +162,7 @@ public class Canvas extends Composite {
 		setHeight(height + 1);
 	}
 
-	public void addColumn(Controller controller) {
+	public void addColumn() {
 		for (int i = 0; i < height; i++) {
 			Cell cell = cellFactory.getCell(width, i);
 			model[width][i] = cell;

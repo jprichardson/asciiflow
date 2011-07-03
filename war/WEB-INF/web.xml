@@ -10,4 +10,15 @@
     <welcome-file>Asciiflow.html</welcome-file>
   </welcome-file-list>
 
+  <servlet>
+    <servlet-name>StoreServiceImpl</servlet-name>
+    <servlet-class>
+      com.lewish.asciiflow.server.StoreServiceImpl
+    </servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StoreServiceImpl</servlet-name>
+    <url-pattern>/store</url-pattern>
+  </servlet-mapping>
+
 </web-app>

@@ -10,24 +10,25 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.tools.EraseTool;
 
 @Singleton
 public class MenuPanel extends Composite {
 
 	@Inject
-	public MenuPanel(final Canvas canvas, final ExportWidget exportWidget, final ImportWidget importWidget,
-			final Controller controller, final HistoryManager historyManager) {
+	public MenuPanel(final Canvas canvas, final ExportWidget exportWidget,
+			final ImportWidget importWidget, final HistoryManager historyManager) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				canvas.addRow(controller);
+				canvas.addRow();
 			}
 		}));
 		panel.add(getButton("Add column", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				canvas.addColumn(controller);
+				canvas.addColumn();
 			}
 		}));
 		panel.add(getButton("Undo", new ClickHandler() {
@@ -47,7 +48,7 @@ public class MenuPanel extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (Window.confirm("Are you sure you want to clear all cells?")) {
-					canvas.clearCells();
+					EraseTool.draw(canvas);
 				}
 			}
 		}));

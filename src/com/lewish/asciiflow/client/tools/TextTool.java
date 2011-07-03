@@ -1,6 +1,8 @@
 //Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client.tools;
 
+import java.io.UnsupportedEncodingException;
+
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
@@ -52,12 +54,23 @@ public class TextTool extends Tool {
 
 	@Override
 	public void keyPress(KeyPressEvent event) {
-			if (event.getCharCode() > 31 && event.getCharCode() < 127) {
-				canvas.draw(currentCell, String.valueOf(event.getCharCode()));
-				currentCell.pushValue(String.valueOf(event.getCharCode()));
-				currentCell.pushHighlight();
-				moveSelect(1, 0);
-			}
+		//TODO: Unicode
+		int value = event.getUnicodeCharCode();
+		byte[] str =  new byte[] {
+                (byte)(value),
+                (byte)(value >>> 8),
+                (byte)(value >>> 16),
+                (byte)(value >>> 24)};
+		try {
+			String s = new String(str, "UTF16");
+			canvas.draw(currentCell, s);
+			currentCell.pushValue(s);
+			currentCell.pushHighlight();
+			moveSelect(1, 0);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			//canvas.refreshDraw();
 		}
 	

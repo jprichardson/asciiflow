@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.shared.State;
 
 @Singleton
 public class HistoryManager {

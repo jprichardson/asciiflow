@@ -24,4 +24,5 @@ public interface CssStyles {
 	public static final String Move = "move";
 	public static final String ImportTextArea = "import-textarea";
 	public static final String MenuWidget = "menu-widget";
+	public static final String PlusOneWidget = "plusone-widget";
 }

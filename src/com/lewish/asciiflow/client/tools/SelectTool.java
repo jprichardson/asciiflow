@@ -9,10 +9,10 @@ import com.lewish.asciiflow.client.Canvas;
 import com.lewish.asciiflow.client.Cell;
 import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
-import com.lewish.asciiflow.client.State;
 import com.lewish.asciiflow.client.Tool;
-import com.lewish.asciiflow.client.State.CellState;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
+import com.lewish.asciiflow.shared.State;
+import com.lewish.asciiflow.shared.State.CellState;
 
 public class SelectTool extends Tool {
 
@@ -51,9 +51,7 @@ public class SelectTool extends Tool {
 	public void mouseDown(Cell cell) {
 		if (state == SelectState.Nothing) {
 			state = SelectState.Dragging;
-			currentBox = new Drag();
-			currentBox.setStart(cell);
-			currentBox.setFinish(cell);
+			currentBox = new Drag(cell);
 			draw();
 		}
 		if (state == SelectState.Selected) {
@@ -63,17 +61,14 @@ public class SelectTool extends Tool {
 				moveX = cell.x - currentBox.topLeftX();
 				moveY = cell.y - currentBox.topLeftY();
 				copy(true);
-				currentBox.setStart(cell);
-				currentBox.setFinish(cell);
+				currentBox = new Drag(cell);
 				refreshDraw();
 				canvas.commitDraw();
 				paste(moveX, moveY);
 				refreshDraw();
 			} else {
 				state = SelectState.Dragging;
-				currentBox = new Drag();
-				currentBox.setStart(cell);
-				currentBox.setFinish(cell);
+				currentBox = new Drag(cell);
 				draw();
 			}
 		}

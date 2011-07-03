@@ -26,4 +26,6 @@ public interface AsciiflowClientBundle extends ClientBundle {
 	@Source("titledboxtool.png")
 	ImageResource titledBoxToolImage();
 
+	@Source("freeformtool.png")
+	ImageResource freeformToolImage();
 }

@@ -10,6 +10,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.lewish.asciiflow.client.social.FacebookWidget;
+import com.lewish.asciiflow.client.social.PlusOneWidget;
+import com.lewish.asciiflow.client.social.TwitterWidget;
 
 public class Asciiflow implements EntryPoint {
 
@@ -49,7 +52,7 @@ public class Asciiflow implements EntryPoint {
 			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
 			footer.add(new HTML("&nbsp;-&nbsp;"));
 			footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
-			
+			footer.add(new HTML("&nbsp;-&nbsp;"));
 			if (!Window.Location.getHostName().contains("nightly")) {
 				footer.add(new Anchor("Nightly build", "http://nightly.ascii-flow.appspot.com"));
 			} else {
@@ -59,6 +62,8 @@ public class Asciiflow implements EntryPoint {
 			footer.add(new TwitterWidget());
 			footer.add(new HTML("&nbsp;-&nbsp;"));
 			footer.add(new FacebookWidget());
+			footer.add(new HTML("&nbsp;-&nbsp;"));
+			footer.add(new PlusOneWidget());
 			
 		RootPanel.get().add(frame);
 	}

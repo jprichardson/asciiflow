@@ -22,7 +22,7 @@ public class TitledBoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public void draw(Drag box, Canvas canvas) {
+	protected void draw(Drag box) {
 		draw(box, canvas, true);
 	}
 

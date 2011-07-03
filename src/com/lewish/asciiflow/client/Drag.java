@@ -5,6 +5,11 @@ public class Drag {
 	private Cell start;
 	private Cell finish;
 
+	public Drag(Cell cell) {
+		setStart(cell);
+		setFinish(cell);
+	}
+
 	public void setStart(Cell start) {
 		this.start = start;
 	}

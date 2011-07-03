@@ -1,7 +1,8 @@
-package com.lewish.asciiflow.client;
+package com.lewish.asciiflow.client.social;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.lewish.asciiflow.client.CssStyles;
 
 public class FacebookWidget extends Composite {
 
@@ -20,6 +21,8 @@ public class FacebookWidget extends Composite {
 	}
 
 	private native void parseFBTags() /*-{
-		$wnd.FB.XFBML.parse(document.getElementById('facebook-widget'));
+		if(!!$wnd.FB) {
+			$wnd.FB.XFBML.parse(document.getElementById('facebook-widget'));
+		}
 	}-*/;
 }

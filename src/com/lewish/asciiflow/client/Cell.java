@@ -43,8 +43,4 @@ public class Cell extends HTML {
 			removeStyleName(CssStyles.Drawing);
 		}
 	}
-
-	public String getValue() {
-		return value;
-	}
 }

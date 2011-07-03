@@ -14,9 +14,9 @@ public abstract class BaseBoxTool extends DragTool {
 	}
 
 	@Override
-	public abstract void draw(Drag box, Canvas canvas);
+	protected abstract void draw(Drag box);
 
-	public void draw(Drag box, Canvas canvas, boolean titled) {
+	public static void draw(Drag box, Canvas canvas, boolean titled) {
 		int x1 = box.topLeftX();
 		int y1 = box.topLeftY();
 		int x2 = box.bottomRightX();

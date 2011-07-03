@@ -20,7 +20,7 @@ public class BoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public void draw(Drag box, Canvas canvas) {
+	public void draw(Drag box) {
 		draw(box, canvas, false);
 	}
 

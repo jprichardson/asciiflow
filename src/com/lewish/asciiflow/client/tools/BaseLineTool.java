@@ -10,13 +10,11 @@ import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class BaseLineTool extends DragTool {
 
-	private boolean isArrowed;
-	private boolean isClockwise;
+	protected boolean isClockwise;
 
-	public BaseLineTool(Canvas canvas, HistoryManager historyManager, boolean isArrowed,
+	public BaseLineTool(Canvas canvas, HistoryManager historyManager,
 			AsciiflowClientBundle clientBundle) {
 		super(canvas, historyManager, clientBundle);
-		this.isArrowed = isArrowed;
 	}
 
 	@Override
@@ -24,7 +22,7 @@ public class BaseLineTool extends DragTool {
 		if (keyCode == KeyCodes.KEY_SHIFT) {
 			isClockwise = !isClockwise;
 			if (currentBox != null) {
-				draw(currentBox, canvas);
+				draw(currentBox);
 				refreshDraw();
 			}
 		}
@@ -32,11 +30,10 @@ public class BaseLineTool extends DragTool {
 
 	@Override
 	public String getLabel() {
-		return isArrowed ? "Arrow" : "Line";
+		return "Line";
 	}
 
-	@Override
-	public void draw(Drag box, Canvas canvas) {
+	public static void draw(Drag box, Canvas canvas, boolean isClockwise, boolean isArrowed, String hLineString, String vLineString, String cornerLineString) {
 		int x1 = box.getStart().x;
 		int y1 = box.getStart().y;
 		int x2 = box.getFinish().x;
@@ -51,30 +48,35 @@ public class BaseLineTool extends DragTool {
 		int vX = isClockwise ? x2 : x1;
 
 		while (hX1++ < hX2) {
-			canvas.draw(hX1, hY, "-");
+			canvas.draw(hX1, hY, hLineString);
 		}
 		while (vY1++ < vY2) {
-			canvas.draw(vX, vY1, "|");
+			canvas.draw(vX, vY1, vLineString);
 		}
 
-		canvas.draw(x1, y1, "+");
-		canvas.draw(vX, hY, "+");
-		String endChar = "+";
+		canvas.draw(x1, y1, cornerLineString);
+		canvas.draw(vX, hY, cornerLineString);
+		String endChar = cornerLineString;
 		if (isArrowed) {
 			endChar = vX < x2 ? ">" : vX > x2 ? "<" : y1 < y2 ? "v" : y1 > y2 ? "^" : x1 < x2 ? ">"
-					: x1 > x2 ? "<" : "+";
+					: x1 > x2 ? "<" : cornerLineString;
 		}
 		canvas.draw(x2, y2, endChar);
 	}
 
 	@Override
 	public String getDescription() {
-		return "Click and drag to draw " + (isArrowed ? "an arrow" : "a line")
+		return "Click and drag to draw a line"
 				+ ", press shift to toggle position";
 	}
 
 	@Override
 	public ImageResource getImageResource() {
-		return isArrowed ? clientBundle.arrowToolImage() : clientBundle.lineToolImage();
+		return clientBundle.lineToolImage();
+	}
+
+	@Override
+	protected void draw(Drag box) {
+		draw(box, canvas, isClockwise, false, "-", "|", "+");
 	}
 }

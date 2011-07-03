@@ -13,9 +13,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 import com.lewish.asciiflow.client.tools.ArrowTool;
-import com.lewish.asciiflow.client.tools.BaseBoxTool;
 import com.lewish.asciiflow.client.tools.BoxTool;
+import com.lewish.asciiflow.client.tools.DottedLineTool;
 import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.client.tools.FreeformTool;
 import com.lewish.asciiflow.client.tools.LineTool;
 import com.lewish.asciiflow.client.tools.SelectTool;
 import com.lewish.asciiflow.client.tools.TextTool;
@@ -32,29 +33,33 @@ public class ToolPanel extends Composite {
 	private InfoPanel infoPanel;
 
 	@Inject
-	public ToolPanel(AsciiflowClientBundle imageBundle, final Controller controller, final Canvas canvas, InfoPanel infoPanel,
-			SelectTool selectTool, BoxTool boxTool, TitledBoxTool titledBoxTool, LineTool lineTool, ArrowTool arrowTool, TextTool textTool, EraseTool eraseTool) {
+	public ToolPanel(AsciiflowClientBundle imageBundle,
+			final Controller controller, final Canvas canvas,
+			InfoPanel infoPanel, SelectTool selectTool, BoxTool boxTool,
+			TitledBoxTool titledBoxTool, LineTool lineTool, DottedLineTool dottedLineTool,
+			ArrowTool arrowTool, TextTool textTool, EraseTool eraseTool,
+			FreeformTool freeformTool) {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
 		tools.add(selectTool);
 		tools.add(boxTool);
 		tools.add(titledBoxTool);
 		tools.add(lineTool);
+		tools.add(dottedLineTool);
 		tools.add(arrowTool);
 		tools.add(textTool);
 		tools.add(eraseTool);
-		
+		tools.add(freeformTool);
 
 		for (final Tool tool : tools) {
 			final ToolButton button = new ToolButton(tool);
 			button.addStyleName(CssStyles.ToolButton);
 			panel.add(button);
-			if(tool instanceof BaseBoxTool) {
+			if (tool instanceof BoxTool) {
 				selectButton(button, tool);
 			}
 		}
 
-		
 		panel.addStyleName(CssStyles.ToolPanel);
 		initWidget(panel);
 	}

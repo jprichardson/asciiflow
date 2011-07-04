@@ -45,7 +45,7 @@ public class ToolPanel extends Composite {
 		tools.add(boxTool);
 		tools.add(titledBoxTool);
 		tools.add(lineTool);
-		tools.add(dottedLineTool);
+		//tools.add(dottedLineTool);
 		tools.add(arrowTool);
 		tools.add(textTool);
 		tools.add(eraseTool);

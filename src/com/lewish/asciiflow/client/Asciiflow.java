@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.lewish.asciiflow.client.social.AdSenseLeaderWidget;
 import com.lewish.asciiflow.client.social.FacebookWidget;
 import com.lewish.asciiflow.client.social.PlusOneWidget;
 import com.lewish.asciiflow.client.social.TwitterWidget;

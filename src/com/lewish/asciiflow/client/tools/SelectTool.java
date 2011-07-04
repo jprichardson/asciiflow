@@ -63,7 +63,7 @@ public class SelectTool extends Tool {
 				copy(true);
 				currentBox = new Drag(cell);
 				refreshDraw();
-				canvas.commitDraw();
+				commitDraw();
 				paste(moveX, moveY);
 				refreshDraw();
 			} else {

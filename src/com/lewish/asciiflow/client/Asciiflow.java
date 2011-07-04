@@ -61,6 +61,6 @@ public class Asciiflow implements EntryPoint {
 					} else {
 						footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
 					}
-		RootPanel.get("root").add(frame);
+		RootPanel.get("main").add(frame);
 	}
 }

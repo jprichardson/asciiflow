@@ -18,8 +18,8 @@ public class Canvas extends Composite {
 	public static final int MAX_WIDTH = 200;
 	public static final int MAX_HEIGHT = 100;
 
-	private static final int DEFAULT_WIDTH = 100;
-	private static final int DEFAULT_HEIGHT = 30;
+	private static final int DEFAULT_WIDTH = 110;
+	private static final int DEFAULT_HEIGHT = 35;
 
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);

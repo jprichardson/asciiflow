@@ -8,7 +8,7 @@ public class FacebookWidget extends Composite {
 
 	public FacebookWidget() {
 		HTML html = new HTML("<fb:like href=\"http://www.asciiflow.com\" send=\"false\" " +
-				"layout=\"button_count\" width=\"100\" show_faces=\"true\" font=\"arial\"></fb:like>");
+				"layout=\"box_count\" show_faces=\"true\" width=\"80\" font=\"arial\"></fb:like>");
 		html.getElement().setId("facebook-widget");
 		html.setStyleName(CssStyles.FacebookWidget);
 		initWidget(html);

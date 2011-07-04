@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.lewish.asciiflow.client.social.AdSenseLeaderWidget;
 import com.lewish.asciiflow.client.social.FacebookWidget;
 import com.lewish.asciiflow.client.social.PlusOneWidget;
 import com.lewish.asciiflow.client.social.TwitterWidget;
@@ -40,6 +41,9 @@ public class Asciiflow implements EntryPoint {
 
 		frame.add(header);
 			header.add(new Logo());
+			header.add(new FacebookWidget());
+			header.add(new TwitterWidget());
+			header.add(new PlusOneWidget());
 			header.add(menuPanel);
 			header.add(exportPanel);
 			header.add(importPanel);
@@ -48,23 +52,16 @@ public class Asciiflow implements EntryPoint {
 			body.add(rightBody);
 				rightBody.add(canvas);
 				rightBody.add(infoPanel);
-		frame.add(footer);
-			footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
-			footer.add(new HTML("&nbsp;-&nbsp;"));
-			footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
-			footer.add(new HTML("&nbsp;-&nbsp;"));
-			if (!Window.Location.getHostName().contains("nightly")) {
-				footer.add(new Anchor("Nightly build", "http://nightly.ascii-flow.appspot.com"));
-			} else {
-				footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
-			}
-			footer.add(new HTML("&nbsp;-&nbsp;"));
-			footer.add(new TwitterWidget());
-			footer.add(new HTML("&nbsp;-&nbsp;"));
-			footer.add(new FacebookWidget());
-			footer.add(new HTML("&nbsp;-&nbsp;"));
-			footer.add(new PlusOneWidget());
-			
-		RootPanel.get().add(frame);
+				rightBody.add(footer);
+					footer.add(new Anchor("Found a bug?", "mailto:lewis@asciiflow.com"));
+					footer.add(new HTML("&nbsp;-&nbsp;"));
+					footer.add(new Anchor("Blog", "http://blog.asciiflow.com"));
+					footer.add(new HTML("&nbsp;-&nbsp;"));
+					if (!Window.Location.getHostName().contains("nightly")) {
+						footer.add(new Anchor("Nightly build", "http://nightly.ascii-flow.appspot.com"));
+					} else {
+						footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
+					}
+		RootPanel.get("root").add(frame);
 	}
 }

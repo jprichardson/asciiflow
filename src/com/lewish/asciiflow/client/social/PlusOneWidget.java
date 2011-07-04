@@ -7,19 +7,9 @@ import com.lewish.asciiflow.client.CssStyles;
 public class PlusOneWidget extends Composite {
 
 	public PlusOneWidget() {
-		HTML html = new HTML("<g:plusone size=\"medium\"></g:plusone>");
+		HTML html = new HTML("<g:plusone size=\"large\"></g:plusone>");
 		html.getElement().setId("plusone-widget");
 		html.setStyleName(CssStyles.PlusOneWidget);
 		initWidget(html);
 	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		parseTags();
-	}
-
-	private native void parseTags() /*-{
-		
-	}-*/;
 }

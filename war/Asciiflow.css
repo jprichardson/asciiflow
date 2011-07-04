@@ -20,6 +20,7 @@ body {
 .logo {
 	padding-bottom: 10px;
 	padding-left: 4px;
+	display: inline-block;
 }
 
 div.header {
@@ -151,5 +152,19 @@ a:visited {
 }
 
 .facebook-widget {
-	margin: 0px 5px;
+	display: inline-block;
+	float: right;
+	width: 48px;
+}
+
+.twitter-widget {
+	display:inline-block;
+	float: right;
+	width:60px;
+}
+
+.plusone-widget {
+	display: inline-block;
+	float: right;
+	width: 75px;
 }

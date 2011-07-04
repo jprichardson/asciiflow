@@ -49,6 +49,7 @@ public class MenuPanel extends Composite {
 			public void onClick(ClickEvent event) {
 				if (Window.confirm("Are you sure you want to clear all cells?")) {
 					EraseTool.draw(canvas);
+					historyManager.save(canvas.commitDraw());
 				}
 			}
 		}));

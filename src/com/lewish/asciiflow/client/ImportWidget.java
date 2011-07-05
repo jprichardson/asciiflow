@@ -60,8 +60,7 @@ public class ImportWidget extends MenuWidget {
 				maxWidth = line.length();
 			}
 			for(int i = 0; i< line.length(); i++) {
-				//TODO: Unicode
-				String val = String.valueOf(line.charAt(i));
+				String val = new String(Character.toChars(line.codePointAt(i)));
 				if (!val.equals(" ")) {
 					state.add(new CellState(i, height, val));
 				}

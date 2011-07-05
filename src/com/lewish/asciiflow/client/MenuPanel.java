@@ -3,6 +3,7 @@ package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -71,6 +72,15 @@ public class MenuPanel extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				importWidget.toggle();
+			}
+		}));
+		panel.add(getButton("Ditaa!", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String export = URL.encode(exportWidget.getText(false))
+					.replace("+", "%2B")
+					.replace("%20", "+");
+				Window.open("http://ditaa.org/ditaa/render?grid=" + export, "_blank", null);
 			}
 		}));
 		Button save = (Button) getButton("Save", new ClickHandler() {

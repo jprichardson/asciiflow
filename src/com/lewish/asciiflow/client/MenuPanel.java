@@ -18,7 +18,7 @@ public class MenuPanel extends Composite {
 
 	@Inject
 	public MenuPanel(final Canvas canvas, final ExportWidget exportWidget,
-			final ImportWidget importWidget, final HistoryManager historyManager) {
+			final ImportWidget importWidget, final HistoryManager historyManager, final StoreServiceAsync storeService) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
 			@Override
@@ -86,10 +86,9 @@ public class MenuPanel extends Composite {
 		Button save = (Button) getButton("Save", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
+				storeService.saveState(state, callback)
 			}
 		});
-		save.setEnabled(false);
 		panel.add(save);
 		panel.setStyleName(CssStyles.MenuPanel);
 		initWidget(panel);

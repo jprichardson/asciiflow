@@ -173,6 +173,6 @@ public class SelectTool extends Tool {
 	public boolean isInside(Cell cell) {
 		if(currentBox == null) return false;
 		return cell.x <= currentBox.bottomRightX() && cell.x >= currentBox.topLeftX()
-		&& cell.y < currentBox.bottomRightY() && cell.y >= currentBox.topLeftY();
+		&& cell.y <= currentBox.bottomRightY() && cell.y >= currentBox.topLeftY();
 	}
 }

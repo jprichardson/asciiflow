@@ -154,7 +154,7 @@ a:visited {
 .facebook-widget {
 	display: inline-block;
 	float: right;
-	width: 54px;
+	width: 51px;
 }
 
 .twitter-widget {
@@ -166,5 +166,5 @@ a:visited {
 .plusone-widget {
 	display: inline-block;
 	float: right;
-	width: 75px;
+	width: 60px;
 }

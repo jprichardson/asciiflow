@@ -7,4 +7,6 @@ war/WEB-INF/classes/**
 war/WEB-INF/classes/**/*
 war/asciiflow/
 .gwt/
+war/WEB-INF/appengine-generated
+war/WEB-INF/appengine-generated/**
 war/WEB-INF/appengine-web.xml

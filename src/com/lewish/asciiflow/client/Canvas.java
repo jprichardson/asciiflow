@@ -194,4 +194,18 @@ public class Canvas extends Composite {
 				draw(cellState.x, cellState.y, cellState.value);
 		}
 	}
+
+	public State getState() {
+		//TODO: Optimise this, maintain current state through commit/refresh draw.
+		State state = new State();
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j< height; j++) {
+				Cell cell = model[i][j];
+				if(cell.value == null || cell.value.equals(" "))
+					continue;
+				state.add(new CellState(i, j, cell.value));
+			}
+		}
+		return state;
+	}
 }

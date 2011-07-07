@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -12,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.shared.State;
 
 @Singleton
 public class MenuPanel extends Composite {
@@ -83,13 +85,67 @@ public class MenuPanel extends Composite {
 				Window.open("http://ditaa.org/ditaa/render?grid=" + export, "_blank", null);
 			}
 		}));
-		Button save = (Button) getButton("Save", new ClickHandler() {
+		panel.add(getButton("Save", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				storeService.saveState(state, callback)
+				final State state = canvas.getState();
+				state.compress(new AsyncCallback<Boolean>() {
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+					@Override
+					public void onSuccess(Boolean result) {
+						storeService.saveState(state, new AsyncCallback<Long>() {
+							@Override
+							public void onSuccess(Long result) {
+								Window.alert(result.toString());
+							}
+							@Override
+							public void onFailure(Throwable caught) {
+								Window.alert(caught.getMessage());
+							}
+						});
+					}
+					
+				});
 			}
-		});
-		panel.add(save);
+		}));
+		panel.add(getButton("Open", new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String hash = Window.Location.getHash().substring(1);
+				Long id;
+				try {
+				id = Long.parseLong(hash);
+			} catch (NumberFormatException e) {
+				//TODO
+				return;
+			}
+				storeService.loadState(id, new AsyncCallback<State>() {
+					@Override
+					public void onSuccess(final State result) {
+						result.uncompress(new AsyncCallback<Boolean>() {
+							@Override
+							public void onFailure(Throwable caught) {
+							}
+							@Override
+							public void onSuccess(Boolean success) {
+								EraseTool.draw(canvas);
+								canvas.drawState(result);
+								canvas.refreshDraw();
+								canvas.commitDraw();
+							}
+						});
+						//TODO Clear History, add open confirmation
+					}
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+					}
+				});
+				
+			}
+		}));
 		panel.setStyleName(CssStyles.MenuPanel);
 		initWidget(panel);
 	}

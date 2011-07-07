@@ -12,7 +12,8 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-
+  <inherits name="org.dellroad.lzma.LZMA" />
+  <inherits name="com.resmarksystems.AppEngineDataTypes" />
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.lewish.asciiflow.client.Asciiflow'/>
 

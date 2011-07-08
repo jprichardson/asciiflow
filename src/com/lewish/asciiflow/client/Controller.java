@@ -22,15 +22,23 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 
 	private final HistoryManager historyManager;
 	private final ExportWidget exportPanel;
+	private final ImportWidget importPanel;
+	private final SaveWidget savePanel;
+
 	private final Canvas canvas;
 
 	private Tool currentTool;
-
 	private Cell hoverCell;
 
 	@Inject
-	public Controller(Canvas canvas, ExportWidget exportPanel, HistoryManager historyManager) {
+	public Controller(Canvas canvas,
+			ExportWidget exportPanel,
+			ImportWidget importPanel,
+			SaveWidget savePanel,
+			HistoryManager historyManager) {
 		this.exportPanel = exportPanel;
+		this.importPanel = importPanel;
+		this.savePanel = savePanel;
 		this.historyManager = historyManager;
 		this.canvas = canvas;
 		canvas.init(this);
@@ -59,6 +67,8 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		exportPanel.hide();
+		importPanel.hide();
+		savePanel.hide();
 		if (event.getSource() instanceof Cell) {
 			currentTool.mouseDown((Cell) event.getSource());
 			canvas.focus();

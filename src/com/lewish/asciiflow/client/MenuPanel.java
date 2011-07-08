@@ -5,13 +5,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.StorageHelper.SaveCallback;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 
@@ -19,8 +19,12 @@ import com.lewish.asciiflow.shared.State;
 public class MenuPanel extends Composite {
 
 	@Inject
-	public MenuPanel(final Canvas canvas, final ExportWidget exportWidget,
-			final ImportWidget importWidget, final HistoryManager historyManager, final StoreServiceAsync storeService) {
+	public MenuPanel(final Canvas canvas,
+			final ExportWidget exportWidget,
+			final ImportWidget importWidget,
+			final SaveWidget saveWidget,
+			final HistoryManager historyManager,
+			final StorageHelper storageHelper) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
 			@Override
@@ -28,7 +32,7 @@ public class MenuPanel extends Composite {
 				canvas.addRow();
 			}
 		}));
-		panel.add(getButton("Add column", new ClickHandler() {
+		panel.add(getButton("Add col", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				canvas.addColumn();
@@ -46,11 +50,12 @@ public class MenuPanel extends Composite {
 				historyManager.redo();
 			}
 		}));
-		panel.add(getButton("Clear cells", new ClickHandler() {
+		panel.add(getButton("New", new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Window.confirm("Are you sure you want to clear all cells?")) {
+				if (Window.confirm("Are you sure you want to start a new diagram?")) {
+					storageHelper.clearId();
 					EraseTool.draw(canvas);
 					canvas.refreshDraw();
 					historyManager.save(canvas.commitDraw());
@@ -89,61 +94,14 @@ public class MenuPanel extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				final State state = canvas.getState();
-				state.compress(new AsyncCallback<Boolean>() {
+				storageHelper.save(state, new SaveCallback() {
+
 					@Override
-					public void onFailure(Throwable caught) {
-					}
-					@Override
-					public void onSuccess(Boolean result) {
-						storeService.saveState(state, new AsyncCallback<Long>() {
-							@Override
-							public void onSuccess(Long result) {
-								Window.alert(result.toString());
-							}
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert(caught.getMessage());
-							}
-						});
-					}
-					
-				});
-			}
-		}));
-		panel.add(getButton("Open", new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				String hash = Window.Location.getHash().substring(1);
-				Long id;
-				try {
-				id = Long.parseLong(hash);
-			} catch (NumberFormatException e) {
-				//TODO
-				return;
-			}
-				storeService.loadState(id, new AsyncCallback<State>() {
-					@Override
-					public void onSuccess(final State result) {
-						result.uncompress(new AsyncCallback<Boolean>() {
-							@Override
-							public void onFailure(Throwable caught) {
-							}
-							@Override
-							public void onSuccess(Boolean success) {
-								EraseTool.draw(canvas);
-								canvas.drawState(result);
-								canvas.refreshDraw();
-								canvas.commitDraw();
-							}
-						});
-						//TODO Clear History, add open confirmation
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert(caught.getMessage());
+					public void afterSave(boolean success, Long id) {
+						saveWidget.setId(id);
+						saveWidget.show();
 					}
 				});
-				
 			}
 		}));
 		panel.setStyleName(CssStyles.MenuPanel);

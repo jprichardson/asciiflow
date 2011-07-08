@@ -10,9 +10,12 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.lewish.asciiflow.client.StorageHelper.LoadCallback;
 import com.lewish.asciiflow.client.social.FacebookWidget;
 import com.lewish.asciiflow.client.social.PlusOneWidget;
 import com.lewish.asciiflow.client.social.TwitterWidget;
+import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.shared.State;
 
 public class Asciiflow implements EntryPoint {
 
@@ -26,11 +29,12 @@ public class Asciiflow implements EntryPoint {
 
 	public void onModuleLoad() {
 		InfoPanel infoPanel = injector.getInfoPanel();
-		Canvas canvas = injector.getCanvas();
+		final Canvas canvas = injector.getCanvas();
 		ToolPanel toolPanel = injector.getToolPanel();
 		MenuPanel menuPanel = injector.getMenuPanel();
 		MenuWidget exportPanel = injector.getExportPanel();
 		MenuWidget importPanel = injector.getImportPanel();
+		MenuWidget savePanel = injector.getSavePanel();
 
 		//TODO: UiBinder main page!
 		frame.setStyleName(CssStyles.Frame);
@@ -46,6 +50,7 @@ public class Asciiflow implements EntryPoint {
 			header.add(menuPanel);
 			header.add(exportPanel);
 			header.add(importPanel);
+			header.add(savePanel);
 		frame.add(body);
 			body.add(toolPanel);
 			body.add(rightBody);
@@ -61,7 +66,28 @@ public class Asciiflow implements EntryPoint {
 					} else {
 						footer.add(new Anchor("Stable build", "http://www.asciiflow.com"));
 					}
-					//TEST!
 		RootPanel.get("main").add(frame);
+
+		//Load
+		String hash = Window.Location.getHash().substring(1);
+		Long id;
+		try {
+			id = Long.parseLong(hash);
+			injector.getStorageHelper().load(id, new LoadCallback() {
+
+				@Override
+				public void afterLoad(boolean success, State state) {
+					if (success) {
+						EraseTool.draw(canvas);
+						canvas.drawState(state);
+						canvas.refreshDraw();
+						canvas.commitDraw();
+					}
+				}
+			});
+		} catch (NumberFormatException e) {
+			// TODO
+			return;
+		}
 	}
 }

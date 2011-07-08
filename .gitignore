@@ -9,3 +9,4 @@ war/asciiflow/
 .gwt/
 war/WEB-INF/appengine-generated
 war/WEB-INF/appengine-generated/**
+war/WEB-INF/appengine-web.xml

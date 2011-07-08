@@ -73,6 +73,7 @@ div.header {
 
 .canvas-focus {
 	display: inline-block;
+	outline: 0px;
 }
 
 div.tool-panel {

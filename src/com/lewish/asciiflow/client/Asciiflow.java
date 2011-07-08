@@ -69,25 +69,27 @@ public class Asciiflow implements EntryPoint {
 		RootPanel.get("main").add(frame);
 
 		//Load
-		String hash = Window.Location.getHash().substring(1);
+		String hash = Window.Location.getHash();
+		if(hash != null && hash.startsWith("#")) {
 		Long id;
-		try {
-			id = Long.parseLong(hash);
-			injector.getStorageHelper().load(id, new LoadCallback() {
+			try {
+				id = Long.parseLong(hash);
+				injector.getStorageHelper().load(id, new LoadCallback() {
 
-				@Override
-				public void afterLoad(boolean success, State state) {
-					if (success) {
-						EraseTool.draw(canvas);
-						canvas.drawState(state);
-						canvas.refreshDraw();
-						canvas.commitDraw();
+					@Override
+					public void afterLoad(boolean success, State state) {
+						if (success) {
+							EraseTool.draw(canvas);
+							canvas.drawState(state);
+							canvas.refreshDraw();
+							canvas.commitDraw();
+						}
 					}
-				}
-			});
-		} catch (NumberFormatException e) {
-			// TODO
-			return;
+				});
+			} catch (NumberFormatException e) {
+				// TODO
+				return;
+			}
 		}
 	}
 }

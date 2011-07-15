@@ -4,21 +4,57 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 
 @Singleton
-public class StorageHelper {
+public class StoreHelper {
 
-	private StoreServiceAsync service;
+	private final StoreServiceAsync service;
+	private final Canvas canvas;
+
 	private Long currentId;
 
 	@Inject
-	public StorageHelper(StoreServiceAsync service) {
+	public StoreHelper(StoreServiceAsync service, Canvas canvas) {
 		this.service = service;
+		this.canvas = canvas;
 	}
 
-	public void load(Long id, final LoadCallback callback) {
-		service.loadState(id, new AsyncCallback<State>() {
+	public void parseFragmentLoadAndDraw() {
+		//Load
+		String hash = Window.Location.getHash();
+		if(hash != null && hash.startsWith("#")) {
+			try {
+				String[] split = hash.split("/");
+				if (split.length != 2) {
+					return;
+				}
+				Long id = Long.parseLong(split[0]);
+				Integer editCode = Integer.parseInt(split[1]);
+				loadAndDraw(id, editCode);
+			} catch (NumberFormatException e) {
+				//TODO
+			}
+		}
+	}
+
+	public void loadAndDraw(Long id, Integer editCode) {
+		load(id, editCode, new LoadCallback() {
+			@Override
+			public void afterLoad(boolean success, State state) {
+				if (success) {
+					EraseTool.draw(canvas);
+					canvas.drawState(state);
+					canvas.refreshDraw();
+					canvas.commitDraw();
+				}
+			}
+		});
+	}
+
+	public void load(Long id, Integer editCode, final LoadCallback callback) {
+		service.loadState(id, editCode, new AsyncCallback<State>() {
 			@Override
 			public void onSuccess(final State result) {
 				result.uncompress(new AsyncCallback<Boolean>() {

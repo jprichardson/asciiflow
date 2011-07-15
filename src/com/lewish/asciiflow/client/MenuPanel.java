@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.StorageHelper.SaveCallback;
+import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 
@@ -24,7 +24,7 @@ public class MenuPanel extends Composite {
 			final ImportWidget importWidget,
 			final SaveWidget saveWidget,
 			final HistoryManager historyManager,
-			final StorageHelper storageHelper) {
+			final StoreHelper storageHelper) {
 		FlowPanel panel = new FlowPanel();
 		panel.add(getButton("Add row", new ClickHandler() {
 			@Override

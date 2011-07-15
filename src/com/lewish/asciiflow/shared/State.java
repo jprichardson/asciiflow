@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -31,6 +32,14 @@ public class State implements Serializable {
 	@Persistent
 	private transient Blob compressedBlob;
 
+	@Persistent
+	private String title;
+
+	@Persistent
+	private Integer editCode;
+
+	//This is for client side transfer until I can serialise Blob.
+	@NotPersistent
 	private byte[] compressedState;
 
 	public void add (CellState cellState) {
@@ -122,6 +131,26 @@ public class State implements Serializable {
 
 	public boolean hasId() {
 		return id != null && id != 0l;
+	}
+
+	public void setEditCode(Integer editCode) {
+		this.editCode = editCode;
+	}
+
+	public Integer getEditCode() {
+		return editCode;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public boolean isEditable() {
+		return editCode != 0;
 	}
 
 	/**

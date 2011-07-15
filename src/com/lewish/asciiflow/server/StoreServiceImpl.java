@@ -43,7 +43,7 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 	}
 
 	@Override
-	public State loadState(Long id) {
+	public State loadState(Long id, Integer editCode) {
 		PersistenceManager pm = Persistence.getManager();
 		State state;
 		try {

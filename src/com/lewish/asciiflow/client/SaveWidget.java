@@ -5,11 +5,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.shared.Uri;
 
 @Singleton
 public class SaveWidget extends MenuWidget {
 
-	private static final String LINK_PREFIX = "http://www.asciiflow.com/#";
 	private Long id;
 
 	private Anchor saveLink;
@@ -34,7 +34,8 @@ public class SaveWidget extends MenuWidget {
 
 	@Override
 	protected void onShow() {
-		saveLink.setText(LINK_PREFIX + id);
-		saveLink.setHref(LINK_PREFIX + id);
+		String link = Uri.getDocumentLink(id, null);
+		saveLink.setText(link);
+		saveLink.setHref(link);
 	}
 }

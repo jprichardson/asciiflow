@@ -11,9 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
 import com.lewish.asciiflow.client.tools.EraseTool;
-import com.lewish.asciiflow.shared.State;
 
 @Singleton
 public class MenuPanel extends Composite {
@@ -55,7 +53,7 @@ public class MenuPanel extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (Window.confirm("Are you sure you want to start a new diagram?")) {
-					storageHelper.clearId();
+					storageHelper.clearState();
 					EraseTool.draw(canvas);
 					canvas.refreshDraw();
 					historyManager.save(canvas.commitDraw());
@@ -88,20 +86,6 @@ public class MenuPanel extends Composite {
 					.replace("+", "%2B")
 					.replace("%20", "+");
 				Window.open("http://ditaa.org/ditaa/render?grid=" + export, "_blank", null);
-			}
-		}));
-		panel.add(getButton("Save", new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				final State state = canvas.getState();
-				storageHelper.save(state, new SaveCallback() {
-
-					@Override
-					public void afterSave(boolean success, Long id) {
-						saveWidget.setId(id);
-						saveWidget.show();
-					}
-				});
 			}
 		}));
 		panel.setStyleName(CssStyles.MenuPanel);

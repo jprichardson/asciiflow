@@ -11,7 +11,7 @@ public class Uri {
 	private static final String MAILTO_URI = "mailto:lewis@asciiflow.com";
 
 	public static String getHost() {
-		String host = Window.Location.getHost();
+		String host = "http://" + Window.Location.getHost();
 		if (!host.endsWith("/")) {
 			host += "/";
 		}

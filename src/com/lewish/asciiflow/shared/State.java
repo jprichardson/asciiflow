@@ -33,10 +33,10 @@ public class State implements Serializable {
 	private transient Blob compressedBlob;
 
 	@Persistent
-	private String title;
+	private String title = "";
 
 	@Persistent
-	private Integer editCode;
+	private Integer editCode = 0;
 
 	//This is for client side transfer until I can serialise Blob.
 	@NotPersistent

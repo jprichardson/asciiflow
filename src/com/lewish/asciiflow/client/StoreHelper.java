@@ -13,7 +13,7 @@ public class StoreHelper {
 	private final StoreServiceAsync service;
 	private final Canvas canvas;
 
-	private Long currentId;
+	private State currentState;
 
 	@Inject
 	public StoreHelper(StoreServiceAsync service, Canvas canvas) {
@@ -85,13 +85,15 @@ public class StoreHelper {
 
 			@Override
 			public void onSuccess(Boolean result) {
-				if (currentId != null) {
-					state.setId(currentId);
+				if (currentState != null) {
+					state.setId(currentState.getId());
+					state.setEditCode(currentState.getEditCode());
+					currentState = null;
 				}
-				service.saveState(state, new AsyncCallback<Long>() {
+				service.saveState(state, new AsyncCallback<State>() {
 					@Override
-					public void onSuccess(Long result) {
-						currentId = result;
+					public void onSuccess(State result) {
+						currentState = result;
 						callback.afterSave(true, result);
 					}
 
@@ -111,14 +113,18 @@ public class StoreHelper {
 	}
 
 	public static interface SaveCallback {
-		public void afterSave(boolean success, Long id);
+		public void afterSave(boolean success, State state);
 	}
 
 	public static interface LoadCallback {
 		public void afterLoad(boolean success, State state);
 	}
 
-	public void clearId() {
-		this.currentId = null;
+	public void clearState() {
+		currentState = null;
+	}
+
+	public State getCurrentState() {
+		return currentState;
 	}
 }

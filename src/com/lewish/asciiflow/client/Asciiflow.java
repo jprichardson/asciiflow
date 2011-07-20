@@ -32,6 +32,8 @@ public class Asciiflow implements EntryPoint {
 		MenuWidget exportPanel = injector.getExportPanel();
 		MenuWidget importPanel = injector.getImportPanel();
 		MenuWidget savePanel = injector.getSavePanel();
+		StoreWidget storeWidget = injector.getStoreWidget();
+		StoreHelper storeHelper = injector.getStorageHelper();
 
 		//TODO: UiBinder main page!
 		frame.setStyleName(CssStyles.Frame);
@@ -44,6 +46,7 @@ public class Asciiflow implements EntryPoint {
 			header.add(new FacebookWidget());
 			header.add(new TwitterWidget());
 			header.add(new PlusOneWidget());
+			header.add(storeWidget);
 			header.add(menuPanel);
 			header.add(exportPanel);
 			header.add(importPanel);
@@ -64,5 +67,6 @@ public class Asciiflow implements EntryPoint {
 						footer.add(new Anchor("Stable build", Uri.getStableUri()));
 					}
 		RootPanel.get("main").add(frame);
+		storeHelper.parseFragmentLoadAndDraw();
 	}
 }

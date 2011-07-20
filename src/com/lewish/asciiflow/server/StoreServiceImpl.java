@@ -15,7 +15,7 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 	private Random random = new Random();
 
 	@Override
-	public Long saveState(State state) {
+	public State saveState(State state) {
 		PersistenceManager pm = Persistence.getManager();
 		if(!state.hasId()) {
 			//TODO Check collisions or do some math.
@@ -25,7 +25,7 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 			state.blobify();
 			try {
 				state = pm.makePersistent(state);
-				return state.getId();
+				return state;
 			} finally {
 				pm.close();
 			}

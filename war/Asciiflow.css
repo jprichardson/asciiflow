@@ -169,3 +169,16 @@ a:visited {
 	float: right;
 	width: 60px;
 }
+
+#ads-bottom {
+	margin-top: 15px;
+	margin-left: 26px;
+}
+
+.inline {
+	display: inline;
+}
+
+.block {
+	display:block;
+}

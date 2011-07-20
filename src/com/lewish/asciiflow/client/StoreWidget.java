@@ -6,18 +6,19 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
-import com.lewish.asciiflow.shared.Uri;
 import com.lewish.asciiflow.shared.State;
+import com.lewish.asciiflow.shared.Uri;
 
 @Singleton
 public class StoreWidget extends Composite {
 
 	private final StoreHelper storeHelper;
 
+	private FlowPanel linksPanel;
 	private Anchor editLink;
 	private Anchor readonlyLink;
 	private Button saveButton;
@@ -25,10 +26,12 @@ public class StoreWidget extends Composite {
 	@Inject
 	public StoreWidget(final Canvas canvas, final StoreHelper storeHelper) {
 		this.storeHelper = storeHelper;
+		linksPanel = new FlowPanel();
 		editLink = new Anchor();
 		readonlyLink = new Anchor();
 
 		saveButton = new Button("Save");
+		saveButton.setStyleName(CssStyles.Inline);
 
 		saveButton.addClickHandler(new ClickHandler() {
 
@@ -45,18 +48,21 @@ public class StoreWidget extends Composite {
 		});
 
 		FlowPanel panel = new FlowPanel();
+		panel.setStyleName(CssStyles.Block);
 		panel.add(saveButton);
-		panel.add(new Label(" Edit Link: "));
-		panel.add(editLink);
-		panel.add(new Label(" Readonly Link: "));
-		panel.add(readonlyLink);
+		linksPanel.add(new InlineLabel(" Edit:"));
+		linksPanel.add(editLink);
+		linksPanel.add(new InlineLabel(" Readonly:"));
+		linksPanel.add(readonlyLink);
+		linksPanel.setStyleName(CssStyles.Inline);
+		panel.add(linksPanel);
+		updateLinks();
 		initWidget(panel);
 	}
 
 	private void updateLinks() {
 		if(storeHelper.getCurrentState() == null) {
-			readonlyLink.setVisible(false);
-			editLink.setVisible(false);
+			linksPanel.setVisible(false);
 		} else {
 		String editHref = Uri.getDocumentLink(storeHelper.getCurrentState().getId(), storeHelper
 				.getCurrentState().getEditCode());
@@ -65,6 +71,7 @@ public class StoreWidget extends Composite {
 		readonlyLink.setText(readonlyHref);
 		editLink.setHref(editHref);
 		editLink.setText(editHref);
+		linksPanel.setVisible(true);
 		}
 	}
 }

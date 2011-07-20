@@ -26,12 +26,12 @@ public class StoreHelper {
 		String hash = Window.Location.getHash();
 		if(hash != null && hash.startsWith("#")) {
 			try {
-				String[] split = hash.split("/");
-				if (split.length != 2) {
-					return;
-				}
+				String[] split = hash.substring(1).split("/");
 				Long id = Long.parseLong(split[0]);
-				Integer editCode = Integer.parseInt(split[1]);
+				Integer editCode = 0;
+				if (split.length > 1) {
+					editCode = Integer.parseInt(split[1]);
+				}
 				loadAndDraw(id, editCode);
 			} catch (NumberFormatException e) {
 				//TODO
@@ -53,7 +53,7 @@ public class StoreHelper {
 		});
 	}
 
-	public void load(Long id, Integer editCode, final LoadCallback callback) {
+	public void load(final Long id, final Integer editCode, final LoadCallback callback) {
 		service.loadState(id, editCode, new AsyncCallback<State>() {
 			@Override
 			public void onSuccess(final State result) {
@@ -66,6 +66,9 @@ public class StoreHelper {
 
 					@Override
 					public void onSuccess(Boolean success) {
+						currentState = new State();
+						currentState.setId(id);
+						currentState.setEditCode(editCode);
 						callback.afterLoad(true, result);
 					}
 				});

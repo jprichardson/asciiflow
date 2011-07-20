@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManager;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.lewish.asciiflow.client.StoreService;
+import com.lewish.asciiflow.shared.AccessException;
 import com.lewish.asciiflow.shared.State;
 
 public class StoreServiceImpl extends RemoteServiceServlet implements StoreService {
@@ -15,12 +16,19 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 	private Random random = new Random();
 
 	@Override
-	public State saveState(State state) {
+	public State saveState(State state) throws AccessException {
 		PersistenceManager pm = Persistence.getManager();
 		if(!state.hasId()) {
 			//TODO Check collisions or do some math.
-			state.setId(getUID());
+			state.setId(generateId());
+			state.setEditCode(generateEditCode());
+		} else {
+			State loadState = fetchState(state.getId());
+			if(!loadState.getEditCode().equals(state.getEditCode())) {
+				throw new AccessException(state);
+			}
 		}
+		
 		if (state.isCompressed()) {
 			state.blobify();
 			try {
@@ -34,7 +42,7 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		}
 	}
 
-	private Long getUID() {
+	private Long generateId() {
 		Long id = 0l;
 		while(id <= 0) {
 			id = random.nextLong();
@@ -42,8 +50,22 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		return id;
 	}
 
+	private Integer generateEditCode() {
+		Integer code = 0;
+		while(code <= 0) {
+			code = random.nextInt();
+		}
+		return code;
+	}
+
 	@Override
 	public State loadState(Long id, Integer editCode) {
+		State state = fetchState(id);
+		state.unblobify();
+		return state;
+	}
+
+	private State fetchState(Long id) {
 		PersistenceManager pm = Persistence.getManager();
 		State state;
 		try {
@@ -53,7 +75,6 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		} finally {
 			pm.close();
 		}
-		state.unblobify();
 		return state;
 	}
 }

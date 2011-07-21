@@ -52,6 +52,7 @@ public class StoreWidget extends Composite {
 		panel.add(saveButton);
 		linksPanel.add(new InlineLabel(" Edit:"));
 		linksPanel.add(editLink);
+		linksPanel.add(new InlineLabel("<br>"));
 		linksPanel.add(new InlineLabel(" Readonly:"));
 		linksPanel.add(readonlyLink);
 		linksPanel.setStyleName(CssStyles.Inline);

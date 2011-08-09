@@ -2,10 +2,9 @@
 package com.lewish.asciiflow.client.tools;
 
 import com.lewish.asciiflow.client.Canvas;
-import com.lewish.asciiflow.client.Cell;
-import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.Tool;
+import com.lewish.asciiflow.client.common.Box;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public abstract class DragTool extends Tool {
@@ -14,30 +13,30 @@ public abstract class DragTool extends Tool {
 		super(canvas, historyManager, clientBundle);
 	}
 
-	protected Drag currentBox;
+	protected Box currentBox;
 
 	@Override
-	public void mouseOver(Cell cell) {
+	public void mouseOver(int x, int y) {
 		if (currentBox != null) {
-			currentBox.setFinish(cell);
+			currentBox.setFinish(x, y);
 			draw(currentBox);
 			refreshDraw();
 		}
 	}
 
 	@Override
-	public void mouseDown(Cell cell) {
+	public void mouseDown(int x, int y) {
 		if (currentBox == null) {
-			currentBox = new Drag(cell);
+			currentBox = new Box(x, y);
 			draw(currentBox);
 			refreshDraw();
 		}
 	}
 
 	@Override
-	public void mouseUp(Cell cell) {
+	public void mouseUp(int x, int y) {
 		if (currentBox != null) {
-			currentBox.setFinish(cell);
+			currentBox.setFinish(x, y);
 			currentBox = null;
 			commitDraw();
 		}
@@ -51,5 +50,5 @@ public abstract class DragTool extends Tool {
 		}
 	}
 
-	protected abstract void draw(Drag box);
+	protected abstract void draw(Box box);
 }

@@ -31,13 +31,13 @@ public abstract class Tool {
 
 	public abstract ImageResource getImageResource();
 
-	public void mouseOver(Cell cell) {
+	public void mouseOver(int x, int y) {
 	}
 
-	public void mouseDown(Cell cell) {
+	public void mouseDown(int x, int y) {
 	}
 
-	public void mouseUp(Cell cell) {
+	public void mouseUp(int x, int y) {
 	}
 
 	public void cleanup() {

@@ -4,9 +4,11 @@ package com.lewish.asciiflow.client;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.shared.State;
@@ -23,15 +25,16 @@ public class Canvas extends Composite {
 
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);
-	private final Cell[][] model = new Cell[MAX_WIDTH][MAX_HEIGHT];
+	private final CellImpl[][] model = new CellImpl[MAX_WIDTH][MAX_HEIGHT];
 
 	private int width;
 	private int height;
+	private State currentState = new State();
 
 	private CellFactory cellFactory;
 
-	private Set<Cell> currentDraw = new HashSet<Cell>();
-	private Set<Cell> nextDraw = new HashSet<Cell>();
+	private Set<CellImpl> currentDraw = new HashSet<CellImpl>();
+	private Set<CellImpl> nextDraw = new HashSet<CellImpl>();
 
 	@Inject
 	public Canvas() {
@@ -43,12 +46,12 @@ public class Canvas extends Composite {
 	}
 
 	private void setHeight(int height) {
-		panel.setHeight(height * Cell.HEIGHT + "px");
+		panel.setHeight(height * CellImpl.HEIGHT + "px");
 		this.height = height;
 	}
 
 	private void setWidth(int width) {
-		panel.setWidth(width * Cell.WIDTH + "px");
+		panel.setWidth(width * CellImpl.WIDTH + "px");
 		this.width = width;
 	}
 
@@ -61,7 +64,7 @@ public class Canvas extends Composite {
 		cellFactory = new CellFactory(controller);
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				Cell cell = cellFactory.getCell(x, y);
+				CellImpl cell = cellFactory.getCell(x, y);
 				model[x][y]  = cell;
 				panel.add(cell);
 			}
@@ -69,33 +72,39 @@ public class Canvas extends Composite {
 	}
 
 	public void refreshDraw() {
+		refreshDraw(false);
+	}
+
+	public void refreshDraw(boolean sticky) {
 		currentDraw.addAll(nextDraw);
 		nextDraw.clear();
-		for (Cell cell : currentDraw) {
+		for (CellImpl cell : currentDraw) {
 			if(cell.drawValue == null && cell.drawHighlight == false) {
 				//Using as a temporary store, for cells to remove from draw.
 				nextDraw.add(cell);
 			}
 			String value = cell.drawValue != null ? cell.drawValue : cell.commitValue;
-			if(cell.value != value) {
-				cell.pushValue(value);
+			if(cell.value == null || !cell.value.equals(value)) {
+				pushValue(cell, value);
 			}
 			if(cell.highlight != cell.drawHighlight) {
-				cell.pushHighlight();
+				pushHighlight(cell);
 			}
-			cell.drawValue = null;
-			cell.drawHighlight = false;
+			if(!sticky) { 
+				cell.drawValue = null;
+				cell.drawHighlight = false;
+			}
 		}
 		currentDraw.removeAll(nextDraw);
 		nextDraw.clear();
 	}
 
 	public void draw(int x, int y, String value) {
-		if(x < 0 || y < 0 || x > width || y > height) return;
+		if(x < 0 || y < 0 || x >= width || y >= height) return;
 		draw(model[x][y], value);
 	}
 
-	public void draw(Cell cell, String value) {
+	private void draw(CellImpl cell, String value) {
 		if (cell == null) return;
 		cell.drawValue = value;
 		cell.drawHighlight = (value != null);
@@ -103,17 +112,18 @@ public class Canvas extends Composite {
 	}
 
 	public void highlight(int x, int y, boolean value) {
+		if(x < 0 || y < 0 || x >= width || y >= height) return;
 		highlight(model[x][y], value);
 	}
 
-	public void highlight(Cell cell, boolean value) {
+	private void highlight(CellImpl cell, boolean value) {
 		if (cell == null) return;
 		cell.drawHighlight = value;
 		nextDraw.add(cell);
 	}
 
 	public void clearDraw() {
-		for(Cell cell : currentDraw) {
+		for(CellImpl cell : currentDraw) {
 			cell.drawValue = null;
 			cell.drawHighlight = false;
 		}
@@ -121,19 +131,39 @@ public class Canvas extends Composite {
 	}
 
 	public State commitDraw() {
+		//This is effectively a diff, the state that should be drawn to undo.
 		State oldState = new State();
-		for(Cell cell : currentDraw) {
+		for(CellImpl cell : currentDraw) {
 			if (cell.value != null) {
 				oldState.add(new CellState(cell.x, cell.y, cell.commitValue == null ? " " : cell.commitValue));
 				cell.commitValue = cell.value.equals(" ") ? null : cell.value;
 				cell.value = cell.commitValue;
 				if (cell.highlight == true) {
-					cell.pushHighlight();
+					pushHighlight(cell);
 				}
 			}
 		}
 		currentDraw.clear();
 		return oldState;
+	}
+
+	private void pushHighlight(CellImpl cell) {
+		cell.highlight = cell.drawHighlight;
+		if(cell.highlight) {
+			cell.addStyleName(CssStyles.Drawing);
+		} else {
+			cell.removeStyleName(CssStyles.Drawing);
+		}
+	}
+
+	private void pushValue(CellImpl cell, String value) {
+		cell.value = value;
+		if(value == null || value.equals(" ")) {
+			cell.value = null;
+			cell.setHTML("&nbsp;");
+		} else {
+			cell.setText(value);
+		}
 	}
 
 	public int getWidth() {
@@ -148,14 +178,9 @@ public class Canvas extends Composite {
 		return model[x][y].value;
 	}
 
-	@Deprecated
-	public Cell getCell(int x, int y) {
-		return model[x][y];
-	}
-
 	public void addRow() {
 		for (int j = 0; j < width; j++) {
-			Cell cell = cellFactory.getCell(j, height);
+			CellImpl cell = cellFactory.getCell(j, height);
 			model[j][height] = cell;
 			panel.add(cell);
 		}
@@ -164,7 +189,7 @@ public class Canvas extends Composite {
 
 	public void addColumn() {
 		for (int i = 0; i < height; i++) {
-			Cell cell = cellFactory.getCell(width, i);
+			CellImpl cell = cellFactory.getCell(width, i);
 			model[width][i] = cell;
 			panel.add(cell);
 		}
@@ -180,8 +205,8 @@ public class Canvas extends Composite {
 		public CellFactory(Controller controller) {
 			this.controller = controller;
 		}
-		public Cell getCell(int x, int y) {
-			Cell cell =  new Cell(x,y);
+		public CellImpl getCell(int x, int y) {
+			CellImpl cell =  new CellImpl(x,y);
 			cell.addMouseDownHandler(controller);
 			cell.addMouseOverHandler(controller);
 			cell.addMouseUpHandler(controller);
@@ -200,7 +225,7 @@ public class Canvas extends Composite {
 		State state = new State();
 		for(int i = 0; i < width; i++) {
 			for(int j = 0; j< height; j++) {
-				Cell cell = model[i][j];
+				CellImpl cell = model[i][j];
 				if(cell.value == null || cell.value.equals(" "))
 					continue;
 				state.add(new CellState(i, j, cell.value));
@@ -208,4 +233,38 @@ public class Canvas extends Composite {
 		}
 		return state;
 	}
+
+	private static class CellImpl extends HTML implements Cell {
+		public static final int HEIGHT = 14;
+		public static final int WIDTH = 8;
+
+		public final int x;
+		public final int y;
+
+		String value;
+		public String commitValue;
+		String drawValue;
+
+		boolean highlight;
+		boolean drawHighlight;
+
+		CellImpl(int x, int y) {
+			this.x = x;
+			this.y = y;
+			DOM.setStyleAttribute(getElement(), "top", HEIGHT * y + "px");
+			DOM.setStyleAttribute(getElement(), "left", WIDTH * x + "px");
+			setHTML("&nbsp;");
+		}
+	
+		@Override
+		public int getX() {
+			return x;
+		}
+	
+		@Override
+		public int getY() {
+			return y;
+		}
+	}
+
 }

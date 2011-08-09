@@ -28,7 +28,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	private final Canvas canvas;
 
 	private Tool currentTool;
-	private Cell hoverCell;
 
 	@Inject
 	public Controller(Canvas canvas,
@@ -54,12 +53,8 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
 		if (event.getSource() instanceof Cell) {
-			currentTool.mouseOver((Cell) event.getSource());
-			if (hoverCell != null) {
-				hoverCell.removeStyleName(CssStyles.Hover);
-			}
-			hoverCell = (Cell) event.getSource();
-			hoverCell.addStyleName(CssStyles.Hover);
+			Cell cell = (Cell) event.getSource();
+			currentTool.mouseOver(cell.getX(), cell.getY());
 			canvas.focus();
 		}
 	}
@@ -70,7 +65,8 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		importPanel.hide();
 		savePanel.hide();
 		if (event.getSource() instanceof Cell) {
-			currentTool.mouseDown((Cell) event.getSource());
+			Cell cell = (Cell) event.getSource();
+			currentTool.mouseDown(cell.getX(), cell.getY());
 			canvas.focus();
 			killEvent(event);
 		}
@@ -79,7 +75,8 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (event.getSource() instanceof Cell) {
-			currentTool.mouseUp((Cell) event.getSource());
+			Cell cell = (Cell) event.getSource();
+			currentTool.mouseUp(cell.getX(), cell.getY());
 		}
 	}
 

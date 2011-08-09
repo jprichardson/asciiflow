@@ -3,8 +3,8 @@ package com.lewish.asciiflow.client.tools;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
-import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.common.Box;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class BoxTool extends BaseBoxTool {
@@ -20,7 +20,7 @@ public class BoxTool extends BaseBoxTool {
 	}
 
 	@Override
-	public void draw(Drag box) {
+	public void draw(Box box) {
 		draw(box, canvas, false);
 	}
 

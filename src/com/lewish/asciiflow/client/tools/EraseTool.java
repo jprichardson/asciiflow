@@ -27,9 +27,7 @@ public class EraseTool extends DragTool {
 	public static void draw(Box box, Canvas canvas) {
 		for (int x = box.topLeftX(); x <= box.bottomRightX(); x++) {
 			for (int y = box.topLeftY(); y <= box.bottomRightY(); y++) {
-				if(canvas.getValue(x, y) != null) {
-					canvas.draw(x, y," ");
-				}
+					canvas.draw(x, y, " ");
 			}
 		}
 	}

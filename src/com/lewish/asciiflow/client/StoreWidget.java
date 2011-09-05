@@ -37,7 +37,9 @@ public class StoreWidget extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				storeHelper.save(canvas.getState(), new SaveCallback() {
+				State state = new State();
+				state.setCellStateMap(canvas.getCellStates());
+				storeHelper.save(state, new SaveCallback() {
 
 					@Override
 					public void afterSave(boolean success, State state) {

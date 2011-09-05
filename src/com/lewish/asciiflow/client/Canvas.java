@@ -11,8 +11,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.shared.State;
-import com.lewish.asciiflow.shared.State.CellState;
+import com.lewish.asciiflow.shared.CellStateMap;
+import com.lewish.asciiflow.shared.CellState;
 
 @Singleton
 public class Canvas extends Composite {
@@ -133,9 +133,9 @@ public class Canvas extends Composite {
 		refreshDraw();
 	}
 
-	public State commitDraw() {
+	public CellStateMap commitDraw() {
 		// This is effectively a diff, the state that should be drawn to undo.
-		State oldState = new State();
+		CellStateMap oldState = new CellStateMap();
 		for (CellImpl cell : currentDraw) {
 			if (cell.value != null) {
 				oldState.add(new CellState(cell.x, cell.y, cell.commitValue == null ? " "
@@ -224,16 +224,16 @@ public class Canvas extends Composite {
 		}
 	}
 
-	public void drawState(State state) {
-		for (CellState cellState : state.getStates()) {
+	public void drawCellStates(CellStateMap state) {
+		for (CellState cellState : state.getCellStates()) {
 			draw(cellState.x, cellState.y, cellState.value);
 		}
 	}
 
-	public State getState() {
+	public CellStateMap getCellStates() {
 		// TODO: Optimise this, maintain current state through commit/refresh
 		// draw.
-		State state = new State();
+		CellStateMap state = new CellStateMap();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				CellImpl cell = model[i][j];

@@ -2,8 +2,6 @@
 package com.lewish.asciiflow.shared;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -24,7 +22,7 @@ public class State implements Serializable {
 
 	private static final long serialVersionUID = 8847057226414076746L;
 
-	private transient final HashMap<String, CellState> states = new HashMap<String, CellState>();
+	private transient CellStateMap cellStates = new CellStateMap();
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -44,40 +42,9 @@ public class State implements Serializable {
 	@NotPersistent
 	private byte[] compressedState;
 
-	public void add(CellState cellState) {
-		String key = cellState.x + ":" + cellState.y;
-		states.put(key, cellState);
-	}
-
-	public void remove(CellState cellState) {
-		String key = cellState.x + ":" + cellState.y;
-		states.remove(key);
-	}
-
-	public Collection<CellState> getStates() {
-		return states.values();
-	}
-
-	public static class CellState {
-		public int x;
-		public int y;
-		public String value;
-
-		public CellState(int x, int y, String value) {
-			this.x = x;
-			this.y = y;
-			this.value = value;
-		}
-
-		public static CellState fromString(String string) {
-			String[] split = string.split(":", 3);
-			return new CellState(Integer.parseInt(split[0]), Integer.parseInt(split[1]), split[2]);
-		}
-	}
-
 	public void compress(final AsyncCallback<Boolean> callback) {
 		String s = "";
-		for (Entry<String, CellState> entry : states.entrySet()) {
+		for (Entry<String, CellState> entry : cellStates.getMap().entrySet()) {
 			if (!s.equals("")) {
 				s += "\n";
 			}
@@ -108,9 +75,9 @@ public class State implements Serializable {
 				if (!c.execute()) {
 					String s = new String(c.getUncompressedData());
 					String[] split = s.split("\n");
-					states.clear();
+					cellStates.getMap().clear();
 					for (String line : split) {
-						add(CellState.fromString(line));
+						cellStates.add(CellState.fromString(line));
 					}
 					callback.onSuccess(true);
 					return false;
@@ -172,5 +139,13 @@ public class State implements Serializable {
 	public void unblobify() {
 		compressedState = compressedBlob.getBytes();
 		compressedBlob = null;
+	}
+
+	public CellStateMap getCellStateMap() {
+		return cellStates;
+	}
+
+	public void setCellStateMap(CellStateMap map) {
+		cellStates = map;
 	}
 }

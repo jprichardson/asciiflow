@@ -45,7 +45,7 @@ public class StoreHelper {
 			public void afterLoad(boolean success, State state) {
 				if (success) {
 					EraseTool.draw(canvas);
-					canvas.drawState(state);
+					canvas.drawCellStates(state.getCellStateMap());
 					canvas.refreshDraw();
 					canvas.commitDraw();
 				}

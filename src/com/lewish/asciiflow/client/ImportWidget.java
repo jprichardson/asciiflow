@@ -10,8 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.tools.EraseTool;
-import com.lewish.asciiflow.shared.State;
-import com.lewish.asciiflow.shared.State.CellState;
+import com.lewish.asciiflow.shared.CellState;
+import com.lewish.asciiflow.shared.CellStateMap;
 
 @Singleton
 public class ImportWidget extends MenuWidget {
@@ -51,7 +51,7 @@ public class ImportWidget extends MenuWidget {
 	}
 
 	private void loadText(String text) {
-		State state = new State();
+		CellStateMap state = new CellStateMap();
 		int maxWidth = 0;
 		int height = 0;
 		String[] lines = text.split("\n");
@@ -75,7 +75,7 @@ public class ImportWidget extends MenuWidget {
 			canvas.addRow();
 		}
 		EraseTool.draw(canvas);
-		canvas.drawState(state);
+		canvas.drawCellStates(state);
 		canvas.refreshDraw();
 		historyManager.save(canvas.commitDraw());
 	}

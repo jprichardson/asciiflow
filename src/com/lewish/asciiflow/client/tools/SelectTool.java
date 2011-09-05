@@ -10,8 +10,8 @@ import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.Tool;
 import com.lewish.asciiflow.client.common.Box;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
-import com.lewish.asciiflow.shared.State;
-import com.lewish.asciiflow.shared.State.CellState;
+import com.lewish.asciiflow.shared.CellState;
+import com.lewish.asciiflow.shared.CellStateMap;
 
 public class SelectTool extends Tool {
 
@@ -20,7 +20,7 @@ public class SelectTool extends Tool {
 	}
 
 	private SelectState state = SelectState.Nothing;
-	private State clipboard;
+	private CellStateMap clipboard;
 	private Box currentBox;
 
 	private int moveX = 0;
@@ -97,7 +97,7 @@ public class SelectTool extends Tool {
 	private void copy(boolean cut) {
 		if (currentBox == null)
 			return;
-		clipboard = new State();
+		clipboard = new CellStateMap();
 		for (int x = currentBox.topLeftX(); x <= currentBox.bottomRightX(); x++) {
 			for (int y = currentBox.topLeftY(); y <= currentBox.bottomRightY(); y++) {
 				int dx = x - currentBox.topLeftX();
@@ -115,14 +115,14 @@ public class SelectTool extends Tool {
 	}
 
 	private void paste(int dx, int dy) {
-		State pasteState = new State();
+		CellStateMap pasteState = new CellStateMap();
 		if (currentBox != null && clipboard != null) {
-			for (CellState cs : clipboard.getStates()) {
+			for (CellState cs : clipboard.getCellStates()) {
 				// Move to select position
 				pasteState.add(new CellState(cs.x + currentBox.topLeftX() - dx, cs.y
 						+ currentBox.topLeftY() - dy, cs.value));
 			}
-			canvas.drawState(pasteState);
+			canvas.drawCellStates(pasteState);
 		}
 	}
 

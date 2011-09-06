@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class CellStateMap {
 
 	private final HashMap<String, CellState> maps = new HashMap<String, CellState>();
-	
+
 	public void add(CellState cellState) {
 		String key = cellState.x + ":" + cellState.y;
 		maps.put(key, cellState);

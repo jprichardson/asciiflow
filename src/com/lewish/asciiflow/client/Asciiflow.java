@@ -31,7 +31,6 @@ public class Asciiflow implements EntryPoint {
 		MenuPanel menuPanel = injector.getMenuPanel();
 		MenuWidget exportPanel = injector.getExportPanel();
 		MenuWidget importPanel = injector.getImportPanel();
-		MenuWidget savePanel = injector.getSavePanel();
 		StoreWidget storeWidget = injector.getStoreWidget();
 		StoreHelper storeHelper = injector.getStorageHelper();
 
@@ -50,7 +49,6 @@ public class Asciiflow implements EntryPoint {
 			header.add(menuPanel);
 			header.add(exportPanel);
 			header.add(importPanel);
-			header.add(savePanel);
 		frame.add(body);
 			body.add(toolPanel);
 			body.add(rightBody);

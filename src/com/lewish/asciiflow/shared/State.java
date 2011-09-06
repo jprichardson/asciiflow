@@ -38,6 +38,9 @@ public class State implements Serializable {
 	@Persistent
 	private Integer editCode = 0;
 
+	@Persistent
+	private Boolean isPublic = false;
+
 	// This is for client side transfer until I can serialise Blob.
 	@NotPersistent
 	private byte[] compressedState;
@@ -147,5 +150,13 @@ public class State implements Serializable {
 
 	public void setCellStateMap(CellStateMap map) {
 		cellStates = map;
+	}
+
+	public void setPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public Boolean isPublic() {
+		return isPublic;
 	}
 }

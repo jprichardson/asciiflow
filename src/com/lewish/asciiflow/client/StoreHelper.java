@@ -13,18 +13,22 @@ public class StoreHelper {
 	private final StoreServiceAsync service;
 	private final Canvas canvas;
 	private final LoadingWidget loadingWidget;
+	//private final StoreWidget storeWidget;
 
 	private State currentState;
 
 	@Inject
-	public StoreHelper(StoreServiceAsync service, Canvas canvas, LoadingWidget loadingWidget) {
+	public StoreHelper(StoreServiceAsync service, Canvas canvas, LoadingWidget loadingWidget
+			/*StoreWidget storeWidget*/) {
 		this.service = service;
 		this.canvas = canvas;
 		this.loadingWidget = loadingWidget;
+		//this.storeWidget = storeWidget;
+
+		currentState = new State();
 	}
 
 	public void parseFragmentLoadAndDraw() {
-		//Load
 		String hash = Window.Location.getHash();
 		if(hash != null && hash.startsWith("#")) {
 			try {
@@ -71,9 +75,9 @@ public class StoreHelper {
 					@Override
 					public void onSuccess(Boolean success) {
 						loadingWidget.hide();
-						currentState = new State();
-						currentState.setId(id);
-						currentState.setEditCode(editCode);
+						currentState = result;
+						//storeWidget.setPublic(result.isPublic());
+						//storeWidget.setTitle(result.getTitle());
 						callback.afterLoad(true, result);
 					}
 				});
@@ -82,31 +86,32 @@ public class StoreHelper {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				loadingWidget.hide();
 				Window.alert(caught.getMessage());
 				callback.afterLoad(false, null);
 			}
 		});
 	}
 
-	public void save(final State state, final SaveCallback callback) {
-		state.compress(new AsyncCallback<Boolean>() {
+	public void save(final SaveCallback callback) {
+		loadingWidget.show();
+		currentState.setCellStateMap(canvas.getCellStates());
+		currentState.compress(new AsyncCallback<Boolean>() {
 
 			@Override
 			public void onSuccess(Boolean result) {
-				if (currentState != null) {
-					state.setId(currentState.getId());
-					state.setEditCode(currentState.getEditCode());
-					currentState = null;
-				}
-				service.saveState(state, new AsyncCallback<State>() {
+				service.saveState(currentState, new AsyncCallback<State>() {
 					@Override
 					public void onSuccess(State result) {
-						currentState = result;
-						callback.afterSave(true, result);
+						loadingWidget.hide();
+						currentState.setId(result.getId());
+						currentState.setEditCode(result.getEditCode());
+						callback.afterSave(true, currentState);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
+						loadingWidget.hide();
 						Window.alert(caught.getMessage());
 						callback.afterSave(false, null);
 					}
@@ -115,6 +120,7 @@ public class StoreHelper {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				loadingWidget.hide();
 				callback.afterSave(false, null);
 			}
 		});

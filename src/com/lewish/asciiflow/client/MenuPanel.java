@@ -20,7 +20,6 @@ public class MenuPanel extends Composite {
 	public MenuPanel(final Canvas canvas,
 			final ExportWidget exportWidget,
 			final ImportWidget importWidget,
-			final SaveWidget saveWidget,
 			final HistoryManager historyManager,
 			final StoreHelper storageHelper) {
 		FlowPanel panel = new FlowPanel();

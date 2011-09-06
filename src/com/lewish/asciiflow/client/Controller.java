@@ -23,7 +23,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	private final HistoryManager historyManager;
 	private final ExportWidget exportPanel;
 	private final ImportWidget importPanel;
-	private final SaveWidget savePanel;
 
 	private final Canvas canvas;
 
@@ -33,11 +32,9 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	public Controller(Canvas canvas,
 			ExportWidget exportPanel,
 			ImportWidget importPanel,
-			SaveWidget savePanel,
 			HistoryManager historyManager) {
 		this.exportPanel = exportPanel;
 		this.importPanel = importPanel;
-		this.savePanel = savePanel;
 		this.historyManager = historyManager;
 		this.canvas = canvas;
 		canvas.init(this);
@@ -63,7 +60,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 	public void onMouseDown(MouseDownEvent event) {
 		exportPanel.hide();
 		importPanel.hide();
-		savePanel.hide();
 		if (event.getSource() instanceof Cell) {
 			Cell cell = (Cell) event.getSource();
 			currentTool.mouseDown(cell.getX(), cell.getY());

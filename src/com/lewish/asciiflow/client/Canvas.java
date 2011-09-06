@@ -36,9 +36,10 @@ public class Canvas extends Composite {
 	private Set<CellImpl> nextDraw = new HashSet<CellImpl>();
 
 	@Inject
-	public Canvas() {
+	public Canvas(LoadingWidget loadingWidget) {
 		focusPanel.setStyleName(CssStyles.CanvasFocus);
 		panel.setStyleName(CssStyles.Canvas);
+		panel.add(loadingWidget);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 		initWidget(focusPanel);

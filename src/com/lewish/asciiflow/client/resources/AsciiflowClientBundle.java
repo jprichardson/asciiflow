@@ -28,4 +28,7 @@ public interface AsciiflowClientBundle extends ClientBundle {
 
 	@Source("icons/freeform.png")
 	ImageResource freeformToolImage();
+
+	@Source("loading.gif")
+	ImageResource loadingImage();
 }

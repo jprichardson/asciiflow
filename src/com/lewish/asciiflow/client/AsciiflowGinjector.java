@@ -16,4 +16,5 @@ public interface AsciiflowGinjector extends Ginjector {
 	SaveWidget getSavePanel();
 	StoreHelper getStorageHelper();
 	StoreWidget getStoreWidget();
+	LoadingWidget getLoadingWidget();
 }

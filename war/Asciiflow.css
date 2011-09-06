@@ -67,7 +67,7 @@ div.header {
 
 .canvas {
 	position: relative;
-	border-color: #eeeeee;
+	border-color: #EEE;
 	border-style: solid;
 	display: inline-block;
 }
@@ -78,7 +78,7 @@ div.header {
 }
 
 div.tool-panel {
-	background-color: #eeeeee;
+	background-color: #EEE;
 }
 
 .tool-button {
@@ -160,9 +160,9 @@ a:visited {
 }
 
 .twitter-widget {
-	display:inline-block;
+	display: inline-block;
 	float: right;
-	width:60px;
+	width: 60px;
 }
 
 .plusone-widget {
@@ -181,5 +181,20 @@ a:visited {
 }
 
 .block {
-	display:block;
+	display: block;
+}
+
+div.loading-background {
+	width: 100%;
+	height: 100%;
+	background-color: #FAFAFA;
+	position: relative;
+}
+
+.loading-image {
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-10px;
+	margin-left:-110px;
 }

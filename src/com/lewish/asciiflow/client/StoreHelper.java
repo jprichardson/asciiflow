@@ -12,13 +12,15 @@ public class StoreHelper {
 
 	private final StoreServiceAsync service;
 	private final Canvas canvas;
+	private final LoadingWidget loadingWidget;
 
 	private State currentState;
 
 	@Inject
-	public StoreHelper(StoreServiceAsync service, Canvas canvas) {
+	public StoreHelper(StoreServiceAsync service, Canvas canvas, LoadingWidget loadingWidget) {
 		this.service = service;
 		this.canvas = canvas;
+		this.loadingWidget = loadingWidget;
 	}
 
 	public void parseFragmentLoadAndDraw() {
@@ -54,18 +56,21 @@ public class StoreHelper {
 	}
 
 	public void load(final Long id, final Integer editCode, final LoadCallback callback) {
+		loadingWidget.show();
 		service.loadState(id, editCode, new AsyncCallback<State>() {
 			@Override
 			public void onSuccess(final State result) {
 				result.uncompress(new AsyncCallback<Boolean>() {
 					@Override
 					public void onFailure(Throwable caught) {
+						loadingWidget.hide();
 						Window.alert(caught.getMessage());
 						callback.afterLoad(false, null);
 					}
 
 					@Override
 					public void onSuccess(Boolean success) {
+						loadingWidget.hide();
 						currentState = new State();
 						currentState.setId(id);
 						currentState.setEditCode(editCode);

@@ -27,4 +27,6 @@ public interface CssStyles {
 	public static final String PlusOneWidget = "plusone-widget";
 	public static final String Inline = "inline";
 	public static final String Block = "block";
+	public static final String LoadingBackground = "loading-background";
+	public static final String LoadingImage = "loading-image";
 }

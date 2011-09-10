@@ -4,6 +4,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -13,7 +15,9 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.StoreHelper.LoadCallback;
 import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
+import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Uri;
 
@@ -21,6 +25,7 @@ import com.lewish.asciiflow.shared.Uri;
 public class StoreWidget extends Composite {
 
 	private final StoreHelper storeHelper;
+	private final Canvas canvas;
 
 	private final FlowPanel linksPanel = new FlowPanel();
 	private final Anchor editLink = new Anchor();
@@ -32,6 +37,7 @@ public class StoreWidget extends Composite {
 	@Inject
 	public StoreWidget(final Canvas canvas, final StoreHelper storeHelper) {
 		this.storeHelper = storeHelper;
+		this.canvas = canvas;
 
 		saveButton.setStyleName(CssStyles.Inline);
 
@@ -42,6 +48,9 @@ public class StoreWidget extends Composite {
 
 					@Override
 					public void afterSave(boolean success, State state) {
+						if (success) {
+							History.newItem(state.getId() + "/" + state.getEditCode());
+						}
 						updateLinks();
 					}
 				});
@@ -75,8 +84,8 @@ public class StoreWidget extends Composite {
 		panel.add(saveButton);
 		panel.add(new InlineLabel(" Title: "));
 		panel.add(titleBox);
-		linksPanel.add(new InlineLabel(" Public: "));
-		linksPanel.add(isPublic);
+		panel.add(new InlineLabel(" Public: "));
+		panel.add(isPublic);
 		linksPanel.add(new InlineLabel(" "));
 		linksPanel.add(editLink);
 		linksPanel.add(new InlineLabel(" "));
@@ -85,10 +94,19 @@ public class StoreWidget extends Composite {
 		panel.add(linksPanel);
 		updateLinks();
 		initWidget(panel);
+
+		parseFragmentLoadAndDraw();
+
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				parseFragmentLoadAndDraw();
+			}
+		});
 	}
 
 	private void updateLinks() {
-		if (storeHelper.getCurrentState().getId() == null) {
+		if (!storeHelper.getCurrentState().hasId()) {
 			linksPanel.setVisible(false);
 		} else {
 			String editHref = Uri.getDocumentLink(storeHelper.getCurrentState().getId(),
@@ -97,6 +115,43 @@ public class StoreWidget extends Composite {
 			readonlyLink.setHref(readonlyHref);
 			editLink.setHref(editHref);
 			linksPanel.setVisible(true);
+			//Only show edit link if there is a valid edit code.
+			editLink.setVisible(storeHelper.getCurrentState().isEditable());
+		}
+	}
+
+	public void parseFragmentLoadAndDraw() {
+		String hash = Window.Location.getHash();
+		if(hash != null && hash.startsWith("#")) {
+			try {
+				String[] split = hash.substring(1).split("/");
+				Long id = Long.parseLong(split[0]);
+				Integer editCode = 0;
+				if (split.length > 1) {
+					editCode = Integer.parseInt(split[1]);
+				}
+				if (id.equals(storeHelper.getCurrentState().getId()) &&
+						editCode.equals(storeHelper.getCurrentState().getEditCode())) {
+					//If neither field has changed, do nothing.
+					return;
+				}
+				storeHelper.load(id, editCode, new LoadCallback() {
+					@Override
+					public void afterLoad(boolean success, State state) {
+						if (success) {
+							EraseTool.draw(canvas);
+							canvas.drawCellStates(state.getCellStateMap());
+							canvas.refreshDraw();
+							canvas.commitDraw();
+							setTitle(state.getTitle());
+							setPublic(state.isPublic());
+							updateLinks();
+						}
+					}
+				});
+			} catch (NumberFormatException e) {
+				//TODO
+			}
 		}
 	}
 

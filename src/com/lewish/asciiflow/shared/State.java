@@ -80,7 +80,9 @@ public class State implements Serializable {
 					String[] split = s.split("\n");
 					cellStates.getMap().clear();
 					for (String line : split) {
-						cellStates.add(CellState.fromString(line));
+						if (line.matches("\\d+:\\d+:.*")) {
+							cellStates.add(CellState.fromString(line));
+						}
 					}
 					callback.onSuccess(true);
 					return false;
@@ -123,7 +125,7 @@ public class State implements Serializable {
 	}
 
 	public boolean isEditable() {
-		return editCode != 0;
+		return editCode != null && editCode != 0;
 	}
 
 	/**

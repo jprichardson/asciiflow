@@ -61,6 +61,10 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 	@Override
 	public State loadState(Long id, Integer editCode) {
 		State state = fetchState(id);
+		//Do not return the edit code unless it is valid.
+		if (!editCode.equals(state.getEditCode())) {
+			state.setEditCode(0);
+		}
 		state.unblobify();
 		return state;
 	}

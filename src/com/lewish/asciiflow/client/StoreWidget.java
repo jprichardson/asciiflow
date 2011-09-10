@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.StoreHelper.LoadCallback;
 import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Uri;
@@ -35,11 +36,11 @@ public class StoreWidget extends Composite {
 	private final CheckBox isPublic = new CheckBox();
 
 	@Inject
-	public StoreWidget(final Canvas canvas, final StoreHelper storeHelper) {
+	public StoreWidget(final Canvas canvas, final StoreHelper storeHelper, AsciiflowCss css) {
 		this.storeHelper = storeHelper;
 		this.canvas = canvas;
 
-		saveButton.setStyleName(CssStyles.Inline);
+		saveButton.setStyleName(css.inline());
 
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -80,7 +81,7 @@ public class StoreWidget extends Composite {
 		editLink.setTarget("_blank");
 
 		FlowPanel panel = new FlowPanel();
-		panel.setStyleName(CssStyles.Block);
+		panel.setStyleName(css.block());
 		panel.add(saveButton);
 		panel.add(new InlineLabel(" Title: "));
 		panel.add(titleBox);
@@ -90,7 +91,7 @@ public class StoreWidget extends Composite {
 		linksPanel.add(editLink);
 		linksPanel.add(new InlineLabel(" "));
 		linksPanel.add(readonlyLink);
-		linksPanel.setStyleName(CssStyles.Inline);
+		linksPanel.setStyleName(css.inline());
 		panel.add(linksPanel);
 		updateLinks();
 		initWidget(panel);

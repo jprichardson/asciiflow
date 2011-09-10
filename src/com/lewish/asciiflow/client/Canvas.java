@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.shared.CellStateMap;
 import com.lewish.asciiflow.shared.CellState;
 
@@ -26,6 +27,7 @@ public class Canvas extends Composite {
 	private final FlowPanel panel = new FlowPanel();
 	private final FocusPanel focusPanel = new FocusPanel(panel);
 	private final CellImpl[][] model = new CellImpl[MAX_WIDTH][MAX_HEIGHT];
+	private final AsciiflowCss css;
 
 	private int width;
 	private int height;
@@ -36,9 +38,10 @@ public class Canvas extends Composite {
 	private Set<CellImpl> nextDraw = new HashSet<CellImpl>();
 
 	@Inject
-	public Canvas(LoadingWidget loadingWidget) {
-		focusPanel.setStyleName(CssStyles.CanvasFocus);
-		panel.setStyleName(CssStyles.Canvas);
+	public Canvas(LoadingWidget loadingWidget, AsciiflowCss css) {
+		this.css = css;
+		focusPanel.setStyleName(css.canvasFocus());
+		panel.setStyleName(css.canvas());
 		panel.add(loadingWidget);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
@@ -160,9 +163,9 @@ public class Canvas extends Composite {
 	private void pushHighlight(CellImpl cell) {
 		cell.highlight = cell.drawHighlight;
 		if (cell.highlight) {
-			cell.addStyleName(CssStyles.Drawing);
+			cell.addStyleName(css.drawing());
 		} else {
-			cell.removeStyleName(CssStyles.Drawing);
+			cell.removeStyleName(css.drawing());
 		}
 	}
 

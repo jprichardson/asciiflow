@@ -17,8 +17,8 @@ public class LoadingWidget extends Composite {
 	public LoadingWidget(AsciiflowClientBundle clientBundle) {
 		loadingImage = new Image(clientBundle.loadingImage());
 		panel.add(loadingImage);
-		loadingImage.setStyleName(CssStyles.LoadingImage);
-		panel.setStyleName(CssStyles.LoadingBackground);
+		loadingImage.setStyleName(clientBundle.css().loadingImage());
+		panel.setStyleName(clientBundle.css().loadingBackground());
 
 		initWidget(panel);
 		hide();

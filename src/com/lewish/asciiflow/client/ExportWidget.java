@@ -8,17 +8,20 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 @Singleton
 public class ExportWidget extends MenuWidget {
 
-	private TextArea textArea;
 	private final Canvas canvas;
+
+	private TextArea textArea;
+
 	private boolean html;
 
 	@Inject
-	public ExportWidget(Canvas canvas) {
-		super(100);
+	public ExportWidget(Canvas canvas, AsciiflowCss css) {
+		super(100, css);
 		this.canvas = canvas;
 	}
 
@@ -46,7 +49,7 @@ public class ExportWidget extends MenuWidget {
 	@Override
 	protected Widget getPanel() {
 		textArea = new TextArea();
-		textArea.addStyleName(CssStyles.ExportTextArea);
+		textArea.addStyleName(css.exportTextArea());
 		FlowPanel panel = new FlowPanel();
 		panel.add(textArea);
 		panel.add(new HTML("Copy the text above and use it in a <b>monospace</b> font"));

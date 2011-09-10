@@ -12,6 +12,6 @@ public class AccessException extends Exception implements Serializable {
 
 	public AccessException(State state) {
 		super("You do not have permission to edit this flow with access code "
-				+ state.getEditCode());
+				+ state.getEditCode() + ". Save again to save this edited flow branched from the original.");
 	}
 }

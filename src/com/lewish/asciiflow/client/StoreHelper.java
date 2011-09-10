@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.shared.AccessException;
 import com.lewish.asciiflow.shared.State;
 
 @Singleton
@@ -12,63 +12,36 @@ public class StoreHelper {
 
 	private final StoreServiceAsync service;
 	private final Canvas canvas;
+	private final LoadingWidget loadingWidget;
 
 	private State currentState;
 
 	@Inject
-	public StoreHelper(StoreServiceAsync service, Canvas canvas) {
+	public StoreHelper(StoreServiceAsync service, Canvas canvas, LoadingWidget loadingWidget) {
 		this.service = service;
 		this.canvas = canvas;
-	}
+		this.loadingWidget = loadingWidget;
 
-	public void parseFragmentLoadAndDraw() {
-		//Load
-		String hash = Window.Location.getHash();
-		if(hash != null && hash.startsWith("#")) {
-			try {
-				String[] split = hash.substring(1).split("/");
-				Long id = Long.parseLong(split[0]);
-				Integer editCode = 0;
-				if (split.length > 1) {
-					editCode = Integer.parseInt(split[1]);
-				}
-				loadAndDraw(id, editCode);
-			} catch (NumberFormatException e) {
-				//TODO
-			}
-		}
-	}
-
-	public void loadAndDraw(Long id, Integer editCode) {
-		load(id, editCode, new LoadCallback() {
-			@Override
-			public void afterLoad(boolean success, State state) {
-				if (success) {
-					EraseTool.draw(canvas);
-					canvas.drawState(state);
-					canvas.refreshDraw();
-					canvas.commitDraw();
-				}
-			}
-		});
+		currentState = new State();
 	}
 
 	public void load(final Long id, final Integer editCode, final LoadCallback callback) {
+		loadingWidget.show();
 		service.loadState(id, editCode, new AsyncCallback<State>() {
 			@Override
 			public void onSuccess(final State result) {
 				result.uncompress(new AsyncCallback<Boolean>() {
 					@Override
 					public void onFailure(Throwable caught) {
+						loadingWidget.hide();
 						Window.alert(caught.getMessage());
 						callback.afterLoad(false, null);
 					}
 
 					@Override
 					public void onSuccess(Boolean success) {
-						currentState = new State();
-						currentState.setId(id);
-						currentState.setEditCode(editCode);
+						loadingWidget.hide();
+						currentState = result;
 						callback.afterLoad(true, result);
 					}
 				});
@@ -77,32 +50,38 @@ public class StoreHelper {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				loadingWidget.hide();
 				Window.alert(caught.getMessage());
 				callback.afterLoad(false, null);
 			}
 		});
 	}
 
-	public void save(final State state, final SaveCallback callback) {
-		state.compress(new AsyncCallback<Boolean>() {
+	public void save(final SaveCallback callback) {
+		loadingWidget.show();
+		currentState.setCellStateMap(canvas.getCellStates());
+		currentState.compress(new AsyncCallback<Boolean>() {
 
 			@Override
 			public void onSuccess(Boolean result) {
-				if (currentState != null) {
-					state.setId(currentState.getId());
-					state.setEditCode(currentState.getEditCode());
-					currentState = null;
-				}
-				service.saveState(state, new AsyncCallback<State>() {
+				service.saveState(currentState, new AsyncCallback<State>() {
 					@Override
 					public void onSuccess(State result) {
-						currentState = result;
-						callback.afterSave(true, result);
+						loadingWidget.hide();
+						currentState.setId(result.getId());
+						currentState.setEditCode(result.getEditCode());
+						callback.afterSave(true, currentState);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
+						loadingWidget.hide();
 						Window.alert(caught.getMessage());
+						if (caught instanceof AccessException) {
+							//Bad access code, reset id for branching.
+							currentState.setEditCode(0);
+							currentState.setId(null);
+						}
 						callback.afterSave(false, null);
 					}
 				});
@@ -110,6 +89,7 @@ public class StoreHelper {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				loadingWidget.hide();
 				callback.afterSave(false, null);
 			}
 		});

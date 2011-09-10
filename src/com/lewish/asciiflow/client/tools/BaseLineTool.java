@@ -4,8 +4,8 @@ package com.lewish.asciiflow.client.tools;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.lewish.asciiflow.client.Canvas;
-import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
+import com.lewish.asciiflow.client.common.Box;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class BaseLineTool extends DragTool {
@@ -33,19 +33,16 @@ public class BaseLineTool extends DragTool {
 		return "Line";
 	}
 
-	public static void draw(Drag box, Canvas canvas, boolean isClockwise, boolean isArrowed, String hLineString, String vLineString, String cornerLineString) {
-		int x1 = box.getStart().x;
-		int y1 = box.getStart().y;
-		int x2 = box.getFinish().x;
-		int y2 = box.getFinish().y;
+	public static void draw(Box box, Canvas canvas, boolean isClockwise, boolean isArrowed,
+			String hLineString, String vLineString, String cornerLineString) {
 
 		int hX1 = box.topLeftX();
 		int hX2 = box.bottomRightX();
-		int hY = isClockwise ? y1 : y2;
+		int hY = isClockwise ? box.startY : box.finishY;
 
 		int vY1 = box.topLeftY();
 		int vY2 = box.bottomRightY();
-		int vX = isClockwise ? x2 : x1;
+		int vX = isClockwise ? box.finishX : box.startX;
 
 		while (hX1++ < hX2) {
 			canvas.draw(hX1, hY, hLineString);
@@ -54,20 +51,21 @@ public class BaseLineTool extends DragTool {
 			canvas.draw(vX, vY1, vLineString);
 		}
 
-		canvas.draw(x1, y1, cornerLineString);
+		canvas.draw(box.startX, box.startY, cornerLineString);
 		canvas.draw(vX, hY, cornerLineString);
 		String endChar = cornerLineString;
 		if (isArrowed) {
-			endChar = vX < x2 ? ">" : vX > x2 ? "<" : y1 < y2 ? "v" : y1 > y2 ? "^" : x1 < x2 ? ">"
-					: x1 > x2 ? "<" : cornerLineString;
+			endChar = vX < box.finishX ? ">" : vX > box.finishX ? "<"
+					: box.startY < box.finishY ? "v" : box.startY > box.finishY ? "^"
+							: box.startX < box.finishX ? ">" : box.startX > box.finishX ? "<"
+									: cornerLineString;
 		}
-		canvas.draw(x2, y2, endChar);
+		canvas.draw(box.finishX, box.finishY, endChar);
 	}
 
 	@Override
 	public String getDescription() {
-		return "Click and drag to draw a line"
-				+ ", press shift to toggle position";
+		return "Click and drag to draw a line" + ", press shift to toggle position";
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public class BaseLineTool extends DragTool {
 	}
 
 	@Override
-	protected void draw(Drag box) {
+	protected void draw(Box box) {
 		draw(box, canvas, isClockwise, false, "-", "|", "+");
 	}
 }

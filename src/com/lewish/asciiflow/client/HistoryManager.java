@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.shared.State;
+import com.lewish.asciiflow.shared.CellStateMap;
 
 @Singleton
 public class HistoryManager {
@@ -15,7 +15,7 @@ public class HistoryManager {
 
 	private final Canvas canvas;
 
-	private List<State> undoStates = new ArrayList<State>();
+	private List<CellStateMap> undoStates = new ArrayList<CellStateMap>();
 	private int maxHistory = 100;
 	private int currentState = -1;
 
@@ -27,7 +27,7 @@ public class HistoryManager {
 		}
 	}
 
-	public void save(State state) {
+	public void save(CellStateMap state) {
 		if(undoStates.size() >= maxHistory && currentState + 1 == undoStates.size()) {
 			undoStates.remove(0);
 		} else {
@@ -42,7 +42,7 @@ public class HistoryManager {
 
 	public void undo() {
 		if(currentState >= 0) {
-			canvas.drawState(undoStates.get(currentState));
+			canvas.drawCellStates(undoStates.get(currentState));
 			canvas.refreshDraw();
 			undoStates.set(currentState--, canvas.commitDraw());
 		}
@@ -50,7 +50,7 @@ public class HistoryManager {
 
 	public void redo() {
 		if(undoStates.size() > currentState + 1) {
-			canvas.drawState(undoStates.get(++currentState));
+			canvas.drawCellStates(undoStates.get(++currentState));
 			canvas.refreshDraw();
 			undoStates.set(currentState, canvas.commitDraw());
 		}

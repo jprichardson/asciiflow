@@ -34,7 +34,7 @@ public class Uri {
 	}
 
 	public static String getDocumentLink(Long id, Integer editCode) {
-		String link = getHost() + "#" + id.toString();
+		String link = getHost() + "#" + String.valueOf(id);
 		if (editCode != null  && editCode != 0) {
 			link += "/" + editCode;
 		}

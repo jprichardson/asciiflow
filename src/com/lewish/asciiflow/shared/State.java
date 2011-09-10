@@ -2,8 +2,7 @@
 package com.lewish.asciiflow.shared;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map.Entry;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
@@ -23,12 +22,13 @@ public class State implements Serializable {
 
 	private static final long serialVersionUID = 8847057226414076746L;
 
-	private transient final List<CellState> states = new ArrayList<CellState>();
+	private transient CellStateMap cellStates = new CellStateMap();
 
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Long id;
 
+	// Doesn't get serialized.
 	@Persistent
 	private transient Blob compressedBlob;
 
@@ -38,53 +38,25 @@ public class State implements Serializable {
 	@Persistent
 	private Integer editCode = 0;
 
-	//This is for client side transfer until I can serialise Blob.
+	@Persistent
+	private Boolean isPublic = false;
+
+	// This is for client side transfer until I can serialise Blob.
 	@NotPersistent
 	private byte[] compressedState;
 
-	public void add (CellState cellState) {
-		states.add(cellState);
-	}
-
-	public List<CellState> getStates() {
-		return states;
-	}
-
-	public static class CellState {
-		public int x;
-		public int y;
-		public String value;
-	
-		public CellState(int x, int y, String value) {
-			this.x = x;
-			this.y = y;
-			this.value = value;
-		}
-
-		public String toString() {
-			return x + ":" + y + ":" + value;
-		}
-
-		public static CellState fromString(String string) {
-			String[] split = string.split(":",3);
-			return new CellState(
-					Integer.parseInt(split[0]),
-					Integer.parseInt(split[1]),
-					split[2]);
-		}
-	}
-
 	public void compress(final AsyncCallback<Boolean> callback) {
 		String s = "";
-		for(CellState cellstate : states) {
-			if(!s.equals("")) {
+		for (Entry<String, CellState> entry : cellStates.getMap().entrySet()) {
+			if (!s.equals("")) {
 				s += "\n";
 			}
-			s += cellstate.toString();
+			s += entry.getKey() + ":" + entry.getValue().value;
 		}
 		final String toCompress = s;
 		Scheduler.get().scheduleIncremental(new Scheduler.RepeatingCommand() {
 			LZMAByteArrayCompressor c = new LZMAByteArrayCompressor(toCompress.getBytes());
+
 			@Override
 			public boolean execute() {
 				if (!c.execute()) {
@@ -100,14 +72,17 @@ public class State implements Serializable {
 	public void uncompress(final AsyncCallback<Boolean> callback) {
 		Scheduler.get().scheduleIncremental(new Scheduler.RepeatingCommand() {
 			LZMAByteArrayDecompressor c = new LZMAByteArrayDecompressor(compressedState);
+
 			@Override
 			public boolean execute() {
 				if (!c.execute()) {
 					String s = new String(c.getUncompressedData());
 					String[] split = s.split("\n");
-					states.clear();
-					for(String line : split) {
-						states.add(CellState.fromString(line));
+					cellStates.getMap().clear();
+					for (String line : split) {
+						if (line.matches("\\d+:\\d+:.*")) {
+							cellStates.add(CellState.fromString(line));
+						}
 					}
 					callback.onSuccess(true);
 					return false;
@@ -150,12 +125,12 @@ public class State implements Serializable {
 	}
 
 	public boolean isEditable() {
-		return editCode != 0;
+		return editCode != null && editCode != 0;
 	}
 
 	/**
-	 * Do not call clientside!
-	 * Blob not supported client side but required in the datastore.
+	 * Do not call clientside! Blob not supported client side but required in
+	 * the datastore.
 	 */
 	public void blobify() {
 		compressedBlob = new Blob(compressedState);
@@ -163,11 +138,27 @@ public class State implements Serializable {
 	}
 
 	/**
-	 * Do not call clientside!
-	 * Blob not supported client side but required in the datastore.
+	 * Do not call clientside! Blob not supported client side but required in
+	 * the datastore.
 	 */
 	public void unblobify() {
 		compressedState = compressedBlob.getBytes();
 		compressedBlob = null;
+	}
+
+	public CellStateMap getCellStateMap() {
+		return cellStates;
+	}
+
+	public void setCellStateMap(CellStateMap map) {
+		cellStates = map;
+	}
+
+	public void setPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public Boolean isPublic() {
+		return isPublic;
 	}
 }

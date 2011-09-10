@@ -5,27 +5,30 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface AsciiflowClientBundle extends ClientBundle {
 
-	@Source("boxtool.png")
+	@Source("icons/box.png")
 	ImageResource boxToolImage();
 
-	@Source("arrowtool.png")
+	@Source("icons/arrow.png")
 	ImageResource arrowToolImage();
 
-	@Source("erasetool.png")
+	@Source("icons/eraser.png")
 	ImageResource eraseToolImage();
 
-	@Source("linetool.png")
+	@Source("icons/line.png")
 	ImageResource lineToolImage();
 
-	@Source("selecttool.png")
+	@Source("icons/select.png")
 	ImageResource selectToolImage();
 
-	@Source("texttool.png")
+	@Source("icons/text.png")
 	ImageResource textToolImage();
 
-	@Source("titledboxtool.png")
+	@Source("icons/titled_box.png")
 	ImageResource titledBoxToolImage();
 
-	@Source("freeformtool.png")
+	@Source("icons/freeform.png")
 	ImageResource freeformToolImage();
+
+	@Source("loading.gif")
+	ImageResource loadingImage();
 }

@@ -6,13 +6,12 @@ import javax.inject.Inject;
 import com.google.gwt.resources.client.ImageResource;
 import com.lewish.asciiflow.client.AsciiKeyCodes;
 import com.lewish.asciiflow.client.Canvas;
-import com.lewish.asciiflow.client.Cell;
-import com.lewish.asciiflow.client.Drag;
 import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.Tool;
+import com.lewish.asciiflow.client.common.Box;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
-import com.lewish.asciiflow.shared.State;
-import com.lewish.asciiflow.shared.State.CellState;
+import com.lewish.asciiflow.shared.CellState;
+import com.lewish.asciiflow.shared.CellStateMap;
 
 public class SelectTool extends Tool {
 
@@ -21,8 +20,8 @@ public class SelectTool extends Tool {
 	}
 
 	private SelectState state = SelectState.Nothing;
-	private State clipboard;
-	private Drag currentBox;
+	private CellStateMap clipboard;
+	private Box currentBox;
 
 	private int moveX = 0;
 	private int moveY = 0;
@@ -34,51 +33,51 @@ public class SelectTool extends Tool {
 	}
 
 	@Override
-	public void mouseOver(Cell cell) {
+	public void mouseOver(int x, int y) {
 		if (state == SelectState.Dragging) {
-			currentBox.setFinish(cell);
+			currentBox.setFinish(x, y);
 			draw();
 		}
 		if(state == SelectState.Moving) {
-			currentBox.setStart(cell);
-			currentBox.setFinish(cell);
+			currentBox.setStart(x, y);
+			currentBox.setFinish(x, y);
 			paste(moveX, moveY);
 			refreshDraw();
 		}
 	}
 
 	@Override
-	public void mouseDown(Cell cell) {
+	public void mouseDown(int x, int y) {
 		if (state == SelectState.Nothing) {
 			state = SelectState.Dragging;
-			currentBox = new Drag(cell);
+			currentBox = new Box(x, y);
 			draw();
 		}
 		if (state == SelectState.Selected) {
 			
-			if(isInside(cell)) {
+			if(isInside(x, y)) {
 				state = SelectState.Moving;
-				moveX = cell.x - currentBox.topLeftX();
-				moveY = cell.y - currentBox.topLeftY();
+				moveX = x - currentBox.topLeftX();
+				moveY = y - currentBox.topLeftY();
 				copy(true);
-				currentBox = new Drag(cell);
+				currentBox = new Box(x, y);
 				refreshDraw();
 				commitDraw();
 				paste(moveX, moveY);
 				refreshDraw();
 			} else {
 				state = SelectState.Dragging;
-				currentBox = new Drag(cell);
+				currentBox = new Box(x, y);
 				draw();
 			}
 		}
 	}
 
 	@Override
-	public void mouseUp(Cell cell) {
+	public void mouseUp(int x, int y) {
 		if (state == SelectState.Dragging) {
 			state = SelectState.Selected;
-			currentBox.setFinish(cell);
+			currentBox.setFinish(x, y);
 		}
 		if (state == SelectState.Moving) {
 			state = SelectState.Selected;
@@ -98,7 +97,7 @@ public class SelectTool extends Tool {
 	private void copy(boolean cut) {
 		if (currentBox == null)
 			return;
-		clipboard = new State();
+		clipboard = new CellStateMap();
 		for (int x = currentBox.topLeftX(); x <= currentBox.bottomRightX(); x++) {
 			for (int y = currentBox.topLeftY(); y <= currentBox.bottomRightY(); y++) {
 				int dx = x - currentBox.topLeftX();
@@ -116,14 +115,14 @@ public class SelectTool extends Tool {
 	}
 
 	private void paste(int dx, int dy) {
-		State pasteState = new State();
+		CellStateMap pasteState = new CellStateMap();
 		if (currentBox != null && clipboard != null) {
-			for (CellState cs : clipboard.getStates()) {
+			for (CellState cs : clipboard.getCellStates()) {
 				// Move to select position
 				pasteState.add(new CellState(cs.x + currentBox.topLeftX() - dx, cs.y
 						+ currentBox.topLeftY() - dy, cs.value));
 			}
-			canvas.drawState(pasteState);
+			canvas.drawCellStates(pasteState);
 		}
 	}
 
@@ -170,9 +169,9 @@ public class SelectTool extends Tool {
 		}
 	}
 
-	public boolean isInside(Cell cell) {
+	public boolean isInside(int x, int y) {
 		if(currentBox == null) return false;
-		return cell.x <= currentBox.bottomRightX() && cell.x >= currentBox.topLeftX()
-		&& cell.y <= currentBox.bottomRightY() && cell.y >= currentBox.topLeftY();
+		return x <= currentBox.bottomRightX() && x >= currentBox.topLeftX()
+		&& y <= currentBox.bottomRightY() && y >= currentBox.topLeftY();
 	}
 }

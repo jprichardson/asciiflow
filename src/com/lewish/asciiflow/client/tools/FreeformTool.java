@@ -4,14 +4,14 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.Canvas;
-import com.lewish.asciiflow.client.Cell;
 import com.lewish.asciiflow.client.HistoryManager;
 import com.lewish.asciiflow.client.Tool;
+import com.lewish.asciiflow.client.common.Coordinate;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
 public class FreeformTool extends Tool {
 
-	private Cell currentCell;
+	private Coordinate coordinate;
 	private String currentString;
 
 	@Inject
@@ -32,32 +32,31 @@ public class FreeformTool extends Tool {
 	}
 
 	@Override
-	public void mouseDown(Cell cell) {
-		currentCell = cell;
-		mouseOver(cell);
+	public void mouseDown(int x, int y) {
+		coordinate = new Coordinate(x, y);
+		mouseOver(x, y);
 	}
 
 	@Override
-	public void mouseOver(Cell cell) {
-		if (currentCell != null) {
-			currentCell = cell;
-			canvas.draw(cell, currentString);
-			cell.pushValue(currentString);
-			cell.pushHighlight();
+	public void mouseOver(int x, int y) {
+		if (coordinate != null) {
+			coordinate.x = x;
+			coordinate.y = y;
+			canvas.draw(coordinate.x, coordinate.y, currentString);
+			canvas.refreshDraw(true);
 		}
 	}
 
 	@Override
-	public void mouseUp(Cell cell) {
-		currentCell = null;
+	public void mouseUp(int x, int y) {
+		coordinate = null;
 		refreshDraw();
 		commitDraw();
 	}
 
 	@Override
 	public void keyPress(KeyPressEvent event) {
-		//TODO: Unicode
-		currentString = String.valueOf(event.getCharCode());
+		currentString = new String(Character.toChars(event.getUnicodeCharCode()));
 	}
 
 	@Override

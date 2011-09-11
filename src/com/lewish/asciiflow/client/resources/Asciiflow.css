@@ -199,3 +199,7 @@ div.loadingBackground {
 	margin-top:-10px;
 	margin-left:-110px;
 }
+
+.canvas div:hover {
+	background-color: #b5d5ff;
+}

@@ -9,6 +9,8 @@
 
 <title>Asciiflow - ASCII Flow Diagram Tool</title>
 
+<link id="page_favicon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAiklEQVQ4T9VTuQ3AIAzE01GwC8OwC4WnIzokRxhCZJwqLpD/96DgoBhjY2ZCaH9AUAoPo8g7Hr6w9QS11lZKCTnnkFIiyNDvePiqDiSBKN+mGpPfI0CJao516B1YOpiLqB18SvCvERYgnVxhPrlComWJczHXFR5HADxP/sICZQm2/IXx5C74jmi8AKmHmBE9o3aPAAAAAElFTkSuQmCC" rel="icon" type="image/x-icon">
+
 <script type="text/javascript" src="asciiflow/asciiflow.nocache.js"></script>
 
 <script type="text/javascript">

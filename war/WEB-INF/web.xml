@@ -7,7 +7,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Asciiflow.html</welcome-file>
+    <welcome-file>Asciiflow.jsp</welcome-file>
   </welcome-file-list>
 
   <servlet>

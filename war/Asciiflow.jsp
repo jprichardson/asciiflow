@@ -9,22 +9,6 @@
 
 <title>Asciiflow - ASCII Flow Diagram Tool</title>
 
-<style type="text/css">
-#main {
-	display: inline-block;
-}
-
-#ads-bottom {
-	margin-top: 15px;
-	margin-left: 26px;
-}
-
-#ads-right {
-	display: inline-block;
-	margin-left: 15px;
-}
-</style>
-
 <script type="text/javascript" src="asciiflow/asciiflow.nocache.js"></script>
 
 <script type="text/javascript">
@@ -39,18 +23,19 @@
   })();
 </script>
 
-<script type="text/javascript">
-var random = Math.floor(Math.random()*2 + 1);
-if (random == 0) {
-	window.adslot =  'left';
-} else if (random == 1) {
-	window.adslot = 'right';
-} else if (random == 2) {
-	window.adslot = 'bottom';
-} else {
-	window.adslot = 'top';
-}
-</script>
+<%
+	String adslot;
+	long random = Math.round(Math.floor(Math.random()*4));
+	if (random == 0) {
+		adslot =  "left";
+	} else if (random == 1) {
+		adslot = "right";
+	} else if (random == 2) {
+		adslot = "bottom";
+	} else {
+		adslot = "top";
+	}
+%>
 
 <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js#appId=179968592059905&amp;xfbml=1"></script>
 
@@ -62,25 +47,76 @@ if (random == 0) {
 
 <body>
 
-<div id="main"></div>
-
-<div id="ads-right" style="position: absolute">
+<table style="display: inline-block;">
+	<tr>
+		<td colspan="3">
+<% if ("top".equals(adslot)) { %>
 <script type="text/javascript"><!--
-if(window.adslot == 'right') {
 	google_ad_client = "ca-pub-5033805476723981";
-	/* Right */
-	google_ad_slot = "6855894996";
-	google_ad_width = 120;
-	google_ad_height = 600;
-} else {
-	this.parentNode.style.display = 'none';
-}
+	/* Links */
+	google_ad_slot = "2167957931";
+	google_ad_width = 728;
+	google_ad_height = 15;
 //-->
 </script>
 <script type="text/javascript"
 src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
-</div>
+<% } %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+<% if ("left".equals(adslot)) { %>
+<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-5033805476723981";
+	/* Left */
+	google_ad_slot = "3046880976";
+	google_ad_width = 120;
+	google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<% } %>
+		</td>
+		<td>
+			<div id="main"></div>
+		</td>
+		<td>
+<% if ("right".equals(adslot)) { %>
+<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-5033805476723981";
+	/* Right */
+	google_ad_slot = "6855894996";
+	google_ad_width = 120;
+	google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<% } %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+<% if ("bottom".equals(adslot)) { %>
+<script type="text/javascript"><!--
+	google_ad_client = "ca-pub-5033805476723981";
+	/* Bottom */
+	google_ad_slot = "6181120069";
+	google_ad_width = 728;
+	google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+<% } %>
+		</td>
+	</tr>
+</table>
 
 <div id="fb-root"></div>
 
@@ -92,42 +128,6 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 	style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
 Please turn on JavaScript in order to use this site!</div>
 </noscript>
-
-<div id="ads-bottom" style="">
-<script type="text/javascript"><!--
-if(window.adslot == 'bottom') {
-	google_ad_client = "ca-pub-5033805476723981";
-	/* Leaderboard */
-	google_ad_slot = "6181120069";
-	google_ad_width = 728;
-	google_ad_height = 90;
-} else {
-	this.parentNode.style.display = 'none';
-}
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>
-
-<div id="ads-left" style="position: absolute">
-<script type="text/javascript"><!--
-if(window.adslot == 'left') {
-	google_ad_client = "ca-pub-5033805476723981";
-	/* Left */
-	google_ad_slot = "3046880976";
-	google_ad_width = 120;
-	google_ad_height = 600;
-} else {
-	this.parentNode.style.display = 'none';
-}
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>
 
 </body>
 </html>

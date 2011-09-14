@@ -28,9 +28,11 @@ public class ToolPanel extends Composite {
 	private final List<Tool> tools = new ArrayList<Tool>();
 	private final FlowPanel panel = new FlowPanel();
 
+	private final Controller controller;
+	private final InfoPanel infoPanel;
+	private final AsciiflowClientBundle clientBundle;
+
 	private ToolButton currentButton;
-	private Controller controller;
-	private InfoPanel infoPanel;
 
 	@Inject
 	public ToolPanel(AsciiflowClientBundle imageBundle,
@@ -41,11 +43,11 @@ public class ToolPanel extends Composite {
 			FreeformTool freeformTool) {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
+		this.clientBundle = imageBundle;
 		tools.add(selectTool);
 		tools.add(boxTool);
 		tools.add(titledBoxTool);
 		tools.add(lineTool);
-		//tools.add(dottedLineTool);
 		tools.add(arrowTool);
 		tools.add(textTool);
 		tools.add(eraseTool);
@@ -53,23 +55,23 @@ public class ToolPanel extends Composite {
 
 		for (final Tool tool : tools) {
 			final ToolButton button = new ToolButton(tool);
-			button.addStyleName(CssStyles.ToolButton);
+			button.addStyleName(imageBundle.css().toolButton());
 			panel.add(button);
 			if (tool instanceof BoxTool) {
 				selectButton(button, tool);
 			}
 		}
 
-		panel.addStyleName(CssStyles.ToolPanel);
+		panel.addStyleName(imageBundle.css().toolPanel());
 		initWidget(panel);
 	}
 
 	public void selectButton(ToolButton button, Tool tool) {
 		if (currentButton != null) {
-			currentButton.removeStyleName(CssStyles.SelectedTool);
+			currentButton.removeStyleName(clientBundle.css().selectedTool());
 		}
 		currentButton = button;
-		currentButton.addStyleName(CssStyles.SelectedTool);
+		currentButton.addStyleName(clientBundle.css().selectedTool());
 		controller.setTool(tool);
 		infoPanel.setText(tool.getDescription());
 	}

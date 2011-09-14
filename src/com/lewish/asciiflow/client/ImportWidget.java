@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.CellState;
 import com.lewish.asciiflow.shared.CellStateMap;
@@ -16,13 +17,14 @@ import com.lewish.asciiflow.shared.CellStateMap;
 @Singleton
 public class ImportWidget extends MenuWidget {
 
-	private TextArea textArea;
 	private final Canvas canvas;
 	private final HistoryManager historyManager;
 
+	private TextArea textArea;
+
 	@Inject
-	public ImportWidget(Canvas canvas, HistoryManager historyManager) {
-		super(120);
+	public ImportWidget(Canvas canvas, HistoryManager historyManager, AsciiflowCss css) {
+		super(120, css);
 		this.canvas = canvas;
 		this.historyManager = historyManager;
 	}
@@ -30,7 +32,7 @@ public class ImportWidget extends MenuWidget {
 	@Override
 	protected Widget getPanel() {
 		textArea = new TextArea();
-		textArea.addStyleName(CssStyles.ImportTextArea);
+		textArea.addStyleName(css.importTextArea());
 		FlowPanel panel = new FlowPanel();
 		panel.add(textArea);
 		panel.add(new Label("Paste in text and click import to load a drawing into the canvas."));

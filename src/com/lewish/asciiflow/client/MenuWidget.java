@@ -5,6 +5,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 public abstract class MenuWidget extends Composite {
 
@@ -12,9 +13,12 @@ public abstract class MenuWidget extends Composite {
 	private final FlowPanel hidePanel = new FlowPanel();
 	private final int height;
 
-	public MenuWidget(int height) {
+	protected final AsciiflowCss css;
+
+	public MenuWidget(int height, AsciiflowCss css) {
 		this.height = height;
-		resizePanel.addStyleName(CssStyles.MenuWidget);
+		this.css = css;
+		resizePanel.addStyleName(css.menuWidget());
 		hidePanel.add(getPanel());
 		resizePanel.add(hidePanel);
 		initWidget(resizePanel);

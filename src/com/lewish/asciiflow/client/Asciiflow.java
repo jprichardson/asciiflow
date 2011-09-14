@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.social.FacebookWidget;
 import com.lewish.asciiflow.client.social.PlusOneWidget;
 import com.lewish.asciiflow.client.social.TwitterWidget;
@@ -32,18 +33,20 @@ public class Asciiflow implements EntryPoint {
 		MenuWidget exportPanel = injector.getExportPanel();
 		MenuWidget importPanel = injector.getImportPanel();
 		StoreWidget storeWidget = injector.getStoreWidget();
+		AsciiflowCss css = injector.getCss();
+		css.ensureInjected();
 
 		//TODO: UiBinder main page!
-		frame.setStyleName(CssStyles.Frame);
-		header.setStyleName(CssStyles.Header);
-		body.setStyleName(CssStyles.Body);
-		footer.setStyleName(CssStyles.Footer);
+		frame.setStyleName(css.frame());
+		header.setStyleName(css.header());
+		body.setStyleName(css.body());
+		footer.setStyleName(css.footer());
 
 		frame.add(header);
-			header.add(new Logo());
-			header.add(new FacebookWidget());
-			header.add(new TwitterWidget());
-			header.add(new PlusOneWidget());
+			header.add(new Logo(css));
+			header.add(new FacebookWidget(css));
+			header.add(new TwitterWidget(css));
+			header.add(new PlusOneWidget(css));
 			header.add(storeWidget);
 			header.add(menuPanel);
 			header.add(exportPanel);

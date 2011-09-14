@@ -104,7 +104,7 @@ public class StoreHelper {
 	}
 
 	public void clearState() {
-		currentState = null;
+		currentState = new State();
 	}
 
 	public State getCurrentState() {

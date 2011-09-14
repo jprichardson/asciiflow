@@ -5,6 +5,9 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface AsciiflowClientBundle extends ClientBundle {
 
+	@Source("Asciiflow.css")
+	AsciiflowCss css();
+
 	@Source("icons/box.png")
 	ImageResource boxToolImage();
 

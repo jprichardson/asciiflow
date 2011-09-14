@@ -33,7 +33,7 @@ public class State implements Serializable {
 	private transient Blob compressedBlob;
 
 	@Persistent
-	private String title = "";
+	private String title = "Untitled";
 
 	@Persistent
 	private Integer editCode = 0;

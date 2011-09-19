@@ -16,9 +16,18 @@
       com.lewish.asciiflow.server.StoreServiceImpl
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EmbedServlet</servlet-name>
+    <servlet-class>com.lewish.asciiflow.server.EmbedServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>StoreServiceImpl</servlet-name>
     <url-pattern>/store</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EmbedServlet</servlet-name>
+    <url-pattern>/embed</url-pattern>
   </servlet-mapping>
 
 </web-app>

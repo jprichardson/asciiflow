@@ -14,7 +14,7 @@ public interface AsciiflowGinjector extends Ginjector {
 	ToolPanel getToolPanel();
 	ExportWidget getExportPanel();
 	ImportWidget getImportPanel();
-	StoreHelper getStorageHelper();
+	StoreModel getStorageHelper();
 	StoreWidget getStoreWidget();
 	LoadingWidget getLoadingWidget();
 	AsciiflowCss getCss();

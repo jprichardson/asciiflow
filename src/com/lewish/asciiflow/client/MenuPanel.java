@@ -14,6 +14,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
+import com.lewish.asciiflow.shared.OutputUtils;
 
 @Singleton
 public class MenuPanel extends Composite {
@@ -23,7 +24,7 @@ public class MenuPanel extends Composite {
 			final ExportWidget exportWidget,
 			final ImportWidget importWidget,
 			final HistoryManager historyManager,
-			final StoreHelper storageHelper,
+			final StoreModel storageHelper,
 			final LoadingWidget loadingWidget,
 			AsciiflowCss css) {
 		FlowPanel panel = new FlowPanel();
@@ -70,6 +71,7 @@ public class MenuPanel extends Composite {
 		panel.add(getButton("Export", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				exportWidget.setHtml(false);
 				exportWidget.toggle();
 			}
 		}));
@@ -89,7 +91,7 @@ public class MenuPanel extends Composite {
 		panel.add(getButton("Ditaa!", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String export = URL.encode(exportWidget.getText(false))
+				String export = URL.encode(OutputUtils.toText(canvas.getCellStates()))
 					.replace("+", "%2B")
 					.replace("%20", "+");
 				Window.open("http://ditaa.org/ditaa/render?grid=" + export, "_blank", null);

@@ -72,6 +72,14 @@ body {
 	user-select: none;
 }
 
+.canvas div:hover {
+	background-color: #b5d5ff;
+}
+
+.canvas div:active {
+	background-color: #FFF;
+}
+
 .canvas {
 	position: relative;
 	border-color: #EEE;
@@ -199,8 +207,5 @@ div.loadingBackground {
 	left:50%;
 	margin-top:-10px;
 	margin-left:-110px;
-}
-
-.canvas div:hover {
-	background-color: #b5d5ff;
+	z-index: 1000;
 }

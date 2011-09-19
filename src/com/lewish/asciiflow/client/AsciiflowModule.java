@@ -6,11 +6,13 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
+import com.lewish.asciiflow.shared.Compressor;
 
 public class AsciiflowModule extends AbstractGinModule {
 
 	@Override
 	protected void configure() {
+		bind(Compressor.class).to(ClientCompressor.class).in(Singleton.class);
 	}
 
 	@Provides

@@ -30,7 +30,6 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		}
 		
 		if (state.isCompressed()) {
-			state.blobify();
 			try {
 				state = pm.makePersistent(state);
 				return state;
@@ -65,7 +64,6 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		if (!editCode.equals(state.getEditCode())) {
 			state.setEditCode(0);
 		}
-		state.unblobify();
 		return state;
 	}
 

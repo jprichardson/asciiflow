@@ -10,11 +10,13 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 @Singleton
 public class Logo extends Composite {
 
-	private static final String logoString = "&nbsp;&nbsp;&nbsp;&nbsp;__&nbsp;&nbsp;&nbsp;____&nbsp;&nbsp;____&nbsp;&nbsp;_&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;____&nbsp;&nbsp;&nbsp;&nbsp;_____ _&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;__&nbsp;BETA!<br>"
-			+ "&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;\\ | ___|| ___||_||_|&nbsp;&nbsp;/ ___|| |&nbsp;&nbsp;_&nbsp;&nbsp;| \\&nbsp;&nbsp;__&nbsp;&nbsp;/ /<br>"
-			+ "&nbsp;&nbsp;/ /\\ \\|_ \\&nbsp;&nbsp;| |&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;_&nbsp;&nbsp;/ /&nbsp;&nbsp;| | | | | |\\ \\/&nbsp;&nbsp;\\/ /<br>"
-			+ "&nbsp;/&nbsp;&nbsp;__&nbsp;&nbsp;\\_\\ \\ | |__ | || |/ __| | |_| |_| | \\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/<br>"
-			+ "/__/&nbsp;&nbsp;\\__\\___||____||_||_|_/&nbsp;&nbsp;&nbsp;&nbsp;|____|____|&nbsp;&nbsp;\\_/\\_/<br>";
+	private static final String logoString = "<pre>"
+			+ "    __   ____  ____  _  _    ____    _____ _        __ BETA!<br>"
+			+ "   /  \\ | ___|| ___||_||_|  / ___|| |  _  | \\  __  / /<br>"
+			+ "  / /\\ \\|_ \\  | |    _  _  / /  | | | | | |\\ \\/  \\/ /<br>"
+			+ " /  __  \\_\\ \\ | |__ | || |/ __| | |_| |_| | \\      /<br>"
+			+ "/__/  \\__\\___||____||_||_|_/    |____|____|  \\_/\\_/<br>"
+			+ "</pre>";
 
 	@Inject
 	public Logo(AsciiflowCss css) {

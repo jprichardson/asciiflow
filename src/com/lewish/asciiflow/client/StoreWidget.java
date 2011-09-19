@@ -15,8 +15,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.StoreHelper.LoadCallback;
-import com.lewish.asciiflow.client.StoreHelper.SaveCallback;
+import com.lewish.asciiflow.client.CompressedStoreServiceAsync.LoadCallback;
+import com.lewish.asciiflow.client.CompressedStoreServiceAsync.SaveCallback;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
@@ -25,7 +25,7 @@ import com.lewish.asciiflow.shared.Uri;
 @Singleton
 public class StoreWidget extends Composite {
 
-	private final StoreHelper storeHelper;
+	private final StoreModel storeHelper;
 	private final Canvas canvas;
 
 	private final FlowPanel linksPanel = new FlowPanel();
@@ -36,7 +36,7 @@ public class StoreWidget extends Composite {
 	private final CheckBox isPublic = new CheckBox();
 
 	@Inject
-	public StoreWidget(final Canvas canvas, final StoreHelper storeHelper, AsciiflowCss css) {
+	public StoreWidget(final Canvas canvas, final StoreModel storeHelper, AsciiflowCss css) {
 		this.storeHelper = storeHelper;
 		this.canvas = canvas;
 

@@ -18,8 +18,8 @@ import com.lewish.asciiflow.shared.CellState;
 @Singleton
 public class Canvas extends Composite {
 
-	public static final int MAX_WIDTH = 200;
-	public static final int MAX_HEIGHT = 100;
+	public static final int MAX_WIDTH = 230;
+	public static final int MAX_HEIGHT = 70;
 
 	private static final int DEFAULT_WIDTH = 100;
 	private static final int DEFAULT_HEIGHT = 30;

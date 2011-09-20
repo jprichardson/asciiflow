@@ -136,6 +136,7 @@ body {
 	resize: none;
 	margin-top: 3px;
 	z-index: -100;
+	font-family: monospace;
 }
 
 .importTextArea {
@@ -147,6 +148,7 @@ body {
 	resize: none;
 	margin-top: 3px;
 	z-index: -100;
+	font-family: monospace;
 }
 
 .exportRight {

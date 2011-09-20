@@ -66,7 +66,7 @@ public class State implements Serializable {
 	}
 
 	public boolean isEditable() {
-		return editCode != null && editCode != 0;
+		return !hasId() || (editCode != null && editCode != 0);
 	}
 
 	public CellStateMap getCellStateMap() {

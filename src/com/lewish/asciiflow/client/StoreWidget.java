@@ -15,17 +15,18 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.CompressedStoreServiceAsync.LoadCallback;
-import com.lewish.asciiflow.client.CompressedStoreServiceAsync.SaveCallback;
+import com.lewish.asciiflow.client.StoreModel.ModelChangeEvent;
+import com.lewish.asciiflow.client.StoreModel.ModelChangeEvent.ModelChangeState;
+import com.lewish.asciiflow.client.StoreModel.ModelChangeHandler;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Uri;
 
 @Singleton
-public class StoreWidget extends Composite {
+public class StoreWidget extends Composite implements ModelChangeHandler {
 
-	private final StoreModel storeHelper;
+	private final StoreModel storeModel;
 	private final Canvas canvas;
 
 	private final FlowPanel linksPanel = new FlowPanel();
@@ -37,24 +38,16 @@ public class StoreWidget extends Composite {
 
 	@Inject
 	public StoreWidget(final Canvas canvas, final StoreModel storeHelper, AsciiflowCss css) {
-		this.storeHelper = storeHelper;
+		this.storeModel = storeHelper;
 		this.canvas = canvas;
+		storeModel.addModelChangeHandler(this);
 
 		saveButton.setStyleName(css.inline());
 
 		saveButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				storeHelper.save(new SaveCallback() {
-
-					@Override
-					public void afterSave(boolean success, State state) {
-						if (success) {
-							History.newItem(state.getId() + "/" + state.getEditCode());
-						}
-						updateLinks();
-					}
-				});
+				storeHelper.save();
 			}
 		});
 
@@ -107,23 +100,26 @@ public class StoreWidget extends Composite {
 	}
 
 	private void updateLinks() {
-		if (!storeHelper.getCurrentState().hasId()) {
+		if (!storeModel.getCurrentState().hasId()) {
 			linksPanel.setVisible(false);
 		} else {
-			String editHref = Uri.getDocumentLink(storeHelper.getCurrentState().getId(),
-					storeHelper.getCurrentState().getEditCode());
-			String readonlyHref = Uri.getDocumentLink(storeHelper.getCurrentState().getId(), null);
+			String editHref = Uri.getDocumentLink(storeModel.getCurrentState().getId(), storeModel
+					.getCurrentState().getEditCode());
+			String readonlyHref = Uri.getDocumentLink(storeModel.getCurrentState().getId(), null);
 			readonlyLink.setHref(readonlyHref);
 			editLink.setHref(editHref);
 			linksPanel.setVisible(true);
-			//Only show edit link if there is a valid edit code.
-			editLink.setVisible(storeHelper.getCurrentState().isEditable());
+			// Only show edit link if there is a valid edit code.
+			editLink.setVisible(storeModel.getCurrentState().isEditable());
 		}
+		saveButton.setEnabled(storeModel.getCurrentState().isEditable());
+		titleBox.setEnabled(storeModel.getCurrentState().isEditable());
+		isPublic.setEnabled(storeModel.getCurrentState().isEditable());
 	}
 
 	public void parseFragmentLoadAndDraw() {
 		String hash = Window.Location.getHash();
-		if(hash != null && hash.startsWith("#")) {
+		if (hash != null && hash.startsWith("#")) {
 			try {
 				String[] split = hash.substring(1).split("/");
 				Long id = Long.parseLong(split[0]);
@@ -131,27 +127,14 @@ public class StoreWidget extends Composite {
 				if (split.length > 1) {
 					editCode = Integer.parseInt(split[1]);
 				}
-				if (id.equals(storeHelper.getCurrentState().getId()) &&
-						editCode.equals(storeHelper.getCurrentState().getEditCode())) {
-					//If neither field has changed, do nothing.
+				if (id.equals(storeModel.getCurrentState().getId())
+						&& editCode.equals(storeModel.getCurrentState().getEditCode())) {
+					// If neither field has changed, do nothing.
 					return;
 				}
-				storeHelper.load(id, editCode, new LoadCallback() {
-					@Override
-					public void afterLoad(boolean success, State state) {
-						if (success) {
-							EraseTool.draw(canvas);
-							canvas.drawCellStates(state.getCellStateMap());
-							canvas.refreshDraw();
-							canvas.commitDraw();
-							setTitle(state.getTitle());
-							setPublic(state.isPublic());
-							updateLinks();
-						}
-					}
-				});
+				storeModel.load(id, editCode);
 			} catch (NumberFormatException e) {
-				//TODO
+				// TODO
 			}
 		}
 	}
@@ -162,5 +145,22 @@ public class StoreWidget extends Composite {
 
 	public void setPublic(Boolean isPublic) {
 		this.isPublic.setValue(isPublic);
+	}
+
+	@Override
+	public void onModelChange(ModelChangeEvent event) {
+		State state = storeModel.getCurrentState();
+		if (event.getState() == ModelChangeState.LOADED) {
+			EraseTool.draw(canvas);
+			canvas.drawCellStates(state.getCellStateMap());
+			canvas.refreshDraw();
+			canvas.commitDraw();
+			setTitle(state.getTitle());
+			setPublic(state.isPublic());
+		}
+		if (event.getState() == ModelChangeState.SAVED) {
+			History.newItem(state.getId() + "/" + state.getEditCode());
+		}
+		updateLinks();
 	}
 }

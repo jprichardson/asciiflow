@@ -52,7 +52,6 @@ public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHa
 		if (event.getSource() instanceof Cell) {
 			Cell cell = (Cell) event.getSource();
 			currentTool.mouseOver(cell.getX(), cell.getY());
-			canvas.focus();
 		}
 	}
 

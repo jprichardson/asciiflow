@@ -211,3 +211,7 @@ div.loadingBackground {
 	margin-left:-110px;
 	z-index: 1000;
 }
+
+.activityMenu {
+	display: inline-block;
+}

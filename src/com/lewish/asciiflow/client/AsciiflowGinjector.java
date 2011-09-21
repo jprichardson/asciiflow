@@ -7,15 +7,8 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 @GinModules(AsciiflowModule.class)
 public interface AsciiflowGinjector extends Ginjector {
-
-	Canvas getCanvas();
-	InfoPanel getInfoPanel();
-	MenuPanel getMenuPanel();
-	ToolPanel getToolPanel();
-	ExportWidget getExportPanel();
-	ImportWidget getImportPanel();
-	StoreModel getStorageHelper();
-	StoreWidget getStoreWidget();
-	LoadingWidget getLoadingWidget();
 	AsciiflowCss getCss();
+	ContentFrame getContentFrame();
+	ActivityController getActivityController();
+	ActivityMenu getActivityMenu();
 }

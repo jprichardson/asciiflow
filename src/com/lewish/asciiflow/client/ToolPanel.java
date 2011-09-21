@@ -44,6 +44,7 @@ public class ToolPanel extends Composite {
 		this.controller = controller;
 		this.infoPanel = infoPanel;
 		this.clientBundle = imageBundle;
+		// TODO: Provide via injector.
 		tools.add(selectTool);
 		tools.add(boxTool);
 		tools.add(titledBoxTool);

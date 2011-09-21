@@ -18,6 +18,16 @@ public class Logo extends Composite {
 			+ "/__/  \\__\\___||____||_||_|_/    |____|____|  \\_/\\_/<br>"
 			+ "</pre>";
 
+	/*
+	private static final String logoString_Draw = "<pre>"
+			+ "    __   ____  ____  _  _  ___  ____   __ __        __ BETA!<br>"
+			+ "   /  \\ | ___|| ___||_||_||   \\| __ | /  \\\\ \\  __  / /<br>"
+			+ "  / /\\ \\|_ \\  | |    _  _ | |\\ \\ | _|/ /\\ \\\\ \\/  \\/ /<br>"
+			+ " /  __  \\_\\ \\ | |__ | || || |/ /   \\/  __  \\\\      /<br>"
+			+ "/__/  \\__\\___||____||_||_||___/|_|\\_\\_/  \\__\\\\_/\\_/<br>"
+			+ "</pre>";
+	*/
+
 	@Inject
 	public Logo(AsciiflowCss css) {
 		initWidget(new HTML(logoString));

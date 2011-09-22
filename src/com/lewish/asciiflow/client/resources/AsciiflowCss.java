@@ -30,4 +30,6 @@ public interface AsciiflowCss extends CssResource {
 	public String loadingImage();
 	public String twitterWidget();
 	public String activityMenu();
+	public String selectedActivity();
+	public String aboutContent();
 }

@@ -11,7 +11,7 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 public class Logo extends Composite {
 
 	private static final String logoString = "<pre>"
-			+ "    __   ____  ____  _  _    ____    _____ _        __ BETA!<br>"
+			+ "    __   ____  ____  _  _    ____    _____ _        __<br>"
 			+ "   /  \\ | ___|| ___||_||_|  / ___|| |  _  | \\  __  / /<br>"
 			+ "  / /\\ \\|_ \\  | |    _  _  / /  | | | | | |\\ \\/  \\/ /<br>"
 			+ " /  __  \\_\\ \\ | |__ | || |/ __| | |_| |_| | \\      /<br>"
@@ -20,7 +20,7 @@ public class Logo extends Composite {
 
 	/*
 	private static final String logoString_Draw = "<pre>"
-			+ "    __   ____  ____  _  _  ___  ____   __ __        __ BETA!<br>"
+			+ "    __   ____  ____  _  _  ___  ____   __ __        __<br>"
 			+ "   /  \\ | ___|| ___||_||_||   \\| __ | /  \\\\ \\  __  / /<br>"
 			+ "  / /\\ \\|_ \\  | |    _  _ | |\\ \\ | _|/ /\\ \\\\ \\/  \\/ /<br>"
 			+ " /  __  \\_\\ \\ | |__ | || || |/ /   \\/  __  \\\\      /<br>"

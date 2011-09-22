@@ -15,31 +15,47 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 @Singleton
 public class ActivityMenu extends Composite {
 
+	private final AsciiflowCss css;
 	private final ActivityController activityController;
 
 	private final FlowPanel panel = new FlowPanel();
 
+	private FocusPanel currentLink;
+
 	@Inject
-	public ActivityMenu(AsciiflowCss css, ActivityController activityController, Map<Activity, Layout> activityMap) {
+	public ActivityMenu(AsciiflowCss css, ActivityController activityController,
+			Map<Activity, Layout> activityMap) {
+		this.css = css;
 		this.activityController = activityController;
 
 		panel.setStyleName(css.activityMenu());
 
-		for(Activity activity : activityMap.keySet()) {
+		for (Activity activity : activityMap.keySet()) {
 			addLink(activity);
 		}
 		initWidget(panel);
 	}
 
 	private void addLink(final Activity activity) {
-		FocusPanel link = new FocusPanel();
+		final FocusPanel link = new FocusPanel();
 		link.add(new Label(activity.getLabel()));
-		link.addClickHandler(new ClickHandler() {
+		ClickHandler clickHandler = new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				if (currentLink != null) {
+					currentLink.removeStyleName(css.selectedActivity());
+				}
+				currentLink = link;
+				link.addStyleName(css.selectedActivity());
 				activityController.startActivity(activity);
 			}
-		});
+		};
+		link.addClickHandler(clickHandler);
+		// TODO: Hack to highlight the right link at startup. Will break soon,
+		// turn activity controller to a model.
+		if (activity == ActivityController.DEFAULT_ACTIVITY) {
+			clickHandler.onClick(null);
+		}
 		panel.add(link);
 	}
 }

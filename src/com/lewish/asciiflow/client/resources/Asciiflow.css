@@ -35,7 +35,7 @@ body {
 }
 
 .logo pre {
-	margin-top: 0px;
+	margin-top: -10px;
 	margin-bottom: 0px;
 }
 
@@ -218,15 +218,25 @@ div.loadingBackground {
 }
 
 .activityMenu {
-	margin-left: 10px;
+	font-size: 16px;
+	margin-left: 20px;
+	margin-right: 20px;
+	width: 100px;
 	display: inline-block;
+	vertical-align: top;
 }
 
 .activityMenu div {
+	cursor: pointer;
+	vertical-align: top;
 	outline: 0px;
 	color: #555;
 }
 
-.activityMenu div:ACTIVE {
-	color: #000;
+.selectedActivity {
+	font-weight: bold;
+}
+
+.aboutContent {
+	width: 750px;
 }

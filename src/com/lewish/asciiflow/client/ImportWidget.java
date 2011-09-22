@@ -19,14 +19,16 @@ public class ImportWidget extends MenuWidget {
 
 	private final Canvas canvas;
 	private final HistoryManager historyManager;
+	private final StoreModel storeModel;
 
 	private TextArea textArea;
 
 	@Inject
-	public ImportWidget(Canvas canvas, HistoryManager historyManager, AsciiflowCss css) {
+	public ImportWidget(Canvas canvas, HistoryManager historyManager, AsciiflowCss css, StoreModel storeModel) {
 		super(120, css);
 		this.canvas = canvas;
 		this.historyManager = historyManager;
+		this.storeModel = storeModel;
 	}
 
 	@Override
@@ -76,6 +78,7 @@ public class ImportWidget extends MenuWidget {
 		while(canvas.getHeight() < height) {
 			canvas.addRow();
 		}
+		storeModel.clearState();
 		EraseTool.draw(canvas);
 		canvas.drawCellStates(state);
 		canvas.refreshDraw();

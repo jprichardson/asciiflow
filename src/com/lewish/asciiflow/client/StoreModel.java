@@ -22,12 +22,14 @@ public class StoreModel {
 		public static enum ModelChangeState {
 			LOADED,
 			SAVED,
+			CLEARED,
 			;
 		}
 
 		public static final Type<ModelChangeHandler> TYPE = new Type<ModelChangeHandler>();
 		public static final ModelChangeEvent LOADED = new ModelChangeEvent(ModelChangeState.LOADED);
 		public static final ModelChangeEvent SAVED = new ModelChangeEvent(ModelChangeState.SAVED);
+		public static final ModelChangeEvent CLEARED = new ModelChangeEvent(ModelChangeState.CLEARED);
 	
 		private final ModelChangeState state;
 
@@ -96,6 +98,7 @@ public class StoreModel {
 
 	public void clearState() {
 		currentState = new State();
+		fireEvent(ModelChangeEvent.CLEARED);
 	}
 
 	public State getCurrentState() {

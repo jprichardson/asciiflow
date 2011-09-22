@@ -161,6 +161,10 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 		if (event.getState() == ModelChangeState.SAVED) {
 			History.newItem(state.getId() + "/" + state.getEditCode());
 		}
+		if (event.getState() == ModelChangeState.CLEARED) {
+			setTitle("Untitled");
+			setPublic(false);
+		}
 		updateLinks();
 	}
 }

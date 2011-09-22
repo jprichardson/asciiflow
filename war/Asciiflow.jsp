@@ -68,7 +68,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		</td>
 	</tr>
 	<tr>
-		<td>
+		<td style="vertical-align: top;">
 <% if ("left".equals(adslot)) { %>
 <script type="text/javascript"><!--
 	google_ad_client = "ca-pub-5033805476723981";
@@ -83,10 +83,10 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 <% } %>
 		</td>
-		<td>
+		<td style="vertical-align: top;">
 			<div id="main"></div>
 		</td>
-		<td>
+		<td style="vertical-align: top;">
 <% if ("right".equals(adslot)) { %>
 <script type="text/javascript"><!--
 	google_ad_client = "ca-pub-5033805476723981";

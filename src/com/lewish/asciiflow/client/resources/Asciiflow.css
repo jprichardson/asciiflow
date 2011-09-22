@@ -34,6 +34,11 @@ body {
 	display: inline-block;
 }
 
+.logo pre {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
 .header {
 	text-align: left !important;
 }
@@ -213,5 +218,15 @@ div.loadingBackground {
 }
 
 .activityMenu {
+	margin-left: 10px;
 	display: inline-block;
+}
+
+.activityMenu div {
+	outline: 0px;
+	color: #555;
+}
+
+.activityMenu div:ACTIVE {
+	color: #000;
 }

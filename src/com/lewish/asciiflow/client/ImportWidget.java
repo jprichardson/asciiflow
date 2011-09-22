@@ -56,13 +56,9 @@ public class ImportWidget extends MenuWidget {
 
 	private void loadText(String text) {
 		CellStateMap state = new CellStateMap();
-		int maxWidth = 0;
 		int height = 0;
 		String[] lines = text.split("\n");
 		for(String line : lines) {
-			if(line.length() > maxWidth) {
-				maxWidth = line.length();
-			}
 			for(int i = 0; i< line.length(); i++) {
 				String val = new String(Character.toChars(line.codePointAt(i)));
 				if (!val.equals(" ")) {
@@ -70,13 +66,6 @@ public class ImportWidget extends MenuWidget {
 				}
 			}
 			height++;
-		}
-		//Resize canvas
-		while(canvas.getWidth() < maxWidth) {
-			canvas.addColumn();
-		}
-		while(canvas.getHeight() < height) {
-			canvas.addRow();
 		}
 		storeModel.clearState();
 		EraseTool.draw(canvas);

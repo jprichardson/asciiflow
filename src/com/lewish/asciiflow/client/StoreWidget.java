@@ -23,6 +23,7 @@ import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Uri;
 
+// TODO: Seperate Presenter, MVP?
 @Singleton
 public class StoreWidget extends Composite implements ModelChangeHandler {
 

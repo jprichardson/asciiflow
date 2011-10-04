@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.Cell;
 
 @Singleton
 public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHandler,

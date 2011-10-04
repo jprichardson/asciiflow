@@ -1,4 +1,4 @@
-package com.lewish.asciiflow.client;
+package com.lewish.asciiflow.client.common;
 
 import org.dellroad.lzma.client.LZMAByteArrayCompressor;
 import org.dellroad.lzma.client.LZMAByteArrayDecompressor;

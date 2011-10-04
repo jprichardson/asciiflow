@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 @Singleton

@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.PlainLayout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.shared.Uri;
 

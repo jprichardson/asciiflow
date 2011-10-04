@@ -1,5 +1,6 @@
 package com.lewish.asciiflow.shared;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 
 public class Uri {
@@ -57,5 +58,9 @@ public class Uri {
 	public static boolean isStable() {
 		return Window.Location.getHref().contains(
 				STABLE_HOST.subSequence(7, STABLE_HOST.length() - 2));
+	}
+
+	public static boolean isGalleryMode() {
+		return History.getToken().contains("gallery");
 	}
 }

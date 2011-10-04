@@ -1,4 +1,4 @@
-package com.lewish.asciiflow.client;
+package com.lewish.asciiflow.client.common;
 
 /**
  * Purely used for clickHandling, should not be exposed to programmer.

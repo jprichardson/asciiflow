@@ -3,6 +3,7 @@ package com.lewish.asciiflow.client;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 @Singleton

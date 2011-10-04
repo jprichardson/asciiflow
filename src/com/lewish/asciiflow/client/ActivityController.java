@@ -4,6 +4,8 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.Layout;
+import com.lewish.asciiflow.shared.Uri;
 
 @Singleton
 public class ActivityController {
@@ -19,7 +21,11 @@ public class ActivityController {
 	public ActivityController(Map<Activity, Layout> activityMap, ContentFrame contentFrame) {
 		this.activityMap = activityMap;
 		this.contentFrame = contentFrame;
-		startActivity(DEFAULT_ACTIVITY);
+		if (Uri.isGalleryMode()) {
+			startActivity(Activity.Gallery);
+		} else {
+			startActivity(DEFAULT_ACTIVITY);
+		}
 	}
 
 	public void startActivity(Activity activity) {

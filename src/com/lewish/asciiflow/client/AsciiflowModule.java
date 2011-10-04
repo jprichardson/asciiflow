@@ -7,6 +7,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.common.ClientCompressor;
+import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.shared.Compressor;

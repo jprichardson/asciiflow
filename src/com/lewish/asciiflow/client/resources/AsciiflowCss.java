@@ -32,4 +32,5 @@ public interface AsciiflowCss extends CssResource {
 	public String activityMenu();
 	public String selectedActivity();
 	public String aboutContent();
+	public String galleryPreviewWidget();
 }

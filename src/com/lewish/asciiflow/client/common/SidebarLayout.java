@@ -1,10 +1,11 @@
-package com.lewish.asciiflow.client;
+package com.lewish.asciiflow.client.common;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.lewish.asciiflow.client.FooterWidget;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
 public abstract class SidebarLayout extends Composite implements Layout {

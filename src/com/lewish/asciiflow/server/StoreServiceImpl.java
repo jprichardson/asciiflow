@@ -1,5 +1,6 @@
 package com.lewish.asciiflow.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,11 +87,19 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 	        extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, cursor);
 	        query.setExtensions(extensionMap);
 		}
-		@SuppressWarnings("unchecked")
-		List<State> states = (List<State>) query.execute();
-		Cursor cursor = JDOCursorHelper.getCursor(states);
-		String newCursorString = cursor.toWebSafeString();
-		return new BatchStoreQueryResult(states, newCursorString);
+
+		String newCursorString;
+		ArrayList<State> cleanStates;
+		try {
+			@SuppressWarnings("unchecked")
+			List<State> states = (List<State>) query.execute();
+			Cursor cursor = JDOCursorHelper.getCursor(states);
+			newCursorString = cursor.toWebSafeString();
+			cleanStates = new ArrayList<State>(pm.detachCopyAll(states));
+		} finally {
+			pm.close();
+		}
+		return new BatchStoreQueryResult(new ArrayList<State>(cleanStates), newCursorString);
 	}
 
 	private State fetchState(Long id) {

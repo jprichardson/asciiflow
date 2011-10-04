@@ -4,13 +4,11 @@ package com.lewish.asciiflow.shared;
 import java.io.Serializable;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
 
-@PersistenceCapable
 public class State implements Serializable {
 
 	private static final long serialVersionUID = 8847057226414076746L;

@@ -14,6 +14,8 @@ public class GalleryPreviewWidget extends Composite {
 	private final FlowPanel panel = new FlowPanel();
 	private final Label title = new Label();
 	private final HTML preview = new HTML();
+	private State state;
+
 	@Inject
 	public GalleryPreviewWidget(AsciiflowCss css) {
 		panel.setStyleName(css.galleryPreviewWidget());
@@ -23,7 +25,12 @@ public class GalleryPreviewWidget extends Composite {
 	}
 
 	public void setState(State state) {
+		this.state = state;
 		title.setText(state.getTitle());
 		preview.setHTML(OutputUtils.toText(state.getCellStateMap()));
+	}
+
+	public State getState() {
+		return state;
 	}
 }

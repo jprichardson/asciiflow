@@ -1,10 +1,19 @@
 package com.lewish.asciiflow.shared;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BatchStoreQueryResult {
-	private final List<State> states;
-	private final String cursorString;
+public class BatchStoreQueryResult implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2023771782594006348L;
+
+	private List<State> states;
+	private String cursorString;
+
+	public BatchStoreQueryResult() {
+	}
 
 	public BatchStoreQueryResult(List<State> states, String cursorString) {
 		this.states = states;

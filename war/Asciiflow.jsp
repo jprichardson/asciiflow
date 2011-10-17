@@ -54,9 +54,9 @@
 		<td colspan="3">
 <% if ("top".equals(adslot)) { %>
 <script type="text/javascript"><!--
-	google_ad_client = "ca-pub-5033805476723981";
+	google_ad_client = "ca-pub-0451873530201272";
 	/* Links */
-	google_ad_slot = "2167957931";
+	google_ad_slot = "5949143848";
 	google_ad_width = 728;
 	google_ad_height = 15;
 //-->
@@ -71,9 +71,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		<td style="vertical-align: top;">
 <% if ("left".equals(adslot)) { %>
 <script type="text/javascript"><!--
-	google_ad_client = "ca-pub-5033805476723981";
+	google_ad_client = "ca-pub-0451873530201272";
 	/* Left */
-	google_ad_slot = "3046880976";
+	google_ad_slot = "7579319729";
 	google_ad_width = 120;
 	google_ad_height = 600;
 //-->
@@ -89,9 +89,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		<td style="vertical-align: top;">
 <% if ("right".equals(adslot)) { %>
 <script type="text/javascript"><!--
-	google_ad_client = "ca-pub-5033805476723981";
+	google_ad_client = "ca-pub-0451873530201272";
 	/* Right */
-	google_ad_slot = "6855894996";
+	google_ad_slot = "9207902077";
 	google_ad_width = 120;
 	google_ad_height = 600;
 //-->
@@ -105,9 +105,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		<td colspan="3">
 <% if ("bottom".equals(adslot)) { %>
 <script type="text/javascript"><!--
-	google_ad_client = "ca-pub-5033805476723981";
+	google_ad_client = "ca-pub-0451873530201272";
 	/* Bottom */
-	google_ad_slot = "6181120069";
+	google_ad_slot = "3208760813";
 	google_ad_width = 728;
 	google_ad_height = 90;
 //-->

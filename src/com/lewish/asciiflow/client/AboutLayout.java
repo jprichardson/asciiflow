@@ -12,7 +12,7 @@ import com.lewish.asciiflow.shared.Uri;
 public class AboutLayout extends PlainLayout {
 
 	private final HTML content = new HTML(
-					"Hi I am Lewis and Welcome to Asciiflow!<br><br>"
+					"Hi welcome to Asciiflow!<br><br>"
 					+ "My primary goal when creating this website was to provide a simple way to embed flow diagrams or drawings within emails, blogs, text based media. However, since starting development it has started to become more than this, with a link to export drawings to <a href=\"http://ditaa.org/ditaa/\">DITAA</a>, as well as sharing and saving.<br>"
 					+ "I intend to expand the site further to incorporate a gallery, and when core work has been competed I have every intention of making this entirely open source!<br><br>"
 					+ "For development updates you can view the <a href=\""

@@ -231,10 +231,10 @@ public class Canvas extends Composite {
 
 	public void drawCellStates(CellStateMap state) {
 		for (CellState cellState : state.getCellStates()) {
-			while (getWidth() < cellState.x && getWidth() < MAX_WIDTH) {
+			while (getWidth() < cellState.x + 1 && getWidth() < MAX_WIDTH) {
 				addColumn();
 			}
-			while (getHeight() < cellState.y && getHeight() < MAX_HEIGHT) {
+			while (getHeight() < cellState.y + 1 && getHeight() < MAX_HEIGHT) {
 				addRow();
 			}
 			draw(cellState.x, cellState.y, cellState.value);

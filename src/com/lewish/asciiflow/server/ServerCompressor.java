@@ -1,5 +1,7 @@
 package com.lewish.asciiflow.server;
 
+import java.util.List;
+
 import org.dellroad.lzma.client.LZMAByteArrayCompressor;
 import org.dellroad.lzma.client.LZMAByteArrayDecompressor;
 
@@ -24,5 +26,10 @@ public class ServerCompressor extends Compressor {
 		}
 		postProcessUncompress(c.getUncompressedData(), state);
 		callback.onFinish(true);
+	}
+
+	@Override
+	public void uncompress(List<State> state, Callback callback) {
+		throw new UnsupportedOperationException();
 	}
 }

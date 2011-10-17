@@ -7,8 +7,7 @@
 div {
 	font-family: monospace;
 }
-
-button, input {
+button,input {
 	font-family: monospace;
 	font-size: 11px;
 }
@@ -26,6 +25,7 @@ body {
 }
 
 .body {
+	
 }
 
 .logo {
@@ -209,11 +209,11 @@ div.loadingBackground {
 }
 
 .loadingImage {
-	position:absolute;
-	top:50%;
-	left:50%;
-	margin-top:-10px;
-	margin-left:-110px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -10px;
+	margin-left: -110px;
 	z-index: 1000;
 }
 
@@ -242,4 +242,5 @@ div.loadingBackground {
 }
 
 .galleryPreviewWidget {
+	margin-bottom: 20px;
 }

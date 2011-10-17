@@ -1,5 +1,8 @@
 package com.lewish.asciiflow.client.common;
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.dellroad.lzma.client.LZMAByteArrayCompressor;
 import org.dellroad.lzma.client.LZMAByteArrayDecompressor;
 
@@ -32,13 +35,33 @@ public class ClientCompressor extends Compressor {
 
 			@Override
 			public boolean execute() {
-				if (!c.execute()) {
-					postProcessUncompress(c.getUncompressedData(), state);
-					callback.onFinish(true);
+				try {
+					if (!c.execute()) {
+						postProcessUncompress(c.getUncompressedData(), state);
+						callback.onFinish(true);
+						return false;
+					}
+					return true;
+				} catch (Exception e) {
+					callback.onFinish(false);
 					return false;
 				}
-				return true;
 			}
 		});
+	}
+
+	public void uncompress(final List<State> states, final Callback callback) {
+		final AtomicInteger count = new AtomicInteger(states.size());
+		for (State state : states) {
+			uncompress(state, new Callback() {
+				@Override
+				public void onFinish(boolean result) {
+					int remaining = count.decrementAndGet();
+					if (remaining == 0) {
+						callback.onFinish(true);
+					}
+				}
+			});
+		}
 	}
 }

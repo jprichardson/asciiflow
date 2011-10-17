@@ -1,11 +1,13 @@
 package com.lewish.asciiflow.shared;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 public abstract class Compressor {
 
 	public abstract void compress(final State state, Callback callback);
 	public abstract void uncompress(final State state, Callback callback);
+	public abstract void uncompress(final List<State> state, Callback callback);
 
 	protected byte[] preProcessCompress(final State state) {
 		String s = "";

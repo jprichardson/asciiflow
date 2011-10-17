@@ -1,14 +1,13 @@
 package com.lewish.asciiflow.client.gallery;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.lewish.asciiflow.client.common.SidebarLayout;
+import com.lewish.asciiflow.client.common.PlainLayout;
 
 @Singleton
-public class GalleryLayout extends SidebarLayout {
+public class GalleryLayout extends PlainLayout {
 
 	private final GallerySidebarWidget sidebarWidget;
 
@@ -19,17 +18,8 @@ public class GalleryLayout extends SidebarLayout {
 
 	@Override
 	public Widget getContent() {
-		return new Label("CONTENT");
+		FlowPanel panel = new FlowPanel();
+		panel.add(sidebarWidget);
+		return panel;
 	}
-
-	@Override
-	public Widget getHeaderContent() {
-		return new FlowPanel();
-	}
-
-	@Override
-	public Widget getSideContent() {
-		return sidebarWidget;
-	}
-
 }

@@ -3,6 +3,7 @@ package com.lewish.asciiflow.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.shared.BatchStoreQueryResult;
 import com.lewish.asciiflow.shared.Compressor;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Compressor.Callback;
@@ -38,6 +39,25 @@ public class CompressedStoreServiceAsync {
 		});
 	}
 
+	public void loadTenStates(String cursorString, final BatchedLoadCallback callback) {
+		service.loadTenStates(cursorString, new AsyncCallback<BatchStoreQueryResult>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				callback.afterLoad(false, null);
+			}
+
+			@Override
+			public void onSuccess(final BatchStoreQueryResult result) {
+				compressor.uncompress(result.getStates(), new Callback() {
+					@Override
+					public void onFinish(boolean success) {
+						callback.afterLoad(success, result);
+					}
+				});
+			}
+		});
+	}
+
 	public void saveState(final State state, final SaveCallback callback) {
 		compressor.compress(state, new Compressor.Callback() {
 			@Override
@@ -66,5 +86,9 @@ public class CompressedStoreServiceAsync {
 
 	public static interface LoadCallback {
 		public void afterLoad(boolean success, State state);
+	}
+
+	public static interface BatchedLoadCallback {
+		public void afterLoad(boolean success, BatchStoreQueryResult result);
 	}
 }

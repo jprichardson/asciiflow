@@ -18,6 +18,7 @@ public class ContentFrame extends SimplePanel {
 		this.footerWidget = footerWidget;
 	}
 	public void setLayout(Layout layout) {
-		setWidget(layout.buildLayout(css, footerWidget));
+		clear();
+		add(layout.buildLayout(css, footerWidget));
 	}
 }

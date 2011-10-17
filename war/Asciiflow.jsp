@@ -27,12 +27,12 @@
 
 <%
 	String adslot;
-	long random = Math.round(Math.floor(Math.random()*4));
-	if (random == 0) {
+	double random = Math.random()*4;
+	if (random < 2.0) {
 		adslot =  "left";
-	} else if (random == 1) {
+	} else if (random < 3.2) {
 		adslot = "right";
-	} else if (random == 2) {
+	} else if (random == 3.8) {
 		adslot = "bottom";
 	} else {
 		adslot = "top";

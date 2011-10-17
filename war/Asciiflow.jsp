@@ -32,7 +32,7 @@
 		adslot =  "left";
 	} else if (random < 3.2) {
 		adslot = "right";
-	} else if (random == 3.8) {
+	} else if (random < 3.8) {
 		adslot = "bottom";
 	} else {
 		adslot = "top";

@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.common.PlainLayout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
-import com.lewish.asciiflow.shared.Uri;
+import com.lewish.asciiflow.shared.UriConstants;
 
 @Singleton
 public class AboutLayout extends PlainLayout {
@@ -16,7 +16,7 @@ public class AboutLayout extends PlainLayout {
 					+ "My primary goal when creating this website was to provide a simple way to embed flow diagrams or drawings within emails, blogs, text based media. However, since starting development it has started to become more than this, with a link to export drawings to <a href=\"http://ditaa.org/ditaa/\">DITAA</a>, as well as sharing and saving.<br>"
 					+ "I intend to expand the site further to incorporate a gallery, and when core work has been competed I have every intention of making this entirely open source!<br><br>"
 					+ "For development updates you can view the <a href=\""
-					+ Uri.getBlogUri()
+					+ UriConstants.BLOG_URI
 					+ "\">Blog</a>.<br><br>"
 					+ "The site is made in GWT and runs on Google AppEngine, for best results use Chrome to draw large diagrams, as it is very heavy on JavaScript.<br><br>"
 					+ "About me, I have been working at Google for a year as a software engineer in AdSense, so this is a bit of a pet project. My primary interest is in web apps, you can contact me via:<br>"

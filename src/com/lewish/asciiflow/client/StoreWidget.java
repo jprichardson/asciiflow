@@ -4,8 +4,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -16,19 +14,21 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.StoreModel.ModelChangeEvent;
-import com.lewish.asciiflow.client.StoreModel.ModelChangeEvent.ModelChangeState;
 import com.lewish.asciiflow.client.StoreModel.ModelChangeHandler;
+import com.lewish.asciiflow.client.StoreModel.ModelChangeEvent.ModelChangeState;
+import com.lewish.asciiflow.client.Uri.UriChangeEvent;
+import com.lewish.asciiflow.client.Uri.UriChangeHandler;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
-import com.lewish.asciiflow.shared.Uri;
 
-// TODO: Seperate Presenter, MVP?
+// TODO: Separate Presenter, MVP?
 @Singleton
 public class StoreWidget extends Composite implements ModelChangeHandler {
 
 	private final StoreModel storeModel;
 	private final Canvas canvas;
+	private final Uri uri;
 
 	private final FlowPanel linksPanel = new FlowPanel();
 	private final Anchor editLink = new Anchor();
@@ -38,9 +38,10 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 	private final CheckBox isPublic = new CheckBox();
 
 	@Inject
-	public StoreWidget(final Canvas canvas, final StoreModel storeHelper, AsciiflowCss css) {
+	public StoreWidget(final Canvas canvas, final StoreModel storeHelper, AsciiflowCss css, Uri uri) {
 		this.storeModel = storeHelper;
 		this.canvas = canvas;
+		this.uri = uri;
 		storeModel.addModelChangeHandler(this);
 
 		saveButton.setStyleName(css.inline());
@@ -90,12 +91,12 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 		updateLinks();
 		initWidget(panel);
 
-		parseFragmentLoadAndDraw();
+		loadFromUri();
 
-		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+		uri.addUriChangeHandler(new UriChangeHandler() {
 			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
-				parseFragmentLoadAndDraw();
+			public void onModelChange(UriChangeEvent event) {
+				loadFromUri();
 			}
 		});
 	}
@@ -104,9 +105,9 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 		if (!storeModel.getCurrentState().hasId()) {
 			linksPanel.setVisible(false);
 		} else {
-			String editHref = Uri.getDocumentLink(storeModel.getCurrentState().getId(), storeModel
+			String editHref = uri.getDocumentLink(storeModel.getCurrentState().getId(), storeModel
 					.getCurrentState().getEditCode());
-			String readonlyHref = Uri.getDocumentLink(storeModel.getCurrentState().getId(), null);
+			String readonlyHref = uri.getDocumentLink(storeModel.getCurrentState().getId(), null);
 			readonlyLink.setHref(readonlyHref);
 			editLink.setHref(editHref);
 			linksPanel.setVisible(true);
@@ -118,26 +119,19 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 		isPublic.setEnabled(storeModel.getCurrentState().isEditable());
 	}
 
-	public void parseFragmentLoadAndDraw() {
-		String hash = Window.Location.getHash();
-		if (hash != null && hash.startsWith("#")) {
-			try {
-				String[] split = hash.substring(1).split("/");
-				Long id = Long.parseLong(split[0]);
-				Integer editCode = 0;
-				if (split.length > 1) {
-					editCode = Integer.parseInt(split[1]);
-				}
-				if (id.equals(storeModel.getCurrentState().getId())
-						&& editCode.equals(storeModel.getCurrentState().getEditCode())) {
-					// If neither field has changed, do nothing.
-					return;
-				}
-				storeModel.load(id, editCode);
-			} catch (NumberFormatException e) {
-				// TODO
-			}
+	// TODO: Move into StoreModel probably.
+	public void loadFromUri() {
+		if (!uri.hasId()) {
+			return;
 		}
+		Long id = uri.getId();
+		Integer editCode = uri.getEditCode();
+		if (id.equals(storeModel.getCurrentState().getId())
+				&& editCode.equals(storeModel.getCurrentState().getEditCode())) {
+			// If neither field has changed, do nothing.
+			return;
+		}
+		storeModel.load(id, editCode);
 	}
 
 	public void setTitle(String title) {
@@ -160,7 +154,7 @@ public class StoreWidget extends Composite implements ModelChangeHandler {
 			setPublic(state.isPublic());
 		}
 		if (event.getState() == ModelChangeState.SAVED) {
-			History.newItem(state.getId() + "/" + state.getEditCode());
+			uri.setIdAndEditCode(state.getId(), state.getEditCode());
 		}
 		if (event.getState() == ModelChangeState.CLEARED) {
 			setTitle("Untitled");

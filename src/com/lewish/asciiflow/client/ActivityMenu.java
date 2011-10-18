@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.lewish.asciiflow.client.Uri.UriChangeEvent;
+import com.lewish.asciiflow.client.Uri.UriChangeHandler;
 import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
@@ -18,6 +20,7 @@ public class ActivityMenu extends Composite {
 
 	private final AsciiflowCss css;
 	private final ActivityController activityController;
+	private final Uri uri;
 
 	private final FlowPanel panel = new FlowPanel();
 
@@ -25,9 +28,10 @@ public class ActivityMenu extends Composite {
 
 	@Inject
 	public ActivityMenu(AsciiflowCss css, ActivityController activityController,
-			Map<Activity, Layout> activityMap) {
+			Map<Activity, Layout> activityMap, Uri uri) {
 		this.css = css;
 		this.activityController = activityController;
+		this.uri = uri;
 
 		panel.setStyleName(css.activityMenu());
 
@@ -40,7 +44,7 @@ public class ActivityMenu extends Composite {
 	private void addLink(final Activity activity) {
 		final FocusPanel link = new FocusPanel();
 		link.add(new Label(activity.getLabel()));
-		ClickHandler clickHandler = new ClickHandler() {
+		final ClickHandler clickHandler = new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (currentLink != null) {
@@ -52,9 +56,16 @@ public class ActivityMenu extends Composite {
 			}
 		};
 		link.addClickHandler(clickHandler);
-		// TODO: Hack to highlight the right link at startup. Will break soon,
-		// turn activity controller to a model.
-		if (activity == ActivityController.DEFAULT_ACTIVITY) {
+		// TODO: This is all fucked up, but whatever.
+		uri.addUriChangeHandler(new UriChangeHandler() {
+			@Override
+			public void onModelChange(UriChangeEvent event) {
+				if (activity.name().equals(uri.getActivity())) {
+					clickHandler.onClick(null);
+				}
+			}
+		});
+		if (activity.name().equals(uri.getActivity())) {
 			clickHandler.onClick(null);
 		}
 		panel.add(link);

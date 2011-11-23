@@ -16,6 +16,11 @@ import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/**
+ * Provides convenience methods for building and parsing Uri's. Also handles browser history.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class Uri {
 

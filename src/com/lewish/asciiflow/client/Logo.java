@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -7,6 +6,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
+/**
+ * TODO: Provide logic to show different diagram depending on current domain {asciiflow/asciidraw}.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class Logo extends Composite {
 

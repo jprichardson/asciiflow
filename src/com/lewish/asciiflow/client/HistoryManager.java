@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import java.util.ArrayList;
@@ -8,6 +7,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.shared.CellStateMap;
 
+/**
+ * Relatively straightforward history manager for undo and redo operations.
+ * This is aware of {@link CellStateMap} only.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class HistoryManager {
 

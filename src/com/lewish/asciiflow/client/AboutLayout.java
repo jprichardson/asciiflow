@@ -19,6 +19,7 @@ public class AboutLayout extends PlainLayout {
 					+ UriConstants.BLOG_URI
 					+ "\">Blog</a>.<br><br>"
 					+ "The site is made in GWT and runs on Google AppEngine, for best results use Chrome to draw large diagrams, as it is very heavy on JavaScript.<br><br>"
+					+ "The code is now open-source and feel free to branch, edit, contribute at <a href=\"https://github.com/lewish/asciiflow\"> github</a>.<br><br>"
 					+ "About me, I have been working at Google for a year as a software engineer in AdSense, so this is a bit of a pet project. My primary interest is in web apps, you can contact me via:<br>"
 					+ "<a href=\"http://uk.linkedin.com/pub/lewis-hemens/37/10/251\">LinkedIn</a><br>"
 					+ "<a href=\"mailto:lewis@asciiflow.com\">Mail</a><br>"

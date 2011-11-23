@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class BatchStoreQueryResult implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 2023771782594006348L;
 
 	private List<State> states;

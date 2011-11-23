@@ -1,5 +1,10 @@
 package com.lewish.asciiflow.client;
 
+/**
+ * Enum of all pages within the app.
+ * 
+ * @author lewis
+ */
 public enum Activity {
 	Draw("DRAW"),
 	About("ABOUT"),

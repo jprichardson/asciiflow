@@ -5,6 +5,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.inject.Inject;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
+/**
+ * TODO: This is flaky, often fails to render, need to find a solution.
+ * 
+ * @author lewis
+ */
 public class PlusOneWidget extends Composite {
 
 	@Inject

@@ -12,10 +12,14 @@ import com.lewish.asciiflow.shared.OutputUtils;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Compressor.Callback;
 
+/**
+ * This servlet is currently undocumented but should be used to fetch simple text
+ * versions of a given diagram.
+ * 
+ * @author lewis
+ */
 public class EmbedServlet extends HttpServlet {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 4874551688360608960L;
 
 	// TODO: Inject.

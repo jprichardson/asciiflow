@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import java.util.HashSet;
@@ -16,6 +15,13 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.shared.CellStateMap;
 import com.lewish.asciiflow.shared.CellState;
 
+/**
+ * Provides core implementation of the cell/text based canvas.
+ * Note: this should not be changed at all costs, the implementation and
+ * notion of commit/refresh is rather complicated.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class Canvas extends Composite {
 

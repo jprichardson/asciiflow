@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -17,6 +16,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.common.Cell;
 
+/**
+ * This class is slightly out of scope now, but it effectively takes all key/action
+ * input and then passes it on to the {@link Canvas} or selected {@link Tool}.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class Controller implements MouseDownHandler, MouseOverHandler, MouseUpHandler,
 		KeyPressHandler, KeyDownHandler {

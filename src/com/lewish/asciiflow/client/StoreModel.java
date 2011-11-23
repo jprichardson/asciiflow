@@ -10,6 +10,12 @@ import com.lewish.asciiflow.client.CompressedStoreServiceAsync.LoadCallback;
 import com.lewish.asciiflow.client.CompressedStoreServiceAsync.SaveCallback;
 import com.lewish.asciiflow.shared.State;
 
+/**
+ * The model holding the current state of a diagram save or load operation.
+ * The actual model data is infact stored in the {@link Canvas}. This should probably change.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class StoreModel {
 

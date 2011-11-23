@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client.tools;
 
 import com.google.gwt.resources.client.ImageResource;

@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -11,6 +10,11 @@ import com.lewish.asciiflow.client.social.FacebookWidget;
 import com.lewish.asciiflow.client.social.PlusOneWidget;
 import com.lewish.asciiflow.client.social.TwitterWidget;
 
+/**
+ * Main GWT entry point into the app.
+ * 
+ * @author lewis
+ */
 public class Asciiflow implements EntryPoint {
 
 	AsciiflowGinjector injector = GWT.create(AsciiflowGinjector.class);
@@ -29,7 +33,6 @@ public class Asciiflow implements EntryPoint {
 
 		css.ensureInjected();
 
-		//TODO: Pull out remianing classes to HTML :(
 		frame.setStyleName(css.frame());
 		header.setStyleName(css.header());
 

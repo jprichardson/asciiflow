@@ -6,6 +6,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.common.Layout;
 
+/**
+ * Controls the pages within the app, loads up the default view, etc.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class ActivityController {
 

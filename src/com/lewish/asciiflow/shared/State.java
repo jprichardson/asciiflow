@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.shared;
 
 import java.io.Serializable;
@@ -10,6 +9,12 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
 
+/**
+ * This is used as both the JDO object stored in the datastore and the DTO for GWT RPCs.
+ * Represents a diagram.
+ * 
+ * @author lewis
+ */
 @PersistenceCapable
 public class State implements Serializable {
 

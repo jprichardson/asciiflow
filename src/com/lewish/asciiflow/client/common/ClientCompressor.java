@@ -10,6 +10,11 @@ import com.google.gwt.core.client.Scheduler;
 import com.lewish.asciiflow.shared.Compressor;
 import com.lewish.asciiflow.shared.State;
 
+/**
+ * Client side wrapper for the LZMA Compressor.
+ * 
+ * @author lewis
+ */
 public class ClientCompressor extends Compressor {
 
 	public void compress(final State state, final Callback callback) {

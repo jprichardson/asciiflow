@@ -8,6 +8,11 @@ import org.dellroad.lzma.client.LZMAByteArrayDecompressor;
 import com.lewish.asciiflow.shared.Compressor;
 import com.lewish.asciiflow.shared.State;
 
+/**
+ * Server side implementation of the LZMA Compressor.
+ * 
+ * @author lewis
+ */
 public class ServerCompressor extends Compressor {
 
 	public void compress(final State state, final Callback callback) {

@@ -1,10 +1,14 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
+/**
+ * Base class for all Tools available.
+ * 
+ * @author lewis
+ */
 public abstract class Tool {
 
 	protected final Canvas canvas;
@@ -17,6 +21,9 @@ public abstract class Tool {
 		this.clientBundle = clientBundle;
 	}
 
+	/**
+	 * Commits the drawing to the canvas as well as storing it in the history manager.
+	 */
 	protected void commitDraw() {
 		historyManager.save(canvas.commitDraw());
 	}

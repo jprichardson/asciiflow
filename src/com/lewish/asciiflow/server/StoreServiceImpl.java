@@ -18,6 +18,12 @@ import com.lewish.asciiflow.shared.AccessException;
 import com.lewish.asciiflow.shared.BatchStoreQueryResult;
 import com.lewish.asciiflow.shared.State;
 
+/**
+ * Provides server side bridge between client and datastore for simple object retrieval.
+ * Also provides the basic authentication mechanism for accessing drawings.
+ * 
+ * @author lewis
+ */
 public class StoreServiceImpl extends RemoteServiceServlet implements StoreService {
 
 	private static final long serialVersionUID = -3286308257185371845L;
@@ -76,9 +82,13 @@ public class StoreServiceImpl extends RemoteServiceServlet implements StoreServi
 		return state;
 	}
 
+	/**
+	 * Uses tokenized pagination to fetch blocks of 10 objects.
+	 */
 	@Override
 	public BatchStoreQueryResult loadTenStates(String cursorString) {
 		PersistenceManager pm = Persistence.getManager();
+		// TODO: Should only return States marked as public.
 		Query query = pm.newQuery(State.class);
 		query.setRange(0, 10);
 		if (cursorString != null) {

@@ -14,6 +14,11 @@ import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.CellState;
 import com.lewish.asciiflow.shared.CellStateMap;
 
+/**
+ * Provides simple parsing and importing of diagrams via text.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class ImportWidget extends MenuWidget {
 

@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.user.client.Timer;
@@ -7,6 +6,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
+/**
+ * Base class for the content of drop down menu items.
+ * Applies necessary css styles and convenient show/hide functions.
+ * 
+ * @author lewis
+ */
 public abstract class MenuWidget extends Composite {
 
 	private final FlowPanel resizePanel = new FlowPanel();

@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,6 +15,11 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.OutputUtils;
 
+/**
+ * Provides the horizontal top level menu buttons that are present in the Draw page.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class MenuPanel extends Composite {
 

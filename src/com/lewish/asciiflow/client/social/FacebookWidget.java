@@ -22,6 +22,9 @@ public class FacebookWidget extends Composite {
 		parseFBTags();
 	}
 
+	/**
+	 * Required to ensure the facebook widget renders.
+	 */
 	private native void parseFBTags() /*-{
 		if(!!$wnd.FB) {
 			$wnd.FB.XFBML.parse(document.getElementById('facebook-widget'));

@@ -22,7 +22,14 @@ import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.client.tools.EraseTool;
 import com.lewish.asciiflow.shared.State;
 
-// TODO: Separate Presenter, MVP?
+/**
+ * Provides buttons, widgets and control required to save and load drawings.
+ * The logic here has become messy, should be tidied up.
+ * 
+ * TODO: Separate Presenter, MVP?
+ * 
+ * @author lewis
+ */
 @Singleton
 public class StoreWidget extends Composite implements ModelChangeHandler {
 

@@ -8,6 +8,12 @@ import com.lewish.asciiflow.shared.Compressor;
 import com.lewish.asciiflow.shared.State;
 import com.lewish.asciiflow.shared.Compressor.Callback;
 
+/**
+ * A wrapper around the StoreServiceAsync that performs compression and decompression
+ * of RPC data and provides simple callbacks to use.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class CompressedStoreServiceAsync {
 

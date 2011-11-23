@@ -15,6 +15,11 @@ import com.lewish.asciiflow.client.Uri.UriChangeHandler;
 import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
+/**
+ * A widget that lists the pages within the app, and allows you to move between them.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class ActivityMenu extends Composite {
 

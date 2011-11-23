@@ -1,4 +1,3 @@
-//Copyright Lewis Hemens 2011
 package com.lewish.asciiflow.client;
 
 import java.util.Map;
@@ -14,6 +13,11 @@ import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 import com.lewish.asciiflow.shared.Compressor;
 
+/**
+ * I prefer to keep binding annotations in the classes themselves, where possible.
+ * 
+ * @author lewis
+ */
 public class AsciiflowModule extends AbstractGinModule {
 
 	@Override

@@ -6,6 +6,11 @@ import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.common.Layout;
 import com.lewish.asciiflow.client.resources.AsciiflowCss;
 
+/**
+ * A simple panel that holds the content of what ever page is currently being viewed.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class ContentFrame extends SimplePanel {
 

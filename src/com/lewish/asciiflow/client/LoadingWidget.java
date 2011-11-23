@@ -7,6 +7,11 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.lewish.asciiflow.client.resources.AsciiflowClientBundle;
 
+/**
+ * Absolutely positioned loading overlay with an animated gif.
+ * 
+ * @author lewis
+ */
 @Singleton
 public class LoadingWidget extends Composite {
 
